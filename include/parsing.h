@@ -1,0 +1,124 @@
+#ifndef PARSING_H
+# define PARSING_H
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+
+/* ========== ENUMS ========== */
+
+// Types de tokens pour le lexer
+typedef enum e_token_type
+{
+	T_WORD,			// mot/commande/argument
+	T_PIPE,			// |
+	T_REDIR_IN,		// <
+	T_REDIR_OUT,	// >
+	T_REDIR_APPEND,	// >>
+	T_HEREDOC,		// <<
+	T_EOF			// fin de ligne
+}	t_token_type;
+
+// Types de redirections
+typedef enum e_redir_type
+{
+	R_IN,			// < fichier
+	R_OUT_TRUNC,	// > fichier
+	R_OUT_APPEND,	// >> fichier
+	R_HEREDOC		// << delimiteur
+}	t_redir_type;
+
+/* ========== STRUCTURES ========== */
+
+// Structure pour un token
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
+
+// Structure pour les redirections
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*file;		// nom du fichier ou délimiteur heredoc
+	struct s_redir	*next;
+}	t_redir;
+
+// Structure pour une commande
+typedef struct s_cmd
+{
+	char			*name;		// nom de la commande
+	char			**args;		// tableau d'arguments
+	t_redir			*redirs;	// liste des redirections
+	struct s_cmd	*next;		// commande suivante (pour pipes)
+}	t_cmd;
+
+/* ========== FONCTIONS PRINCIPALES ========== */
+
+// parsing.c - Fonction principale
+t_cmd		*parsing(const char *line);
+
+/* ========== LEXER ========== */
+
+// lexer/lexer.c - Fonction principale du lexer
+t_token		*line_lexer(const char *line);
+
+// lexer/tokenizer.c - Découpage en tokens
+t_token		*tokenize_line(const char *line);
+t_token		*create_token(t_token_type type, const char *value);
+void		add_token_back(t_token **tokens, t_token *new_token);
+
+// lexer/quote_handler.c - Gestion des guillemets
+char		*handle_quotes(const char *str, int *i);
+int			is_quoted_section(const char *str, int start);
+
+// lexer/operator_handler.c - Gestion des opérateurs
+t_token_type	get_operator_type(const char *str, int *i);
+int			is_operator_char(char c);
+
+/* ========== PARSER ========== */
+
+// parser/parser.c - Fonction principale du parser
+t_cmd		*parse_tokens(t_token *tokens);
+
+// parser/expander.c - Expansion des variables
+char		*expand_variables(const char *str);
+char		*expand_single_var(const char *var_name);
+
+// parser/command_builder.c - Construction des commandes
+t_cmd		*build_command(t_token **tokens);
+char		**build_args_array(t_token **tokens);
+t_cmd		*create_cmd(void);
+
+// parser/pipeline_handler.c - Gestion des pipes
+t_cmd		*handle_pipeline(t_token *tokens);
+void		link_commands(t_cmd *cmd1, t_cmd *cmd2);
+
+// parser/redirect_handler.c - Gestion des redirections
+t_redir		*parse_redirections(t_token **tokens);
+t_redir		*create_redir(t_redir_type type, const char *file);
+void		add_redir_back(t_redir **redirs, t_redir *new_redir);
+
+/* ========== UTILITAIRES ========== */
+
+// Libération mémoire
+void		free_tokens(t_token *tokens);
+void		free_cmds(t_cmd *cmds);
+void		free_redirs(t_redir *redirs);
+void		free_args(char **args);
+
+// Debug (optionnel)
+void		print_tokens(t_token *tokens);
+void		print_cmds(t_cmd *cmds);
+
+// Utilitaires string
+int			ft_isspace(char c);
+char		*ft_strdup(const char *s);
+char		**ft_split(const char *s, char c);
+int			ft_strlen(const char *s);
+char		*ft_strjoin(const char *s1, const char *s2);
+
+#endif
