@@ -86,7 +86,7 @@ t_token	*create_token(t_token_type type, const char *value)
 		return (NULL);
 	
 	token->type = type;
-	token->value = value ? ft_strdup(value) : NULL;
+	token->value = value ? ft_strdup(value) : NULL; //att
 	token->next = NULL;
 	
 	return (token);

@@ -47,6 +47,13 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
+typedef struct s_expand_data
+{
+	char	**result;
+	size_t	*j;
+	size_t	*result_size;
+}	t_expand_data;
+
 // Structure pour une commande
 typedef struct s_cmd
 {
@@ -87,6 +94,7 @@ t_cmd		*parse_tokens(t_token *tokens);
 // parser/expander.c - Expansion des variables
 char		*expand_variables(const char *str);
 char		*expand_single_var(const char *var_name);
+int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data);
 
 // parser/command_builder.c - Construction des commandes
 t_cmd		*build_command(t_token **tokens);

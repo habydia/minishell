@@ -99,7 +99,11 @@ int	main(void)
 	test_line("echo hello");
 	test_line("ls -la");
 	test_line("cat file.txt");
-	
+
+	//tests avec variables 
+	test_line("echo $USER");
+	// test_line("echo \$USER\"");
+
 	// Tests avec guillemets
 	test_line("echo \"hello world\"");
 	test_line("echo 'single quotes'");
