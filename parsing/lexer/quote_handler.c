@@ -12,14 +12,14 @@ char	*handle_quotes(const char *str, int *i)
 	char	*result;
 
 	quote_type = str[*i];
-	(*i)++; // Passer le guillemet d'ouverture
+	(*i)++;
 	start = *i;
 	
-	// Chercher le guillemet de fermeture
+
 	while (str[*i] && str[*i] != quote_type)
 		(*i)++;
 	
-	if (!str[*i]) // Guillemet non fermé
+	if (!str[*i])
 		return (NULL);
 	
 	len = *i - start;
@@ -27,7 +27,7 @@ char	*handle_quotes(const char *str, int *i)
 	if (!result)
 		return (NULL);
 	
-	// Copier le contenu entre guillemets
+
 	int j = 0;
 	while (j < len)
 	{
@@ -36,32 +36,7 @@ char	*handle_quotes(const char *str, int *i)
 	}
 	result[j] = '\0';
 	
-	(*i)++; // Passer le guillemet de fermeture
+	(*i)++;
 	
 	return (result);
-}
-
-/*
- * Vérifie si une position donnée est dans une section quotée
- */
-int	is_quoted_section(const char *str, int start)
-{
-	int		i;
-	int		in_single_quote;
-	int		in_double_quote;
-
-	i = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
-	
-	while (i < start && str[i])
-	{
-		if (str[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (str[i] == '"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
-		i++;
-	}
-	
-	return (in_single_quote || in_double_quote);
 }

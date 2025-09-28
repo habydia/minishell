@@ -1,6 +1,5 @@
 #include "../../include/parsing.h"
 
-// Déclaration des fonctions statiques
 static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd);
 static char	**init_args_array(const char *cmd_name, int *capacity);
 static int	handle_word_token(char ***args, int *count, int *capacity, const char *value);
@@ -24,17 +23,17 @@ t_cmd	*build_command(t_token **tokens)
 	
 	current = *tokens;
 	
-	// Le premier token doit être le nom de la commande
+
 	if (current && current->type == T_WORD)
 	{
 		cmd->name = ft_strdup(current->value);
 		current = current->next;
 	}
 	
-	// Construire les arguments et redirections simultanément
+
 	build_args_and_redirections(&current, cmd);
 	
-	*tokens = current; // Mettre à jour le pointeur
+	*tokens = current;
 	return (cmd);
 }
 
@@ -77,9 +76,9 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	if (!args)
 		return;
 	
-	arg_count = 1; // Le nom de la commande est déjà ajouté
+	arg_count = 1;
 	
-	// Parcourir les tokens
+
 	while (current && current->type != T_PIPE && current->type != T_EOF)
 	{
 		if (current->type == T_WORD)
@@ -101,7 +100,7 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 		}
 	}
 	
-	// Finaliser le tableau d'arguments
+
 	args[arg_count] = NULL;
 	cmd->args = args;
 	*tokens = current;
@@ -114,7 +113,7 @@ static char	**init_args_array(const char *cmd_name, int *capacity)
 {
 	char	**args;
 
-	*capacity = 10; // Capacité initiale
+	*capacity = 10;
 	args = malloc(sizeof(char *) * (*capacity));
 	if (!args)
 		return (NULL);
@@ -136,23 +135,23 @@ static int	handle_word_token(char ***args, int *count, int *capacity, const char
 {
 	char	**new_args;
 
-	// Vérifier si on doit agrandir le tableau
-	if (*count >= *capacity - 1) // -1 pour laisser place au NULL final
+
+	if (*count >= *capacity - 1)
 	{
 		*capacity *= 2;
 		new_args = realloc(*args, sizeof(char *) * (*capacity));
 		if (!new_args)
-			return (0); // Échec
+			return (0);
 		*args = new_args;
 	}
 	
-	// Ajouter l'argument
+
 	(*args)[*count] = ft_strdup(value);
 	if (!(*args)[*count])
-		return (0); // Échec
+		return (0);
 	
 	(*count)++;
-	return (1); // Succès
+	return (1);
 }
 
 /*
@@ -163,7 +162,7 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	t_redir_type	redir_type;
 	t_redir			*new_redir;
 
-	// Déterminer le type de redirection
+
 	if ((*current)->type == T_REDIR_IN)
 		redir_type = R_IN;
 	else if ((*current)->type == T_REDIR_OUT)
@@ -175,7 +174,7 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	else
 		redir_type = R_IN;
 	
-	// Passer au fichier/délimiteur
+
 	*current = (*current)->next;
 	if (*current && (*current)->type == T_WORD)
 	{

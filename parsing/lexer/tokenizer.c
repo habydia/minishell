@@ -14,7 +14,7 @@ t_token	*tokenize_line(const char *line)
 	
 	while (line[i])
 	{
-		// Ignorer les espaces
+
 		while (line[i] && ft_isspace(line[i]))
 			i++;
 		if (!line[i])
@@ -22,7 +22,7 @@ t_token	*tokenize_line(const char *line)
 			
 		start = i;
 		
-		// Vérifier si c'est un opérateur
+
 		if (is_operator_char(line[i]))
 		{
 			t_token_type type = get_operator_type(line, &i);
@@ -40,7 +40,7 @@ t_token	*tokenize_line(const char *line)
 				free(value);
 			}
 		}
-		// Vérifier si c'est une section quotée
+
 		else if (line[i] == '"' || line[i] == '\'')
 		{
 			char *quoted_value = handle_quotes(line, &i);
@@ -50,7 +50,7 @@ t_token	*tokenize_line(const char *line)
 				free(quoted_value);
 			}
 		}
-		// Mot normal
+
 		else
 		{
 			while (line[i] && !ft_isspace(line[i]) && !is_operator_char(line[i]))
@@ -86,7 +86,7 @@ t_token	*create_token(t_token_type type, const char *value)
 		return (NULL);
 	
 	token->type = type;
-	token->value = value ? ft_strdup(value) : NULL; //att
+	token->value = value ? ft_strdup(value) : NULL;
 	token->next = NULL;
 	
 	return (token);

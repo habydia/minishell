@@ -105,8 +105,6 @@ int			is_operator_char(char c);
 t_cmd	*parse_tokens(t_token *tokens);
 // parser/expander.c - Expansion des variables
 t_token		*expand_tokens(t_token *tokens);
-char		*expand_variables(const char *str);
-char		*expand_single_var(const char *var_name);
 int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data);
 
 // parser/expander_utils.c - Fonctions utilitaires pour l'expansion
@@ -118,10 +116,8 @@ t_cmd		*create_cmd(void);
 
 // parser/pipeline_handler.c - Gestion des pipes
 t_cmd		*handle_pipeline(t_token *tokens);
-void		link_commands(t_cmd *cmd1, t_cmd *cmd2);
 
 // parser/redirect_handler.c - Gestion des redirections
-t_redir		*parse_redirections(t_token **tokens);
 t_redir		*create_redir(t_redir_type type, const char *file);
 void		add_redir_back(t_redir **redirs, t_redir *new_redir);
 

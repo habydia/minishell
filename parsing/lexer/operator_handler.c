@@ -37,7 +37,7 @@ t_token_type	get_operator_type(const char *str, int *i)
 		}
 	}
 	
-	// Ne devrait jamais arriver si is_operator_char est correct
+
 	(*i)++;
 	return (T_WORD);
 }
