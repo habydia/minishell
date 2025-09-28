@@ -1,10 +1,20 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <errno.h>
 # include <string.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 /* ========== ENUMS ========== */
 
@@ -47,13 +57,6 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-typedef struct s_expand_data
-{
-	char	**result;
-	size_t	*j;
-	size_t	*result_size;
-}	t_expand_data;
-
 // Structure pour une commande
 typedef struct s_cmd
 {
@@ -62,6 +65,17 @@ typedef struct s_cmd
 	t_redir			*redirs;	// liste des redirections
 	struct s_cmd	*next;		// commande suivante (pour pipes)
 }	t_cmd;
+
+// Structure pour l'expansion des variables
+typedef struct s_expand_data
+{
+	char	**result;
+	size_t	*result_size;
+	size_t	*j;
+}	t_expand_data;
+
+// Variable globale pour l'exit status
+extern int	g_exit_status;
 
 /* ========== FONCTIONS PRINCIPALES ========== */
 
@@ -88,17 +102,18 @@ int			is_operator_char(char c);
 
 /* ========== PARSER ========== */
 
-// parser/parser.c - Fonction principale du parser
-t_cmd		*parse_tokens(t_token *tokens);
-
+t_cmd	*parse_tokens(t_token *tokens);
 // parser/expander.c - Expansion des variables
+t_token		*expand_tokens(t_token *tokens);
 char		*expand_variables(const char *str);
 char		*expand_single_var(const char *var_name);
 int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data);
 
+// parser/expander_utils.c - Fonctions utilitaires pour l'expansion
+int			handle_dollar_sign(const char *line, size_t *i, t_expand_data *data);
+
 // parser/command_builder.c - Construction des commandes
 t_cmd		*build_command(t_token **tokens);
-char		**build_args_array(t_token **tokens);
 t_cmd		*create_cmd(void);
 
 // parser/pipeline_handler.c - Gestion des pipes
@@ -113,7 +128,7 @@ void		add_redir_back(t_redir **redirs, t_redir *new_redir);
 /* ========== UTILITAIRES ========== */
 
 // Libération mémoire
-void		free_tokens(t_token *tokens);
+void	free_tokens(t_token *head);
 void		free_cmds(t_cmd *cmds);
 void		free_redirs(t_redir *redirs);
 void		free_args(char **args);
@@ -128,5 +143,9 @@ char		*ft_strdup(const char *s);
 char		**ft_split(const char *s, char c);
 int			ft_strlen(const char *s);
 char		*ft_strjoin(const char *s1, const char *s2);
+int			ft_isalnum(int c);
+int			ft_isalpha(int c);
+char		*ft_itoa(int n);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif

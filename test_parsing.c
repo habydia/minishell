@@ -80,7 +80,7 @@ void	test_line(const char *line)
 	if (cmds)
 	{
 		print_all_cmds(cmds);
-		free_cmds(cmds);
+		//free_cmds(cmds);
 	}
 	else
 	{
@@ -107,6 +107,11 @@ int	main(void)
 	// Tests avec guillemets
 	test_line("echo \"hello world\"");
 	test_line("echo 'single quotes'");
+
+	//test $
+		test_line("echo $USER");
+		test_line("echo '$USER'");
+		test_line("echo \"\\$USER\"");
 	
 	// Tests avec redirections
 	test_line("echo hello > output.txt");
@@ -116,10 +121,10 @@ int	main(void)
 	
 	// Tests avec pipes
 	test_line("ls | grep txt");
-	test_line("cat file | head -5 | tail -2");
+	test_line("cat file | head -5 | tail -2 | tail -2");
 	
 	// Tests complexes
-	test_line("echo \"hello world\" | grep hello > output.txt");
+	test_line("echo \"hello world\" hvby | grep hello > output.txt");
 	test_line("ls -la | grep \".txt\" >> results.txt");
 	
 	printf("=== END OF TESTS ===\n");

@@ -8,7 +8,12 @@ t_cmd   *parsing(const char *line)
         tokens = line_lexer(line);
         if (!tokens)
                 return (NULL);
+
+        tokens = expand_tokens(tokens);
+        if (!tokens)
+                return (NULL);
+                
         cmds = parse_tokens(tokens);
-        free_tokens(tokens);
+        //free_tokens(tokens);
         return (cmds);
 }

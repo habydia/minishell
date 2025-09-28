@@ -13,14 +13,14 @@ SRC = parsing/lexer/lexer.c \
       parsing/lexer/quote_handler.c \
       parsing/lexer/tokenizer.c \
       parsing/parser/command_builder.c \
-      parsing/parser/parser.c \
+	  parsing/parser/expander.c \
+	  parsing/parser/expander_utils.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
 	  parsing/parser/expand_variables.c \
 	  parsing/parser/expand_variables_utils.c \
 	  test_parsing.c \
       parsing/parsing.c \
-      parsing/utils.c
 
 HEADER = include/parsing.h
 
