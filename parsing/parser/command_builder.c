@@ -4,7 +4,6 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd);
 static char	**init_args_array(const char *cmd_name, int *capacity);
 static int	handle_word_token(char ***args, int *count, int *capacity, const char *value);
 static void	handle_redirection_token(t_token **current, t_cmd *cmd);
-static void	free_args_on_error(char **args, int count);
 
 /*
  * Construit une commande à partir des tokens
@@ -47,8 +46,9 @@ t_cmd	*create_cmd(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
+	{
 		return (NULL);
-	
+	}
 	cmd->name = NULL;
 	cmd->args = NULL;
 	cmd->redirs = NULL;
@@ -77,7 +77,6 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 		return;
 	
 	arg_count = 1;
-	
 
 	while (current && current->type != T_PIPE && current->type != T_EOF)
 	{
@@ -85,7 +84,7 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 		{
 			if (!handle_word_token(&args, &arg_count, &arg_capacity, current->value))
 			{
-				free_args_on_error(args, arg_count);
+				free_args_on_error(args);
 				return;
 			}
 			current = current->next;
@@ -179,6 +178,8 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	if (*current && (*current)->type == T_WORD)
 	{
 		new_redir = create_redir(redir_type, (*current)->value);
+		if(!new_redir)
+			free_redirs(new_redir);
 		if (new_redir)
 			add_redir_back(&(cmd->redirs), new_redir);
 		*current = (*current)->next;
@@ -188,12 +189,12 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 /*
  * Libère le tableau d'arguments en cas d'erreur
  */
-static void	free_args_on_error(char **args, int count)
+void	free_args_on_error(char **args)
 {
 	int	i;
 
 	i = 0;
-	while (i < count)
+	while (args[i])
 	{
 		free(args[i]);
 		i++;

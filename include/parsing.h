@@ -128,7 +128,7 @@ void	free_tokens(t_token *head);
 void		free_cmds(t_cmd *cmds);
 void		free_redirs(t_redir *redirs);
 void		free_args(char **args);
-
+void	free_args_on_error(char **args);
 // Debug (optionnel)
 void		print_tokens(t_token *tokens);
 void		print_cmds(t_cmd *cmds);

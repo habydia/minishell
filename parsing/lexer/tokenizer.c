@@ -27,6 +27,11 @@ t_token	*tokenize_line(const char *line)
 		{
 			t_token_type type = get_operator_type(line, &i);
 			char *value = malloc(i - start + 1);
+			if(!value)
+			{
+				free(value);
+				return(NULL);
+			}
 			if (value)
 			{
 				int j = 0;
@@ -56,6 +61,11 @@ t_token	*tokenize_line(const char *line)
 			while (line[i] && !ft_isspace(line[i]) && !is_operator_char(line[i]))
 				i++;
 			char *word = malloc(i - start + 1);
+			if(!word)
+			{
+				free(word);
+				return(NULL);
+			}
 			if (word)
 			{
 				int j = 0;
@@ -83,7 +93,10 @@ t_token	*create_token(t_token_type type, const char *value)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
+	{
+		free_tokens(token);
 		return (NULL);
+	}
 	
 	token->type = type;
 	token->value = value ? ft_strdup(value) : NULL;

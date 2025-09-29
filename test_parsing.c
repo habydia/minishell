@@ -80,7 +80,7 @@ void	test_line(const char *line)
 	if (cmds)
 	{
 		print_all_cmds(cmds);
-		//free_cmds(cmds);
+		free_cmds(cmds);
 	}
 	else
 	{
@@ -91,42 +91,48 @@ void	test_line(const char *line)
 /*
  * Fonction principale de test
  */
-int	main(void)
+int	main(int argc, char **argv)
 {
-	printf("=== MINISHELL PARSER TEST ===\n\n");
-	
-	// Tests simples
-	test_line("echo hello");
-	test_line("ls -la");
-	test_line("cat file.txt");
 
-	//tests avec variables 
-	test_line("echo $USER");
-	// test_line("echo \$USER\"");
+	if (argc == 2)
+	{
+		test_line(argv[1]);
 
-	// Tests avec guillemets
-	test_line("echo \"hello world\"");
-	test_line("echo 'single quotes'");
+	}
+	// printf("=== MINISHELL PARSER TEST ===\n\n");
+	
+	// // Tests simples
+	// test_line("echo hello");
+	// test_line("ls -la");
+	// test_line("cat file.txt");
 
-	//test $
-		test_line("echo $USER");
-		test_line("echo '$USER'");
-		test_line("echo \"\\$USER\"");
+	// //tests avec variables 
+	// test_line("echo $USER");
+	// // test_line("echo \$USER\"");
+
+	// // Tests avec guillemets
+	// test_line("echo \"hello world\"");
+	// test_line("echo 'single quotes'");
+
+	// //test $
+	// 	test_line("echo $USER");
+	// 	test_line("echo '$USER'");
+	// 	test_line("echo \"\\$USER\"");
 	
-	// Tests avec redirections
-	test_line("echo hello > output.txt");
-	test_line("cat < input.txt");
-	test_line("echo hello >> append.txt");
-	test_line("cat << EOF");
+	// // Tests avec redirections
+	// test_line("echo hello > output.txt");
+	// test_line("cat < input.txt");
+	// test_line("echo hello >> append.txt");
+	// test_line("cat << EOF");
 	
-	// Tests avec pipes
-	test_line("ls | grep txt");
-	test_line("cat file | head -5 | tail -2 | tail -2");
+	// // Tests avec pipes
+	// test_line("ls | grep txt");
+	// test_line("cat file | head -5 | tail -2 | tail -2");
 	
-	// Tests complexes
-	test_line("echo \"hello world\" hvby | grep hello > output.txt");
-	test_line("ls -la | grep \".txt\" >> results.txt");
+	// // Tests complexes
+	// test_line("echo \"hello world\" hvby | grep hello > output.txt");
+	// test_line("ls -la | grep \".txt\" >> results.txt");
 	
-	printf("=== END OF TESTS ===\n");
+	// printf("=== END OF TESTS ===\n");
 	return (0);
 }
