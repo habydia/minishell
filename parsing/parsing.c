@@ -5,44 +5,50 @@
 void free_cmds(t_cmd *cmds)
 {
         t_cmd *temp;
+        t_cmd *current;
 
-        temp = cmds;
+        current = cmds;
 
-        while(temp)
+        while(current)
         {
-                 free(temp->name);
-                 free_args_on_error(temp->args);
-                 free_redirs(temp->redirs);
-                 temp = temp->next;
+                temp = current->next;
+                free(current->name);
+                free_args_on_error(current->args);
+                free_redirs(current->redirs);
+                free(current);
+                current = temp;
         }
-        free(cmds);
 }
 
 void free_redirs( t_redir *redirs)
 {
         t_redir *current; 
+        t_redir *temp;
 
         current = redirs;
 
         while(current)
         {
+                temp = current->next;
                 free(current->file);
-                current = current->next;
+                free(current);
+                current = temp;
         }
-        free(redirs);
 }
 
 void free_tokens(t_token *tokens)
 {
-        t_token *temp; 
+        t_token *temp;
+        t_token *current;
 
-        temp = tokens;
-        while(temp)
+        current = tokens;
+        while(current)
         {
-                free(temp->value);
-                temp = temp->next;
+                temp = current->next;
+                free(current->value);
+                free(current);
+                current = temp;
         }
-        free(tokens);
 }
 
 t_cmd   *parsing(const char *line)

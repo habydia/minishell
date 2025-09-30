@@ -178,8 +178,6 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	if (*current && (*current)->type == T_WORD)
 	{
 		new_redir = create_redir(redir_type, (*current)->value);
-		if(!new_redir)
-			free_redirs(new_redir);
 		if (new_redir)
 			add_redir_back(&(cmd->redirs), new_redir);
 		*current = (*current)->next;

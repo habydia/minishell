@@ -29,21 +29,18 @@ t_token	*tokenize_line(const char *line)
 			char *value = malloc(i - start + 1);
 			if(!value)
 			{
-				free(value);
+				free_tokens(tokens);
 				return(NULL);
 			}
-			if (value)
+			int j = 0;
+			while (j < i - start)
 			{
-				int j = 0;
-				while (j < i - start)
-				{
-					value[j] = line[start + j];
-					j++;
-				}
-				value[j] = '\0';
-				add_token_back(&tokens, create_token(type, value));
-				free(value);
+				value[j] = line[start + j];
+				j++;
 			}
+			value[j] = '\0';
+			add_token_back(&tokens, create_token(type, value));
+			free(value);
 		}
 
 		else if (line[i] == '"' || line[i] == '\'')
@@ -63,21 +60,18 @@ t_token	*tokenize_line(const char *line)
 			char *word = malloc(i - start + 1);
 			if(!word)
 			{
-				free(word);
+				free_tokens(tokens);
 				return(NULL);
 			}
-			if (word)
+			int j = 0;
+			while (j < i - start)
 			{
-				int j = 0;
-				while (j < i - start)
-				{
-					word[j] = line[start + j];
-					j++;
-				}
-				word[j] = '\0';
-				add_token_back(&tokens, create_token(T_WORD, word));
-				free(word);
+				word[j] = line[start + j];
+				j++;
 			}
+			word[j] = '\0';
+			add_token_back(&tokens, create_token(T_WORD, word));
+			free(word);
 		}
 	}
 	
@@ -93,10 +87,7 @@ t_token	*create_token(t_token_type type, const char *value)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-	{
-		free_tokens(token);
 		return (NULL);
-	}
 	
 	token->type = type;
 	token->value = value ? ft_strdup(value) : NULL;

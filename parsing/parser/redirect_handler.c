@@ -16,6 +16,11 @@ t_redir	*create_redir(t_redir_type type, const char *file)
 	
 	redir->type = type;
 	redir->file = ft_strdup(file);
+	if (!redir->file)
+	{
+		free(redir);
+		return (NULL);
+	}
 	redir->next = NULL;
 	
 	return (redir);

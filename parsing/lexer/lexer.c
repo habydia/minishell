@@ -14,10 +14,7 @@ t_token	*line_lexer(const char *line)
 
 	tokens = tokenize_line(line);
 	if (!tokens)
-	{
-		free_tokens(tokens);
 		return (NULL);
-	}
 
 	add_token_back(&tokens, create_token(T_EOF, NULL));
 
