@@ -45,9 +45,28 @@ t_token	*tokenize_line(const char *line)
 
 		else if (line[i] == '"' || line[i] == '\'')
 		{
-			char *quoted_value = handle_quotes(line, &i);
+			char quote_type = line[i];
+			i++; // passer le guillemet d'ouverture
+			start = i - 1; // inclure le guillemet d'ouverture
+			
+			// trouver le guillemet de fermeture
+			while (line[i] && line[i] != quote_type)
+				i++;
+			
+			if (line[i] == quote_type)
+				i++; // inclure le guillemet de fermeture
+			
+			// créer le token avec les guillemets inclus
+			char *quoted_value = malloc(i - start + 1);
 			if (quoted_value)
 			{
+				int j = 0;
+				while (j < i - start)
+				{
+					quoted_value[j] = line[start + j];
+					j++;
+				}
+				quoted_value[j] = '\0';
 				add_token_back(&tokens, create_token(T_WORD, quoted_value));
 				free(quoted_value);
 			}

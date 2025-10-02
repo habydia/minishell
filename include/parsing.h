@@ -93,7 +93,6 @@ t_token		*create_token(t_token_type type, const char *value);
 void		add_token_back(t_token **tokens, t_token *new_token);
 
 // lexer/quote_handler.c - Gestion des guillemets
-char		*handle_quotes(const char *str, int *i);
 int			is_quoted_section(const char *str, int start);
 
 // lexer/operator_handler.c - Gestion des opérateurs
