@@ -10,7 +10,6 @@ endif
 
 SRC = parsing/lexer/lexer.c \
       parsing/lexer/operator_handler.c \
-      parsing/lexer/quote_handler.c \
       parsing/lexer/tokenizer.c \
       parsing/parser/command_builder.c \
 	  parsing/parser/expander.c \
