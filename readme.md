@@ -1,80 +1,58 @@
 
-# PARSING
+# SIGNAL HANDLING
 
-1. LEXER (analyse lexicale): 
-objectif : passer d'une liste de caracteres,  à une liste de tokens typé et structuré.
+## Objectif
+Gérer les signaux système (SIGINT, SIGQUIT) dans le minishell pour assurer un comportement cohérent avec bash.
 
-pour cela, determiner le type,
-gestion des operateurs : 
-Reconnaît >> (append), << (heredoc), | (pipe)
-Différencie > de >>
-,analyse lexical -> ligne en liste de token (struct token type, structe token)
- expend variable out : nouvelle ligne totalement expand
-gestion des operteurs multi-caractères (>>, <<, |)
-          - Gestion des heredoc(<<,>>) (delimiteur, contenue)
+## Architecture
 
+### 1. CONFIGURATION DES SIGNAUX
 
-2.PARSER : 
-transformer la liste de token en structure de commandes executables (AST - Abstract syntac Tree)
+**SIGINT (Ctrl+C)** :
+- Interrompt la commande en cours
+- Affiche un nouveau prompt
+- Réinitialise l'état de readline
+- Ne quitte PAS le shell
 
-gestion des quotes,
-Détecte les zones quotées,
-Préserve les espaces dans les guillemets,
-Différencie simple/double guillemets pour l'expansion,
+**SIGQUIT (Ctrl+\)** :
+- Ignoré dans le shell interactif
+- Pas de message affiché
+- Comportement identique à bash
 
+### 2. GESTION AVEC READLINE
 
-etape 1: construction de commandes
+```c
+void handle_sigint(int sig)
+{
+    ft_putchar_fd('\n', 1);      // Nouvelle ligne
+    rl_on_new_line();            // Prépare nouvelle ligne
+    rl_replace_line("", 0);      // Efface la ligne courante
+    rl_redisplay();              // Affiche nouveau prompt
+    g_interrupted = 1;           // Marque l'interruption
+}
+```
 
-creer des structures t_cmd avec 
-Nom de la commande
-Tableau d'arguments
-Redirections associées
+### 3. VARIABLES GLOBALES
 
-etape 2 : gestion des pipelines:
-pouvoir creer une nouvelle structure de commande à chaque pipeline rencontré.
-
-etape 3 : liste de token en liste de commande, construire l'AST de commandes
-
-//exemple :
-// Commande 1
-cmd1->name = "echo"
-cmd1->args = ["echo", "Hello john", NULL]  // $USER expandé
-cmd1->redirs = NULL
-cmd1->next = cmd2
-
-// Commande 2  
-cmd2->name = "grep"
-cmd2->args = ["grep", "/home/john", NULL]  // $HOME expandé
-cmd2->redirs = [R_OUT_TRUNC, "file.txt", NULL]
-cmd2->next = NULL
+- `g_exit_status` : Code de sortie de la dernière commande
+- `g_interrupted` : Flag d'interruption par signal
 
 
-LEXER	   doit :       
-Découpe la chaîne
-Gère les guillemets	
-Détecte les opérateurs	
-Classifie les tokens	
-Input : Chaîne brute
-Output : Liste de tokens	
+### 4. COMPORTEMENTS ATTENDUS
 
-PARSER doit :
-Structure les commandes
-Expande les variables
-Construit les pipelines
-Organise les redirections
-Input : Liste de tokens
-Output : AST de commandes
+| Signal | Action | Résultat |
+|--------|--------|----------|
+| Ctrl+C | SIGINT | Nouveau prompt, pas de quit |
+| Ctrl+\ | SIGQUIT | Ignoré |
+| Ctrl+D | EOF | Quitte le shell |
 
+### 6. EXEMPLE D'UTILISATION
 
-Ligne de commande: echo "Hello $USER" > "file.txt"
-                    ↓
-1. TOKENISATION:   [echo] ["Hello $USER"] [>] ["file.txt"]
-                    ↓
-2. EXPANSION:      [echo] ["Hello john"] [>] ["file.txt"]
-                    ↓  
-3. SUPPRESSION     [echo] [Hello john] [>] [file.txt]
-   DES GUILLEMETS:
-                    ↓
-4. CONSTRUCTION    cmd->name = "echo"
-   DE LA COMMANDE: cmd->args = ["echo", "Hello john"]
-                   redirection: output -> "file.txt"
+```bash
+Minishell> ls -la^C
+Minishell> echo "test"^C
+Minishell> ^D
+exit
+```
+
+Le signal SIGINT (^C) interrompt sans quitter, EOF (^D) termine le shell.

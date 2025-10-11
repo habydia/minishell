@@ -1,7 +1,5 @@
 #include "../include/parsing.h"
 
-
-
 void free_cmds(t_cmd *cmds)
 {
         t_cmd *temp;

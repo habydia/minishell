@@ -5,9 +5,6 @@ static char	*process_token_expansion(const char *value);
 static char	*remove_quotes(const char *value, char quote_type);
 static char	*expand_simple_string(const char *str);
 
-
-int	g_exit_status = 0;
-
 /*
  * Fonction principale pour l'expansion des tokens
  * Parcourt tous les tokens et effectue l'expansion selon les règles

@@ -16,7 +16,9 @@ SRC = parsing/lexer/lexer.c \
 	  parsing/parser/expander_utils.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
-	  test_parsing.c \
+	  signal/signals.c \
+	  signal/reader.c \
+	  test_signal.c \
       parsing/parsing.c \
 
 HEADER = include/parsing.h
@@ -36,6 +38,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/parsing/lexer
 	mkdir -p $(OBJ_DIR)/parsing/parser
+	mkdir -p $(OBJ_DIR)/signal
 
 $(LIBFT): force
 	$(MAKE) -C $(LIB_DIR) bonus
