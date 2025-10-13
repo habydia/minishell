@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "minishell.h"
+
+// #include "parsing.h"
 
 void	init_lst_env(t_env **envd, char **env)
 {
@@ -53,25 +55,25 @@ static int	count_env(t_data *data)
 void	init_envp(t_data *data)
 {
 	t_env	*tmp;
-	char	*str;
 	int		i;
+	char	*str;
 
 	i = count_env(data);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
-		free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-	i = 0;
+		// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+		i = 0;
 	tmp = data->env;
 	while (tmp)
 	{
 		str = ft_strjoin(tmp->key, "=");
 		if (!str)
-			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-		data->envp[i] = ft_strjoin(str, tmp->value);
+			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			data->envp[i] = ft_strjoin(str, tmp->value);
 		free(str);
 		if (!data->envp || !data->envp[i])
-			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-		i++;
+			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			i++;
 		tmp = tmp->next;
 	}
 	data->envp[i] = NULL;

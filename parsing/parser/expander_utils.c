@@ -1,5 +1,5 @@
 
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 {
@@ -76,7 +76,7 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 }
 
 static int	handle_variable_expansion(const char *line, size_t *i,
-			t_expand_data *data)
+		t_expand_data *data)
 {
 	char	*var_name;
 

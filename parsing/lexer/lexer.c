@@ -1,4 +1,4 @@
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 /*
  * Fonction principale du lexer
@@ -10,14 +10,9 @@ t_token	*line_lexer(const char *line)
 
 	if (!line || !*line)
 		return (NULL);
-	
-
 	tokens = tokenize_line(line);
 	if (!tokens)
 		return (NULL);
-
 	add_token_back(&tokens, create_token(T_EOF, NULL));
-
-	
 	return (tokens);
 }

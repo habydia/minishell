@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "parsing.h"
 
 // lose(), read(), write(), dup2(), pipe()
 
@@ -87,6 +87,7 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 	char	*buffer;
 
 	buffer = NULL;
+	// printf("OKKKKKKKKKKKKKKKKKKKKKKK");
 	if (!argv_cmd)
 	{
 		*ret = 1;
@@ -98,11 +99,11 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 			return (argv_cmd);
 	}
 	path = envp_search(envp);
-	// printf("PATHDEBUG %s\n", envp[0]);
+	printf("PATHDEBUG %s\n", envp[0]);
 	if (path_check(path, ret) == 1)
 		return (NULL);
 	paths = ft_split(path, ':');
-	// printf("HERE2\n");
+	printf("HERE2\n");
 	return (get_path_in_paths_list(paths, ret, buffer, argv_cmd));
 }
 //////////////////////////////////////////////
@@ -341,13 +342,14 @@ void	free_argv(char **argv)
 //////////////////////////////////////////////
 int	exec_cmd(t_cmd *cmds, t_data *data)
 {
-	int		ret;
 	pid_t	pid;
 
+	// int		ret;
 	t_cmd *curr; // t_exec	*curr;
 	curr = cmds;
+	printf(" %s", curr->args[0]);
 	int pipe_fd[2], prev_fd = -1;
-	ret = 0;
+	// ret = 0;
 	// update_envp(data); ne marche pas pour l'instant
 	while (curr)
 	{
@@ -370,10 +372,13 @@ int	exec_cmd(t_cmd *cmds, t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			apply_redirections(curr);
-			// printf("HERE\n");
-			curr->path = get_path(data->envp, curr->args[0], &ret);
-			// printf("PATH:%s\n", curr->path);
+			// apply_redirections(curr);
+			// printf("%s", curr->args[0]);
+			curr->path = getenv("PATH"); // get_path(data->envp, curr->args[0],
+											// &ret);
+			printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");
+			printf("HERE\n");
+			printf("PATH:%s\n", curr->path);
 			// get_path a mettre a ce niveau pour chope la commande si il n'y a pas absolute path.
 			// il faut incorporer le fait que si c'est un builtins,
 			// il faut qu'il s'execute dans cette fonction cmd

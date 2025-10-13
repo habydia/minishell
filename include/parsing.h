@@ -1,6 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "../include/env.h"
 # include "../libft/libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
@@ -15,12 +16,22 @@
 # include <unistd.h>
 
 /* ========== ENUMS ========== */
+typedef struct s_data
+{
+	char			**dst;
+	t_env			*env;
+	// t_pars			*pars;
+	// t_exec			*exec; type t_cmd
+	char			**envp;
+	int				errcode;
+	int				i;
+}					t_data;
 
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {
 	T_WORD,         // mot/commande/argument
-	T_PIPE,         // |
+	T_PIPE,         // |s
 	T_REDIR_IN,     // <
 	T_REDIR_OUT,    // >
 	T_REDIR_APPEND, // >>
@@ -65,16 +76,13 @@ typedef struct s_cmd
 	struct s_cmd *next; // commande suivante (pour pipes)
 }					t_cmd;
 
-typedef struct s_data
-{
-	char			**dst;
-	// t_env			*env;
-	// t_pars			*pars;
-	// t_exec			*exec; type t_cmd
-	char			**envp;
-	int				errcode;
-	int				i;
-}					t_data;
+// typedef struct s_env
+// {
+// 	char *key;          // HOME
+// 	char *value;        // /home/lebroue
+// 	struct s_env *next; // On passe a la variable d'env d'apres
+
+// }					t_env;
 
 // Structure pour l'expansion des variables
 typedef struct s_expand_data
@@ -89,6 +97,9 @@ extern int			g_exit_status;
 
 /* ========== FONCTIONS PRINCIPALES ========== */
 
+// init
+
+void				init_data(t_data *data, t_env **envd, char **dst);
 // parsing.c - Fonction principale
 t_cmd				*parsing(const char *line);
 

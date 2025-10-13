@@ -1,4 +1,4 @@
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 /*
  * Détermine le type d'opérateur et avance l'index
@@ -36,8 +36,6 @@ t_token_type	get_operator_type(const char *str, int *i)
 			return (T_REDIR_OUT);
 		}
 	}
-	
-
 	(*i)++;
 	return (T_WORD);
 }

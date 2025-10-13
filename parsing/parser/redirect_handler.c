@@ -1,4 +1,4 @@
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 /*
  * Crée une nouvelle redirection
@@ -9,11 +9,9 @@ t_redir	*create_redir(t_redir_type type, const char *file)
 
 	if (!file)
 		return (NULL);
-	
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	
 	redir->type = type;
 	redir->file = ft_strdup(file);
 	if (!redir->file)
@@ -22,7 +20,6 @@ t_redir	*create_redir(t_redir_type type, const char *file)
 		return (NULL);
 	}
 	redir->next = NULL;
-	
 	return (redir);
 }
 
@@ -34,17 +31,14 @@ void	add_redir_back(t_redir **redirs, t_redir *new_redir)
 	t_redir	*current;
 
 	if (!redirs || !new_redir)
-		return;
-	
+		return ;
 	if (!*redirs)
 	{
 		*redirs = new_redir;
-		return;
+		return ;
 	}
-	
 	current = *redirs;
 	while (current->next)
 		current = current->next;
-	
 	current->next = new_redir;
 }

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell_signals.h"
+#include "minishell_signals.h"
 
-int g_exit_status = 0;
+int						g_exit_status = 0;
 volatile sig_atomic_t	g_interrupted = 0;
 
 void	handle_sigint(int sig)

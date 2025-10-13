@@ -1,4 +1,4 @@
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 /*
  * Fonction principale du parser
@@ -10,10 +10,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-	
-
 	cmds = handle_pipeline(tokens);
-	
 	return (cmds);
 }
 
