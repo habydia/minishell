@@ -3,8 +3,8 @@
 
 int	main(int ac, char **av)
 {
-	char	*line;
-	t_cmd	*cmds;
+	char *line;
+	t_cmd *cmds;
 
 	(void)ac;
 	(void)av;
@@ -15,6 +15,10 @@ int	main(int ac, char **av)
 		if (!line)
 			continue ;
 		cmds = parsing(line);
+
+		if (!exec_cmd(NULL, cmds))
+			perror("exec_cmd");
+
 		free_cmds(cmds);
 		free(line);
 	}
