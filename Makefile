@@ -18,7 +18,8 @@ SRC = parsing/lexer/lexer.c \
       parsing/parser/redirect_handler.c \
 	  signal/signals.c \
 	  signal/reader.c \
-	  test_signal.c \
+	  exec/exec.c \
+	  test_minish.c \
       parsing/parsing.c \
 
 HEADER = include/parsing.h

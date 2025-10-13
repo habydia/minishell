@@ -1,13 +1,6 @@
-#include "../includes/minishell.h"
-#include <errno.h>
-#include <fcntl.h> // open()
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h> // malloc, free
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h> // close(), read(), write(), dup2(), pipe()
+#include "../include/minishell.h"
+
+// lose(), read(), write(), dup2(), pipe()
 
 ///////////////////////////////
 ///////GET PATH - UTILS////////
@@ -115,49 +108,6 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 //////////////////////////////////////////////
 /// UTILS POUR L'EXEC/// pas encore utilier !
 /////////////////////////////////////////////
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	char	*dup;
-
-	len = ft_strlen(s);
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	ft_strcpy(dup, s);
-	return (dup);
-}
 
 //////////////////////////////////////////////
 // Générer un nom unique pour chaque heredoc
@@ -224,45 +174,45 @@ char	*handle_heredoc(char *delimiter)
 //////////////////////////////////////////////
 // Appliquer les redirections (in/out)
 //////////////////////////////////////////////
-void	apply_redirections(t_exec *exec)
+void	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*redir;
 	int		fd;
 	char	*file;
 
-	redir = exec->redir;
+	redir = cmd->redirs;
 	while (redir)
 	{
-		if (redir->token == REDIR_IN)
+		if (redir->type == R_IN)
 		{
-			fd = open(redir->filename, O_RDONLY);
+			fd = open(redir->file, O_RDONLY);
 			if (fd != -1)
 			{
 				dup2(fd, STDIN_FILENO);
 				close(fd);
 			}
 		}
-		else if (redir->token == REDIR_TRUNC)
+		else if (redir->type == R_OUT_TRUNC)
 		{
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd != -1)
 			{
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
 		}
-		else if (redir->token == REDIR_APPEND)
+		else if (redir->type == R_OUT_APPEND)
 		{
-			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd != -1)
 			{
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
 			}
 		}
-		else if (redir->token == HEREDOC && redir->delimiter)
+		else if (redir->type == R_HEREDOC) // && redir->delimiter)
 		{
-			file = handle_heredoc(redir->delimiter);
+			file = handle_heredoc(redir->file);
 			if (file)
 			{
 				fd = open(file, O_RDONLY);
@@ -282,35 +232,35 @@ void	apply_redirections(t_exec *exec)
 //////////////////////////////////////////////
 // Construire argv à partir des noeuds pars
 //////////////////////////////////////////////
-char	**build_argv(t_pars *pars)
-{
-	int		count;
-	int		i;
-	t_pars	*tmp;
-	char	**argv;
+// char	**build_argv(t_pars *pars)
+// {
+// 	int		count;
+// 	int		i;
+// 	t_pars	*tmp;
+// 	char	**argv;
 
-	count = 0;
-	i = 0;
-	tmp = pars;
-	while (tmp)
-	{
-		if ((tmp->type & COMMANDS) || (tmp->type & ARGS))
-			count++;
-		tmp = tmp->next;
-	}
-	argv = malloc(sizeof(char *) * (count + 1));
-	if (!argv)
-		return (NULL);
-	tmp = pars;
-	while (tmp)
-	{
-		if ((tmp->type & COMMANDS) || (tmp->type & ARGS))
-			argv[i++] = ft_strdup(tmp->word);
-		tmp = tmp->next;
-	}
-	argv[i] = NULL;
-	return (argv);
-}
+// 	count = 0;
+// 	i = 0;
+// 	tmp = pars;
+// 	while (tmp)
+// 	{
+// 		if ((tmp->type & COMMANDS) || (tmp->type & ARGS))
+// 			count++;
+// 		tmp = tmp->next;
+// 	}
+// 	argv = malloc(sizeof(char *) * (count + 1));
+// 	if (!argv)
+// 		return (NULL);
+// 	tmp = pars;
+// 	while (tmp)
+// 	{
+// 		if ((tmp->type & COMMANDS) || (tmp->type & ARGS))
+// 			argv[i++] = ft_strdup(tmp->word);
+// 		tmp = tmp->next;
+// 	}
+// 	argv[i] = NULL;
+// 	return (argv);
+// }
 
 //////////////////////////////////////////////
 // Libérer argv
@@ -334,67 +284,68 @@ void	free_argv(char **argv)
 //////////////////////////////////////////////
 // Construire envp depuis liste chaînée env
 //////////////////////////////////////////////
-char	**build_envp_from_lst_env(t_env *env)
-{
-	int		count = 0, i;
-	t_env	*tmp;
-	char	**envp;
+// char	**build_envp_from_lst_env(t_env *env)
+// {
+// 	int		count;
+// 	t_env	*tmp;
+// 	char	**envp;
 
-	count = 0, i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	envp = malloc(sizeof(char *) * (count + 1));
-	if (!envp)
-		return (NULL);
-	tmp = env;
-	while (tmp)
-		envp[i++] = ft_strdup(tmp->value), tmp = tmp->next;
-	envp[i] = NULL;
-	return (envp);
-}
+// 	count = 0, i;
+// 	count = 0, i = 0;
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		count++;
+// 		tmp = tmp->next;
+// 	}
+// 	envp = malloc(sizeof(char *) * (count + 1));
+// 	if (!envp)
+// 		return (NULL);
+// 	tmp = env;
+// 	while (tmp)
+// 		envp[i++] = ft_strdup(tmp->value), tmp = tmp->next;
+// 	envp[i] = NULL;
+// 	return (envp);
+// }
 
-//////////////////////////////////////////////
-// Libérer envp
-//////////////////////////////////////////////
-void	free_envp(char **envp)
-{
-	int	i;
+// //////////////////////////////////////////////
+// // Libérer envp
+// //////////////////////////////////////////////
+// void	free_envp(char **envp)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!envp)
-		return ;
-	while (envp[i])
-	{
-		free(envp[i]);
-		i++;
-	}
-	free(envp);
-}
+// 	i = 0;
+// 	if (!envp)
+// 		return ;
+// 	while (envp[i])
+// 	{
+// 		free(envp[i]);
+// 		i++;
+// 	}
+// 	free(envp);
+// }
 
-//////////////////////////////////////////////
-// Mettre à jour envp dans data
-//////////////////////////////////////////////
-void	update_envp(t_data *data)
-{
-	if (data->envp)
-		free_envp(data->envp);
-	data->envp = build_envp_from_lst_env(data->env);
-}
+// //////////////////////////////////////////////
+// // Mettre à jour envp dans data
+// //////////////////////////////////////////////
+// void	update_envp(t_data *data)
+// {
+// 	if (data->envp)
+// 		free_envp(data->envp);
+// 	data->envp = build_envp_from_lst_env(data->env);
+// }
 
 //////////////////////////////////////////////
 // Exécuter la liste de commandes avec pipes
 //////////////////////////////////////////////
-int	exec_cmd(t_cmd *cmds)
+int	exec_cmd(t_cmd *cmds, t_data *data)
 {
-	t_exec	*curr;
 	int		ret;
 	pid_t	pid;
 
-	curr = cmds->exec;
+	t_cmd *curr; // t_exec	*curr;
+	curr = cmds;
 	int pipe_fd[2], prev_fd = -1;
 	ret = 0;
 	// update_envp(data); ne marche pas pour l'instant
@@ -421,12 +372,12 @@ int	exec_cmd(t_cmd *cmds)
 			}
 			apply_redirections(curr);
 			// printf("HERE\n");
-			curr->path = get_path(data->envp, curr->cmd[0], &ret);
+			curr->path = get_path(data->envp, curr->args[0], &ret);
 			// printf("PATH:%s\n", curr->path);
 			// get_path a mettre a ce niveau pour chope la commande si il n'y a pas absolute path.
 			// il faut incorporer le fait que si c'est un builtins,
-				il faut qu'il s'execute dans cette fonction cmd
-			execve(curr->path, curr->cmd, data->envp);
+			// il faut qu'il s'execute dans cette fonction cmd
+			execve(curr->path, curr->args, data->envp);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
