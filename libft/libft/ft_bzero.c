@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mregnaut <mregnaut@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:29:45 by mregnaut          #+#    #+#             */
-/*   Updated: 2024/11/04 16:43:59 by mregnaut         ###   ########.fr       */
+/*   Created: 2024/11/04 16:34:24 by hadia             #+#    #+#             */
+/*   Updated: 2025/10/24 19:19:48 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	*ft_bzero(char *s, size_t n)
 {
-	while (n)
-		s[--n] = 0;
+	ft_memset(s, 0, n);
 	return (s);
 }

@@ -3,42 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mregnaut <mregnaut@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 15:26:15 by mregnaut          #+#    #+#             */
-/*   Updated: 2024/11/18 17:37:14 by mregnaut         ###   ########.fr       */
+/*   Created: 2024/11/04 17:02:19 by hadia             #+#    #+#             */
+/*   Updated: 2024/11/20 16:07:25 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-#include <stdlib.h>
-#include <limits.h>
+
+int static	ft_check_sign(const char c, int *i)
+{
+	int	sign;
+
+	sign = 1;
+	if (c == '-' || c == '+')
+	{
+		if (c == '-')
+			sign = sign * -1;
+		++(*i);
+	}
+	return (sign);
+}
 
 int	ft_atoi(const char *nptr)
 {
+	int		i;
 	long	r;
-	char	n;
+	long	sign;
 
-	n = 1;
+	i = 0;
 	r = 0;
-	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-')
+	sign = 1;
+	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+		i++;
+	sign = ft_check_sign(nptr[i], &i);
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		nptr++;
-		n = -1;
-	}
-	else if (*nptr == '+')
-		nptr++;
-	while (ft_isdigit(*nptr))
-	{
-		if (r -(*nptr - '0') > LONG_MAX / 10)
+		if ((r * 10 + (nptr[i] - '0')) < r)
 		{
-			if (n == 1)
+			if (sign == 1)
 				return (-1);
-			return (0);
+			else
+				return (0);
 		}
-		r = r * 10 + (*nptr++ - '0');
+		r = r * 10 + (nptr[i] - '0');
+		i++;
 	}
-	return (r * n);
+	return (r * sign);
 }
+/*
+int	main(int ac, char **av)
+{
+	int	i;
+
+	i = 1;
+	if (ac > 1) {
+		while (i < ac) {
+			printf("FT\t====\t%i\n", ft_atoi(av[i]));
+			printf("ATOI\t===\t%i\n", atoi(av[i]));
+			printf("FT\t====\t%i\n", ft_atoi("\n\t -46"));
+			printf("ATOI\t===\t%i\n", atoi("\n\t -46"));
+			i++;
+		}
+	}
+}
+*/

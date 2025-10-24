@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:56:18 by mregnaut          #+#    #+#             */
-/*   Updated: 2025/07/10 19:23:44 by Hadia            ###   ########.fr       */
+/*   Created: 2025/10/24 19:30:53 by hadia             #+#    #+#             */
+/*   Updated: 2025/10/24 19:30:54 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 #  error BUFFER_SIZE must be > 0
 # endif
 
-# include <stdlib.h>
 # include <limits.h>
+# include <stdlib.h>
 # include <unistd.h>
 
 typedef struct s_list
@@ -46,7 +46,7 @@ int					ft_atoi(const char *nptr);
 char				*ft_strchr(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
 char				*ft_strdup(const char *s);
-char	*ft_strndup(const char *s, size_t n);
+char				*ft_strndup(const char *s, size_t n);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strnstr(const char *big, const char *little,
