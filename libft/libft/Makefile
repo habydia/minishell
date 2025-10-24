@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+         #
+#    By: hadia <hadia@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/04 15:56:12 by mregnaut          #+#    #+#              #
-#    Updated: 2025/07/10 19:23:46 by Hadia            ###   ########.fr        #
+#    Created: 2025/10/24 19:30:04 by hadia             #+#    #+#              #
+#    Updated: 2025/10/24 19:30:05 by hadia            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = libft.a
 
@@ -57,8 +58,6 @@ FILES = ft_bzero.c \
 		ft_strmapi.c \
 		ft_striteri.c \
 		ft_split.c \
-		get_next_line.c \
-		gnl_utils.c
 
 BONUS =	ft_lstnew_bonus.c \
 		ft_lstadd_front_bonus.c \

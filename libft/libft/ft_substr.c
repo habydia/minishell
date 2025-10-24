@@ -3,46 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mregnaut <mregnaut@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 14:46:48 by mregnaut          #+#    #+#             */
-/*   Updated: 2024/11/12 23:58:36 by mregnaut         ###   ########.fr       */
+/*   Created: 2024/11/07 19:19:11 by hadia             #+#    #+#             */
+/*   Updated: 2024/11/20 11:32:40 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_nullstr(void)
+char	*ft_empty_substr(void)
 {
-	char	*str;
+	char	*d;
 
-	str = malloc(1);
-	if (!str)
+	d = malloc(sizeof(char) * 1);
+	if (!d)
 		return (NULL);
-	str[0] = '\0';
-	return (str);
+	d[0] = '\0';
+	return (d);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substr;
 	size_t	i;
+	size_t	j;
 
-	i = 0;
-	if (!s[0] || len == 0)
-		return (ft_nullstr());
-	if (start >= (unsigned int)ft_strlen(s))
-		len = 0;
+	if (!s)
+		return (NULL);
+	if (start >= (unsigned int)ft_strlen(s) || len == 0)
+		return (ft_empty_substr());
 	else if (len > ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	substr = malloc(len + 1);
+	substr = malloc(sizeof(char) * (len + 1));
 	if (!substr)
 		return (NULL);
-	while (s[i] && i < len)
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-		substr[i] = s[start + i];
+		if (i >= start && j < len)
+			substr[j++] = s[i];
 		i++;
 	}
-	substr[i] = '\0';
+	substr[j] = 0;
 	return (substr);
 }
+/*int main(int argc, char **argv)
+{
+
+		if (argc != 4)
+		{
+				printf("Usage: %s <string> <start> <length>\n", argv[0]);
+				return (1);
+		}
+
+		const char *input_str = argv[1];
+		unsigned int start = (unsigned int)atoi(argv[2]);
+		size_t len = (size_t)atoi(argv[3]);
+
+
+		char *substr = ft_substr(input_str, start, len);
+
+		if (substr == NULL)
+		{
+				printf("Erreur : impossible d'allouer de la mémoire.\n");
+				return (1);
+		}
+		// Affichage des résultats
+		printf("Chaîne d'origine : '%s'\n", input_str);
+		printf("Sous-chaîne extraite (start=%u, len=%zu) : '%s'\n", start, len,
+				substr);
+		free(substr);
+
+		return (0);
+}*/
