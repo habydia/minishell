@@ -16,8 +16,12 @@ SRC = parsing/lexer/lexer.c \
 	  parsing/parser/expander_utils.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
-	  test_parsing.c \
+	  parsing/reader.c \
+	  test_parse_env.c \
       parsing/parsing.c \
+	  env/env.c \
+	  env/lst_utils_env.c \
+	  env/init_data_and_pars.c
 
 HEADER = include/parsing.h
 

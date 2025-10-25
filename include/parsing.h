@@ -10,11 +10,11 @@
 # include <string.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include "../libft/libft/libft.h"
 
 /* ========== ENUMS ========== */
 
@@ -79,6 +79,9 @@ extern int	g_exit_status;
 
 /* ========== FONCTIONS PRINCIPALES ========== */
 
+
+//reder
+char	*reader(void);
 // parsing.c - Fonction principale
 t_cmd		*parsing(const char *line);
 
@@ -131,16 +134,5 @@ void	free_args_on_error(char **args);
 // Debug (optionnel)
 void		print_tokens(t_token *tokens);
 void		print_cmds(t_cmd *cmds);
-
-// Utilitaires string
-int			ft_isspace(char c);
-char		*ft_strdup(const char *s);
-char		**ft_split(const char *s, char c);
-int			ft_strlen(const char *s);
-char		*ft_strjoin(const char *s1, const char *s2);
-int			ft_isalnum(int c);
-int			ft_isalpha(int c);
-char		*ft_itoa(int n);
-size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif
