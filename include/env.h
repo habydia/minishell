@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:22:27 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/25 03:22:12 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/10/27 22:03:32 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENV_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 // Forward declaration
 typedef struct s_data t_data;
@@ -27,6 +28,7 @@ typedef struct s_env
 }					t_env;
 
 // Structure principale de données
+typedef struct s_cmd t_cmd;
 typedef struct s_data
 {
 	char	**dst;
@@ -34,7 +36,7 @@ typedef struct s_data
 	char	**envp;
 	int		errcode;
 	int		i;
-	void	*cmds;  // t_cmd * mais évite dépendance circulaire
+	t_cmd	*cmds;  // t_cmd * mais évite dépendance circulaire // mette t_cmd
 }	t_data;
 
 ////////////ENV.C && LST_UTILS_ENV.C///////////
@@ -47,5 +49,9 @@ void				init_lst_env(t_env **envd, char **env);
 
 void				print_lst_env(t_env *envd);
 void				print_envp(char **envp);
+
+
+int	free_all(t_data *data, int errcode, char *str);
+
 
 #endif

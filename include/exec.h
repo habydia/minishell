@@ -22,7 +22,7 @@ void	free_argv(char **argv);
 // char	**build_envp_from_lst_env(t_env *env);
 void	free_envp(char **envp);
 void	update_envp(t_data *data);
-int		exec_cmd(t_cmd *cmds, t_data *data);
+int		exec_cmd(t_data *data);
 
 // #include "env.h"
 ////PATH UTILS///

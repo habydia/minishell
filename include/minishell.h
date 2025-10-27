@@ -7,6 +7,7 @@
 # include "parsing.h"
 # include <errno.h>
 # include <fcntl.h> // open()
+# include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h> // malloc, free

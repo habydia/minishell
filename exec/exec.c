@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/27 19:13:50 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 00:11:41 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ int	path_check(char *path, int *ret)
 	return (0);
 }
 
-char	*strjoin_check_error(char *str)
-{
-	if (!str)
-		return (NULL);
-	return (str);
-}
 /////////////////////////////////////////////
 ///////////////GET-PATH//////////////////////
 //////////////////////////////////////////////
@@ -75,11 +69,21 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 	while (paths[i])
 	{
 		buffer = ft_strjoin(paths[i], "/");
-		strjoin_check_error(buffer);
+		if (!buffer)
+		{
+			ft_free_tab_str(paths);
+			*ret = 1;
+			return (NULL);
+		}
 		new_path = ft_strjoin(buffer, argv_cmd);
 		free(buffer);
-		strjoin_check_error(new_path);
-		if (new_path != NULL && access(new_path, F_OK | X_OK) == 0)
+		if (!new_path)
+		{
+			ft_free_tab_str(paths);
+			*ret = 1;
+			return (NULL);
+		}
+		if (access(new_path, F_OK | X_OK) == 0)
 		{
 			ft_free_tab_str(paths);
 			return (new_path);
@@ -105,17 +109,17 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 		*ret = 1;
 		return (NULL);
 	}
-	else
-	{
-		if (access(argv_cmd, F_OK | X_OK) == 0)
-			return (argv_cmd);
-	}
+	if (access(argv_cmd, F_OK | X_OK) == 0)
+		return (ft_strdup(argv_cmd));
 	path = envp_search(envp);
-	printf("PATHDEBUG %s\n", envp[0]);
 	if (path_check(path, ret) == 1)
 		return (NULL);
 	paths = ft_split(path, ':');
-	printf("HERE2\n");
+	if (!paths)
+	{
+		*ret = 1;
+		return (NULL);
+	}
 	return (get_path_in_paths_list(paths, ret, buffer, argv_cmd));
 }
 //////////////////////////////////////////////
@@ -136,7 +140,7 @@ char	*get_unique_heredoc_path(void)
 	while (1)
 	{
 		index = ft_itoa(i);
-		//verifier que itoa ne casse pas
+		// verifier que itoa ne casse pas
 		path = ft_strjoin("/tmp/heredoc", index);
 		free(index);
 		fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0644);
@@ -188,11 +192,12 @@ char	*handle_heredoc(char *delimiter)
 //////////////////////////////////////////////
 // Appliquer les redirections (in/out)
 //////////////////////////////////////////////
-void	apply_redirections(t_cmd *cmd) // gerer les cas ou les opens cassent et les dup2
+void	apply_redirections(t_cmd *cmd)
+// gerer les cas ou les opens cassent et les dup2
 {
-	t_redir	*redir;
-	int		fd;
-	char	*file;
+	t_redir *redir;
+	int fd;
+	char *file;
 
 	redir = cmd->redirs;
 	while (redir)
@@ -249,10 +254,10 @@ parsing :
 - open 2 fd ( 1 ecriture (parsing) | 1 lecture (exec))
 - unlink immediatement le fichier (plus reference sur le filesystem)
 - rempli le fd d'ecriture avec le contenu du hd puis close le fd d'ecriture
-- envoie le fd de lecture a l'exec, qui l'utilisera puis closera une fois les operations effectuees
+- envoie le fd de lecture a l'exec,
+	qui l'utilisera puis closera une fois les operations effectuees
 
 */
-
 
 //////////////////////////////////////////////
 // Construire argv à partir des noeuds pars
@@ -309,72 +314,82 @@ void	free_argv(char **argv)
 //////////////////////////////////////////////
 // Construire envp depuis liste chaînée env
 //////////////////////////////////////////////
-// char	**build_envp_from_lst_env(t_env *env)
-// {
-// 	int		count;
-// 	t_env	*tmp;
-// 	char	**envp;
+char **build_envp_from_lst_env(t_env *env)
+{
+    int count;
+    t_env *tmp;
+	count = 0;
+	tmp = env;
+    while (tmp)
+    {
+        count++;
+        tmp = tmp->next;
+    }
 
-// 	count = 0, i;
-// 	count = 0, i = 0;
-// 	tmp = env;
-// 	while (tmp)
-// 	{
-// 		count++;
-// 		tmp = tmp->next;
-// 	}
-// 	envp = malloc(sizeof(char *) * (count + 1));
-// 	if (!envp)
-// 		return (NULL);
-// 	tmp = env;
-// 	while (tmp)
-// 		envp[i++] = ft_strdup(tmp->value), tmp = tmp->next;
-// 	envp[i] = NULL;
-// 	return (envp);
-// }
+    char **envp = malloc(sizeof(char *) * (count + 1));
+    if (!envp)
+        return NULL;
+
+    int i = 0;
+    tmp = env;
+    while (tmp)
+    {
+        envp[i] = ft_strjoin(tmp->key, "=");
+        char *tmp2 = envp[i];
+        envp[i] = ft_strjoin(tmp2, tmp->value);
+        free(tmp2);
+        tmp = tmp->next;
+        i++;
+    }
+    envp[i] = NULL;
+    return envp;
+}
+
 
 // //////////////////////////////////////////////
 // // Libérer envp
 // //////////////////////////////////////////////
-// void	free_envp(char **envp)
-// {
-// 	int	i;
+void	free_envp(char **envp)
+{
+	int	i;
 
-// 	i = 0;
-// 	if (!envp)
-// 		return ;
-// 	while (envp[i])
-// 	{
-// 		free(envp[i]);
-// 		i++;
-// 	}
-// 	free(envp);
-// }
+	i = 0;
+	if (!envp)
+		return ;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
 
 // //////////////////////////////////////////////
 // // Mettre à jour envp dans data
 // //////////////////////////////////////////////
-// void	update_envp(t_data *data)
-// {
-// 	if (data->envp)
-// 		free_envp(data->envp);
-// 	data->envp = build_envp_from_lst_env(data->env);
-// }
+void	update_envp(t_data *data)
+{
+	if (data->envp)
+		free_envp(data->envp);
+	data->envp = build_envp_from_lst_env(data->env);
+}
 
 //////////////////////////////////////////////
 // Exécuter la liste de commandes avec pipes
 //////////////////////////////////////////////
-int	exec_cmd(t_cmd *cmds, t_data *data)
+int	exec_cmd(t_data *data)
 {
 	pid_t	pid;
+	int		ret;
 
 	// int		ret;
 	t_cmd *curr; // t_exec	*curr;
-	curr = cmds;
-	printf(" %s", curr->args[0]);
+	curr = data->cmds;
+	// printf(" %s", data->cmds->args[0]);
+	// printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	int pipe_fd[2], prev_fd = -1;
-	// ret = 0;
-	// update_envp(data); ne marche pas pour l'instant
+	ret = 0;
+	update_envp(data); //ne marche pas pour l'instant
 	while (curr)
 	{
 		if (curr->next && pipe(pipe_fd) == -1)
@@ -396,18 +411,16 @@ int	exec_cmd(t_cmd *cmds, t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			apply_redirections(curr);
-			printf("%s", curr->args[0]);
-			curr->path = getenv("PATH"); // get_path(data->envp, curr->args[0],
-											// &ret);
-			printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");
-			printf("HERE\n");
-			printf("PATH:%s\n", curr->path);
-			// get_path a mettre a ce niveau pour chope la commande si il n'y a pas absolute path.
-			// il faut incorporer le fait que si c'est un builtins,
-			// il faut qu'il s'execute dans cette fonction cmd
+			// apply_redirections(curr);
+			curr->path = get_path(data->envp, curr->args[0], &ret);
+			if (!curr->path)
+			{
+				fprintf(stderr, "Command not found: %s\n", curr->args[0]);
+				free_all(data, ret, "");
+			}
 			execve(curr->path, curr->args, data->envp);
 			perror("execve");
+			free_all(data, 0, "MERDE");
 			exit(EXIT_FAILURE);
 		}
 		else if (pid < 0)
@@ -428,4 +441,3 @@ int	exec_cmd(t_cmd *cmds, t_data *data)
 		;
 	return (0);
 }
-

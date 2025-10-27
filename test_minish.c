@@ -3,10 +3,9 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_cmd	*cmds;
 	t_env	*envd;
 	t_data	data;
-
+	
 	(void)ac;
 	(void)av;
 	envd = NULL;
@@ -18,16 +17,17 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			continue ;
 		if (line[0] != '\0')
-			add_history(line);
+		add_history(line);
 		init_data(&data, &envd, NULL);
-		cmds = parsing(line);
-		print_cmds(cmds);
+		data.cmds = parsing(line);
+		print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);
-		exec_cmd(cmds, &data);
-		free_cmds(cmds);
+		exec_cmd(&data);
+		free_cmds(data.cmds);
 		free(line);
 	}
+	rl_clear_history();
 	return (0);
 }
 

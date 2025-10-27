@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g3
 
 UNAME_S := $(shell uname -s)
 
@@ -21,6 +21,7 @@ SRC = parsing/lexer/lexer.c \
 	  env/init_data_and_pars.c \
 	  env/lst_utils_env.c \
 	  env/env.c \
+	  env/free_all.c\
 	  exec/exec.c \
 	  test_minish.c \
       parsing/parsing.c \

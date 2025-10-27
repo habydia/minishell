@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/25 03:21:50 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/10/28 00:05:10 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
 #include "../include/env.h"
+#include "../include/minishell.h"
+#include "../include/parsing.h"
 
 void	init_lst_env(t_env **envd, char **env)
 {
@@ -51,27 +52,44 @@ static int	count_env(t_data *data)
 	return (i);
 }
 
-void	init_envp(t_data *data)
+void	free_envp_at_init(char **envp)
+{
+	int	i;
+
+	i = 0;
+	if (!envp)
+		return ;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
+void	init_envp(t_data *data) // renomner pour initialiser envp pour lst
 {
 	t_env	*tmp;
 	char	*str;
 	int		i;
 
 	i = count_env(data);
+	if (data->envp)
+		free_envp_at_init(data->envp);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
-		// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+		free_all(data, 0, "Error\nMalloc fail in init_envp\n");
 	i = 0;
 	tmp = data->env;
 	while (tmp)
 	{
 		str = ft_strjoin(tmp->key, "=");
 		if (!str)
-			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
 		data->envp[i] = ft_strjoin(str, tmp->value);
 		free(str);
 		if (!data->envp || !data->envp[i])
-			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
 		i++;
 		tmp = tmp->next;
 	}
