@@ -1,12 +1,10 @@
 #include "../../include/parsing.h"
 
-
 static char	*process_token_expansion(const char *value);
 static char	*remove_quotes(const char *value, char quote_type);
 static char	*expand_simple_string(const char *str);
 
-
-int	g_exit_status = 0;
+int			g_exit_status = 0;
 
 /*
  * Fonction principale pour l'expansion des tokens
@@ -40,31 +38,27 @@ t_token	*expand_tokens(t_token *tokens)
 static char	*process_token_expansion(const char *value)
 {
 	int		len;
+	char	*temp;
+	char	*expanded;
 
 	if (!value)
 		return (NULL);
-	
 	len = ft_strlen(value);
 	if (len < 2)
 		return (expand_simple_string(value));
-	
-
 	if (value[0] == '\'' && value[len - 1] == '\'')
 	{
-
 		return (remove_quotes(value, '\''));
 	}
 	else if (value[0] == '"' && value[len - 1] == '"')
 	{
-
-		char *temp = remove_quotes(value, '"');
-		char *expanded = expand_simple_string(temp);
+		temp = remove_quotes(value, '"');
+		expanded = expand_simple_string(temp);
 		free(temp);
 		return (expanded);
 	}
 	else
 	{
-
 		return (expand_simple_string(value));
 	}
 }
@@ -80,15 +74,12 @@ static char	*remove_quotes(const char *value, char quote_type)
 
 	if (!value)
 		return (NULL);
-	
 	len = ft_strlen(value);
 	if (len < 2 || value[0] != quote_type || value[len - 1] != quote_type)
 		return (ft_strdup(value));
-	
 	result = malloc(len - 1);
 	if (!result)
 		return (NULL);
-	
 	i = 0;
 	while (i < len - 2)
 	{
@@ -96,7 +87,6 @@ static char	*remove_quotes(const char *value, char quote_type)
 		i++;
 	}
 	result[i] = '\0';
-	
 	return (result);
 }
 
@@ -113,57 +103,79 @@ static char	*expand_simple_string(const char *str)
 
 	if (!str)
 		return (NULL);
-	
-
 	result_size = ft_strlen(str) * 2 + 1;
 	result = malloc(result_size);
 	if (!result)
 		return (NULL);
-	
-
 	data.result = &result;
 	data.result_size = &result_size;
 	data.j = &j;
-	
 	i = 0;
 	j = 0;
-	
 	while (str[i])
 	{
 		if (str[i] == '\\' && str[i + 1] == '$')
 		{
-
 			result[j++] = '$';
 			i += 2;
 		}
 		else if (str[i] == '$')
 		{
+			handle_expansion(char *result, );
+		}
+		// else if (str[i] == '$')
+		// {
+		// 	if (!handle_dollar_sign(str, &i, &data))
+		// 	{
+		// 		free(result);
+		// 		return (NULL);
+		// 	}
+		// }
+		// else
+		// {
+		// 	if (j >= result_size - 1)
+		// 	{
+		// 		result_size *= 2;
+		// 		char *new_result = realloc(result, result_size);
+		// 		if (!new_result)
+		// 		{
+		// 			free(result);
+		// 			return (NULL);
+		// 		}
+		// 		result = new_result;
+		// 		data.result = &result;
+		// 	}
+		// 	result[j++] = str[i++];
+		// }
+	}
+	result[j] = '\0';
+	return (result);
+}
 
-			if (!handle_dollar_sign(str, &i, &data))
+static void	handle_expansion(char *result, char *str, t_expand_data *data,
+		size_t *i, size_t *j)
+{
+	char	*new_result;
+
+	if (!handle_dollar_sign(str, i, data))
+	{
+		free(result);
+		return (NULL);
+	}
+	else
+	{
+		if (j >= result_size - 1)
+		{
+			result_size *= 2;
+			new_result = realloc(result, result_size);
+			if (!new_result)
 			{
 				free(result);
 				return (NULL);
 			}
+			result = new_result;
+			data.result = &result;
 		}
-		else
-		{
-
-			if (j >= result_size - 1)
-			{
-				result_size *= 2;
-				char *new_result = realloc(result, result_size);
-				if (!new_result)
-				{
-					free(result);
-					return (NULL);
-				}
-				result = new_result;
-				data.result = &result;
-			}
-			result[j++] = str[i++];
-		}
+		result[j++] = str[*i++];
 	}
-	
-	result[j] = '\0';
-	return (result);
 }
