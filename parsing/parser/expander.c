@@ -131,7 +131,7 @@ static char	*expand_simple_string(const char *str)
 			if (j >= result_size - 1)
 			{
 				result_size *= 2;
-				new_result = realloc(result, result_size);
+				new_result = realloc(result, result_size); // attention c'est une fonction interdite
 				if (!new_result)
 				{
 					free(result);

@@ -152,7 +152,7 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	else if ((*current)->type == T_REDIR_APPEND)
 		redir_type = R_OUT_APPEND;
 	else if ((*current)->type == T_HEREDOC)
-		redir_type = R_HEREDOC;
+		redir_type = R_HEREDOC; //implement heredoc_handler
 	else
 		redir_type = R_IN;
 	*current = (*current)->next;
