@@ -1,16 +1,11 @@
 #include "../../include/parsing.h"
 
 /*
- * Détermine le type d'opérateur et avance l'index
+ * Gère les types de redirections (< << > >>)
  */
-t_token_type	get_operator_type(const char *str, int *i)
+static t_token_type	get_redirection_type(const char *str, int *i)
 {
-	if (str[*i] == '|')
-	{
-		(*i)++;
-		return (T_PIPE);
-	}
-	else if (str[*i] == '<')
+	if (str[*i] == '<')
 	{
 		if (str[*i + 1] == '<')
 		{
@@ -35,6 +30,24 @@ t_token_type	get_operator_type(const char *str, int *i)
 			(*i)++;
 			return (T_REDIR_OUT);
 		}
+	}
+	(*i)++;
+	return (T_WORD);
+}
+
+/*
+ * Détermine le type d'opérateur et avance l'index
+ */
+t_token_type	get_operator_type(const char *str, int *i)
+{
+	if (str[*i] == '|')
+	{
+		(*i)++;
+		return (T_PIPE);
+	}
+	else if (str[*i] == '<' || str[*i] == '>')
+	{
+		return (get_redirection_type(str, i));
 	}
 	(*i)++;
 	return (T_WORD);

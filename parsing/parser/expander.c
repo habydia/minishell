@@ -62,6 +62,42 @@ static char	*process_token_expansion(const char *value)
 		return (expand_simple_string(value));
 	}
 }
+static void	handle_expansion(const char *str, size_t *i, size_t *j,
+		t_expand_data *data)
+{
+	char	*new_result;
+
+	if (str[*i] == '\\' && str[*i + 1] == '$')
+	{
+		(*data->result)[(*j)++] = '$';
+		(*i) += 2;
+	}
+	else if (str[*i] == '$')
+	{
+		if (!handle_dollar_sign(str, i, data))
+		{
+			free(*data->result);
+			*data->result = NULL;
+			return ;
+		}
+	}
+	else
+	{
+		if (*j >= *(data->result_size) - 1)
+		{
+			*(data->result_size) *= 2;
+			new_result = realloc(*data->result, *(data->result_size));
+			if (!new_result)
+			{
+				free(*data->result);
+				*data->result = NULL;
+				return ;
+			}
+			*data->result = new_result;
+		}
+		(*data->result)[(*j)++] = str[(*i)++];
+	}
+}
 
 /*
  * Supprime les guillemets d'ouverture et de fermeture
@@ -120,39 +156,3 @@ static char	*expand_simple_string(const char *str)
 	return (result);
 }
 
-static void	handle_expansion(const char *str, size_t *i, size_t *j,
-		t_expand_data *data)
-{
-	char	*new_result;
-
-	if (str[*i] == '\\' && str[*i + 1] == '$')
-	{
-		(*data->result)[(*j)++] = '$';
-		(*i) += 2;
-	}
-	else if (str[*i] == '$')
-	{
-		if (!handle_dollar_sign(str, i, data))
-		{
-			free(*data->result);
-			*data->result = NULL;
-			return ;
-		}
-	}
-	else
-	{
-		if (*j >= *(data->result_size) - 1)
-		{
-			*(data->result_size) *= 2;
-			new_result = realloc(*data->result, *(data->result_size));
-			if (!new_result)
-			{
-				free(*data->result);
-				*data->result = NULL;
-				return ;
-			}
-			*data->result = new_result;
-		}
-		(*data->result)[(*j)++] = str[(*i)++];
-	}
-}
