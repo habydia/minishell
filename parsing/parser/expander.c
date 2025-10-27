@@ -114,68 +114,45 @@ static char	*expand_simple_string(const char *str)
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] == '\\' && str[i + 1] == '$')
-		{
-			result[j++] = '$';
-			i += 2;
-		}
-		else if (str[i] == '$')
-		{
-			handle_expansion(char *result, );
-		}
-		// else if (str[i] == '$')
-		// {
-		// 	if (!handle_dollar_sign(str, &i, &data))
-		// 	{
-		// 		free(result);
-		// 		return (NULL);
-		// 	}
-		// }
-		// else
-		// {
-		// 	if (j >= result_size - 1)
-		// 	{
-		// 		result_size *= 2;
-		// 		char *new_result = realloc(result, result_size);
-		// 		if (!new_result)
-		// 		{
-		// 			free(result);
-		// 			return (NULL);
-		// 		}
-		// 		result = new_result;
-		// 		data.result = &result;
-		// 	}
-		// 	result[j++] = str[i++];
-		// }
+		handle_expansion(str, &i, &j, &data);
 	}
 	result[j] = '\0';
 	return (result);
 }
 
-static void	handle_expansion(char *result, char *str, t_expand_data *data,
-		size_t *i, size_t *j)
+static void	handle_expansion(const char *str, size_t *i, size_t *j,
+		t_expand_data *data)
 {
 	char	*new_result;
 
-	if (!handle_dollar_sign(str, i, data))
+	if (str[*i] == '\\' && str[*i + 1] == '$')
 	{
-		free(result);
-		return (NULL);
+		(*data->result)[(*j)++] = '$';
+		(*i) += 2;
+	}
+	else if (str[*i] == '$')
+	{
+		if (!handle_dollar_sign(str, i, data))
+		{
+			free(*data->result);
+			*data->result = NULL;
+			return ;
+		}
 	}
 	else
 	{
-		if (j >= result_size - 1)
+		if (*j >= *(data->result_size) - 1)
 		{
-			result_size *= 2;
-			new_result = realloc(result, result_size);
+			*(data->result_size) *= 2;
+			new_result = realloc(*data->result, *(data->result_size));
 			if (!new_result)
 			{
-				free(result);
-				return (NULL);
+				free(*data->result);
+				*data->result = NULL;
+				return ;
 			}
-			result = new_result;
-			data.result = &result;
+			*data->result = new_result;
 		}
-		result[j++] = str[*i++];
+		(*data->result)[(*j)++] = str[(*i)++];
 	}
 }
