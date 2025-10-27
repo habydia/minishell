@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 00:11:41 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 00:32:22 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,9 +229,8 @@ void	apply_redirections(t_cmd *cmd)
 				close(fd);
 			}
 		}
-		else if (redir->type == R_HEREDOC) // && redir->delimiter)
+		else if (redir->type == R_HEREDOC)
 		{
-			file = handle_heredoc(redir->file);
 			if (file)
 			{
 				fd = open(file, O_RDONLY);

@@ -1,9 +1,8 @@
-#include "parsing.h"
+#include "../../include/parsing.h"
 
 static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd);
 static char	**init_args_array(const char *cmd_name, int *capacity);
-static int	handle_word_token(char ***args, int *count, int *capacity,
-				const char *value);
+static int	handle_word_token(char ***args, int *count, int *capacity, const char *value);
 static void	handle_redirection_token(t_token **current, t_cmd *cmd);
 
 /*
@@ -16,22 +15,30 @@ t_cmd	*build_command(t_token **tokens)
 
 	if (!tokens || !*tokens)
 		return (NULL);
+	
 	cmd = create_cmd();
 	if (!cmd)
 		return (NULL);
+	
 	current = *tokens;
+	
+
 	if (current && current->type == T_WORD)
 	{
 		cmd->name = ft_strdup(current->value);
 		current = current->next;
 	}
+	
+
 	build_args_and_redirections(&current, cmd);
+	
 	*tokens = current;
 	return (cmd);
 }
 
+
 /*
- * Crée une nouvelle structure de commande
+* Crée une nouvelle structure de commande
  */
 t_cmd	*create_cmd(void)
 {
@@ -43,10 +50,10 @@ t_cmd	*create_cmd(void)
 		return (NULL);
 	}
 	cmd->name = NULL;
-	cmd->path = NULL;
 	cmd->args = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
+	
 	return (cmd);
 }
 
@@ -62,21 +69,23 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	int		arg_capacity;
 
 	if (!tokens || !*tokens || !cmd)
-		return ;
+		return;
+	
 	current = *tokens;
 	args = init_args_array(cmd->name, &arg_capacity);
 	if (!args)
-		return ;
+		return;
+	
 	arg_count = 1;
+
 	while (current && current->type != T_PIPE && current->type != T_EOF)
 	{
 		if (current->type == T_WORD)
 		{
-			if (!handle_word_token(&args, &arg_count, &arg_capacity,
-					current->value))
+			if (!handle_word_token(&args, &arg_count, &arg_capacity, current->value))
 			{
 				free_args_on_error(args);
-				return ;
+				return;
 			}
 			current = current->next;
 		}
@@ -89,6 +98,8 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 			current = current->next;
 		}
 	}
+	
+
 	args[arg_count] = NULL;
 	cmd->args = args;
 	*tokens = current;
@@ -105,22 +116,24 @@ static char	**init_args_array(const char *cmd_name, int *capacity)
 	args = malloc(sizeof(char *) * (*capacity));
 	if (!args)
 		return (NULL);
+	
 	args[0] = ft_strdup(cmd_name);
 	if (!args[0])
 	{
 		free(args);
 		return (NULL);
 	}
+	
 	return (args);
 }
 
 /*
  * Gère l'ajout d'un token WORD au tableau d'arguments
  */
-static int	handle_word_token(char ***args, int *count, int *capacity,
-		const char *value)
+static int	handle_word_token(char ***args, int *count, int *capacity, const char *value)
 {
 	char	**new_args;
+
 
 	if (*count >= *capacity - 1)
 	{
@@ -130,9 +143,12 @@ static int	handle_word_token(char ***args, int *count, int *capacity,
 			return (0);
 		*args = new_args;
 	}
+	
+
 	(*args)[*count] = ft_strdup(value);
 	if (!(*args)[*count])
 		return (0);
+	
 	(*count)++;
 	return (1);
 }
@@ -145,6 +161,7 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	t_redir_type	redir_type;
 	t_redir			*new_redir;
 
+
 	if ((*current)->type == T_REDIR_IN)
 		redir_type = R_IN;
 	else if ((*current)->type == T_REDIR_OUT)
@@ -152,9 +169,11 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 	else if ((*current)->type == T_REDIR_APPEND)
 		redir_type = R_OUT_APPEND;
 	else if ((*current)->type == T_HEREDOC)
-		redir_type = R_HEREDOC; //implement heredoc_handler
+		redir_type = R_HEREDOC;
 	else
 		redir_type = R_IN;
+	
+
 	*current = (*current)->next;
 	if (*current && (*current)->type == T_WORD)
 	{
