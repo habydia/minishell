@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
+/*   Updated: 2025/10/27 19:13:50 by lebroue          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 // lose(), read(), write(), dup2(), pipe()
@@ -124,6 +136,7 @@ char	*get_unique_heredoc_path(void)
 	while (1)
 	{
 		index = ft_itoa(i);
+		//verifier que itoa ne casse pas
 		path = ft_strjoin("/tmp/heredoc", index);
 		free(index);
 		fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0644);
@@ -175,7 +188,7 @@ char	*handle_heredoc(char *delimiter)
 //////////////////////////////////////////////
 // Appliquer les redirections (in/out)
 //////////////////////////////////////////////
-void	apply_redirections(t_cmd *cmd)
+void	apply_redirections(t_cmd *cmd) // gerer les cas ou les opens cassent et les dup2
 {
 	t_redir	*redir;
 	int		fd;
@@ -229,6 +242,17 @@ void	apply_redirections(t_cmd *cmd)
 		redir = redir->next;
 	}
 }
+
+/*
+parsing :
+- trouver hd
+- open 2 fd ( 1 ecriture (parsing) | 1 lecture (exec))
+- unlink immediatement le fichier (plus reference sur le filesystem)
+- rempli le fd d'ecriture avec le contenu du hd puis close le fd d'ecriture
+- envoie le fd de lecture a l'exec, qui l'utilisera puis closera une fois les operations effectuees
+
+*/
+
 
 //////////////////////////////////////////////
 // Construire argv à partir des noeuds pars
@@ -404,3 +428,4 @@ int	exec_cmd(t_cmd *cmds, t_data *data)
 		;
 	return (0);
 }
+
