@@ -3,35 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:22:27 by willda-s          #+#    #+#             */
-/*   Updated: 2025/06/30 15:00:53 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/10/25 03:22:12 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-// # include "minishell.h"
-// # include "parsing.h"
-# include <stdbool.h>
+
+#include <stdbool.h>
+
+// Forward declaration
+typedef struct s_data t_data;
 
 typedef struct s_env
 {
-	char *key;          // HOME
-	char *value;        // /home/lebroue
-	struct s_env *next; // On passe a la variable d'env d'apres
+	char			*key; //HOME
+	char			*value;// /home/lebroue
+	struct s_env	*next; //On passe a la variable d'env d'apres 
 
-}		t_env;
+}					t_env;
+
+// Structure principale de données
+typedef struct s_data
+{
+	char	**dst;
+	t_env	*env;
+	char	**envp;
+	int		errcode;
+	int		i;
+	void	*cmds;  // t_cmd * mais évite dépendance circulaire
+}	t_data;
 
 ////////////ENV.C && LST_UTILS_ENV.C///////////
+void	init_data(t_data *data, t_env **envd, char **dst);
+void	init_envp(t_data *data);
+int					add_back_env(t_env **envd);
+t_env				*ft_lstlast_env(t_env *envd);
+void				free_lst_env(t_env **envd, bool ext, int errcode);
+void				init_lst_env(t_env **envd, char **env);
 
-int		add_back_env(t_env **envd);
-t_env	*ft_lstlast_env(t_env *envd);
-void	free_lst_env(t_env **envd, bool ext, int errcode);
-void	init_lst_env(t_env **envd, char **env);
-
-void	print_lst_env(t_env *envd);
-void	print_envp(char **envp);
+void				print_lst_env(t_env *envd);
+void				print_envp(char **envp);
 
 #endif

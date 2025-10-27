@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:54:06 by willda-s          #+#    #+#             */
-/*   Updated: 2025/06/30 14:59:38 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/10/25 03:21:54 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parsing.h"
+#include "../include/parsing.h"
+#include "../include/env.h"
 
 static int	lstsize_env(t_env *envd)
 {

@@ -372,8 +372,8 @@ int	exec_cmd(t_cmd *cmds, t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			// apply_redirections(curr);
-			// printf("%s", curr->args[0]);
+			apply_redirections(curr);
+			printf("%s", curr->args[0]);
 			curr->path = getenv("PATH"); // get_path(data->envp, curr->args[0],
 											// &ret);
 			printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");

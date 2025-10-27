@@ -18,10 +18,10 @@ SRC = parsing/lexer/lexer.c \
       parsing/parser/redirect_handler.c \
 	  signal/signals.c \
 	  signal/reader.c \
-	  exec/init_data_and_pars.c \
-	  exec/lst_utils_env.c \
+	  env/init_data_and_pars.c \
+	  env/lst_utils_env.c \
+	  env/env.c \
 	  exec/exec.c \
-	  exec/env.c \
 	  test_minish.c \
       parsing/parsing.c \
 

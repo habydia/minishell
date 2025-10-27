@@ -7,10 +7,10 @@ int	main(int ac, char **av, char **env)
 	t_env	*envd;
 	t_data	data;
 
-	envd = NULL;
-	init_lst_env(&envd, env); // segfault
 	(void)ac;
 	(void)av;
+	envd = NULL;
+	init_lst_env(&envd, env); // segfault
 	handle_signals();
 	while (1)
 	{
@@ -22,7 +22,8 @@ int	main(int ac, char **av, char **env)
 		init_data(&data, &envd, NULL);
 		cmds = parsing(line);
 		print_cmds(cmds);
-		// init_lst_exec
+		init_envp(&data);
+		// print_lst_env(envd);
 		exec_cmd(cmds, &data);
 		free_cmds(cmds);
 		free(line);
@@ -32,8 +33,9 @@ int	main(int ac, char **av, char **env)
 
 void	print_cmds(t_cmd *cmds)
 {
-	t_cmd *tmp;
-	int i;
+	t_cmd	*tmp;
+	int		i;
+	t_redir	*r_tmp;
 
 	tmp = cmds;
 	while (tmp)
@@ -55,7 +57,7 @@ void	print_cmds(t_cmd *cmds)
 		}
 		if (tmp->redirs)
 		{
-			t_redir *r_tmp = tmp->redirs;
+			r_tmp = tmp->redirs;
 			printf("Redirections:\n");
 			while (r_tmp)
 			{
@@ -68,5 +70,17 @@ void	print_cmds(t_cmd *cmds)
 			printf("No redirections\n");
 		}
 		tmp = tmp->next;
+	}
+}
+
+void	print_lst_env(t_env *envd)
+{
+	t_env *current;
+
+	current = envd;
+	while (current)
+	{
+		printf("%s=%s\n", current->key, current->value);
+		current = current->next;
 	}
 }

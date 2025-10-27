@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/06/30 13:54:00 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/10/25 03:21:50 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-// #include "parsing.h"
+#include "../include/parsing.h"
+#include "../include/env.h"
 
 void	init_lst_env(t_env **envd, char **env)
 {
@@ -55,25 +54,25 @@ static int	count_env(t_data *data)
 void	init_envp(t_data *data)
 {
 	t_env	*tmp;
-	int		i;
 	char	*str;
+	int		i;
 
 	i = count_env(data);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
 		// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-		i = 0;
+	i = 0;
 	tmp = data->env;
 	while (tmp)
 	{
 		str = ft_strjoin(tmp->key, "=");
 		if (!str)
 			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-			data->envp[i] = ft_strjoin(str, tmp->value);
+		data->envp[i] = ft_strjoin(str, tmp->value);
 		free(str);
 		if (!data->envp || !data->envp[i])
 			// free_all(data, 0, "Error\nMalloc fail in init_envp\n");
-			i++;
+		i++;
 		tmp = tmp->next;
 	}
 	data->envp[i] = NULL;
