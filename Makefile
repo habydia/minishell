@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -g3
+CFLAGS = -Wall -Wextra -Werror -Iinclude
 
 UNAME_S := $(shell uname -s)
 
@@ -16,13 +16,10 @@ SRC = parsing/lexer/lexer.c \
 	  parsing/parser/expander_utils.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
-	  signal/signals.c \
-	  signal/reader.c \
-	  env/init_data_and_pars.c \
-	  env/lst_utils_env.c \
-	  env/env.c \
-	  env/free_all.c\
-	  exec/exec.c \
+	  parsing/parser/heredoc_handler.c \
+	  signal/* \
+	  exec/* \
+	  env/* \
 	  test_minish.c \
       parsing/parsing.c \
 
@@ -43,7 +40,6 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/parsing/lexer
 	mkdir -p $(OBJ_DIR)/parsing/parser
-	mkdir -p $(OBJ_DIR)/signal
 
 $(LIBFT): force
 	$(MAKE) -C $(LIB_DIR) bonus

@@ -1,0 +1,14 @@
+env
+exec
+include
+libft
+Makefile
+minishell
+obj
+out2
+out.txt
+parsing
+readline.supp
+readme.md
+signal
+test_minish.c

@@ -4,6 +4,7 @@ char	*reader(void)
 {
 	char *line;
 
+	// rl_catch_signals = 0;
 	line = readline("Minishell> ");
 	if (line == NULL)
 		exit(0);

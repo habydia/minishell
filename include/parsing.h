@@ -2,19 +2,18 @@
 # define PARSING_H
 
 # include "../libft/libft/libft.h"
-# include "env.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
 /* ========== ENUMS ========== */
 
 // Types de tokens pour le lexer
@@ -59,8 +58,8 @@ typedef struct s_redir
 // Structure pour une commande
 typedef struct s_cmd
 {
-	char *name;         // nom de la commande
-	char *path;         // chemin complet de la commande
+	char *name; // nom de la commande
+	char			*path;
 	char **args;        // tableau d'arguments
 	t_redir *redirs;    // liste des redirections
 	struct s_cmd *next; // commande suivante (pour pipes)
@@ -79,8 +78,6 @@ extern int			g_exit_status;
 
 /* ========== FONCTIONS PRINCIPALES ========== */
 
-// //reder
-// char	*reader(void);
 // parsing.c - Fonction principale
 t_cmd				*parsing(const char *line);
 
@@ -119,6 +116,7 @@ t_cmd				*create_cmd(void);
 
 // parser/pipeline_handler.c - Gestion des pipes
 t_cmd				*handle_pipeline(t_token *tokens);
+void				handle_heredoc(t_redir *redir);
 
 // parser/redirect_handler.c - Gestion des redirections
 t_redir				*create_redir(t_redir_type type, const char *file);
@@ -135,5 +133,16 @@ void				free_args_on_error(char **args);
 // Debug (optionnel)
 void				print_tokens(t_token *tokens);
 void				print_cmds(t_cmd *cmds);
+
+// Utilitaires string
+// int					ft_isspace(char c);
+// char				*ft_strdup(const char *s);
+// char				**ft_split(const char *s, char c);
+// int					ft_strlen(const char *s);
+// char				*ft_strjoin(const char *s1, const char *s2);
+// int					ft_isalnum(int c);
+// int					ft_isalpha(int c);
+// char				*ft_itoa(int n);
+// size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif

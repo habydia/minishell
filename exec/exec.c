@@ -6,10 +6,12 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 00:32:22 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 00:54:34 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
+#include "exec.h"
 #include "parsing.h"
 
 // lose(), read(), write(), dup2(), pipe()
@@ -157,37 +159,37 @@ char	*get_unique_heredoc_path(void)
 //////////////////////////////////////////////
 // Gérer un heredoc et retourner son fichier
 //////////////////////////////////////////////
-char	*handle_heredoc(char *delimiter)
-{
-	char	*line;
-	char	*heredoc_path;
-	int		fd;
+// char	*handle_heredoc(char *delimiter)
+// {
+// 	char	*line;
+// 	char	*heredoc_path;
+// 	int		fd;
 
-	heredoc_path = get_unique_heredoc_path();
-	if (!heredoc_path)
-		return (NULL);
-	fd = open(heredoc_path, O_WRONLY | O_TRUNC);
-	if (fd == -1)
-	{
-		perror("open heredoc");
-		free(heredoc_path);
-		return (NULL);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	close(fd);
-	return (heredoc_path);
-}
+// 	heredoc_path = get_unique_heredoc_path();
+// 	if (!heredoc_path)
+// 		return (NULL);
+// 	fd = open(heredoc_path, O_WRONLY | O_TRUNC);
+// 	if (fd == -1)
+// 	{
+// 		perror("open heredoc");
+// 		free(heredoc_path);
+// 		return (NULL);
+// 	}
+// 	while (1)
+// 	{
+// 		line = readline("> ");
+// 		if (!line || ft_strcmp(line, delimiter) == 0)
+// 		{
+// 			free(line);
+// 			break ;
+// 		}
+// 		write(fd, line, ft_strlen(line));
+// 		write(fd, "\n", 1);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	return (heredoc_path);
+// }
 
 //////////////////////////////////////////////
 // Appliquer les redirections (in/out)
@@ -197,7 +199,7 @@ void	apply_redirections(t_cmd *cmd)
 {
 	t_redir *redir;
 	int fd;
-	char *file;
+	char *file = NULL;
 
 	redir = cmd->redirs;
 	while (redir)
@@ -231,9 +233,10 @@ void	apply_redirections(t_cmd *cmd)
 		}
 		else if (redir->type == R_HEREDOC)
 		{
-			if (file)
+			printf("OKKKKKK");
+			if (redir->file)
 			{
-				fd = open(file, O_RDONLY);
+				fd = open(redir->file, O_RDONLY);
 				if (fd != -1)
 				{
 					dup2(fd, STDIN_FILENO);
@@ -313,37 +316,38 @@ void	free_argv(char **argv)
 //////////////////////////////////////////////
 // Construire envp depuis liste chaînée env
 //////////////////////////////////////////////
-char **build_envp_from_lst_env(t_env *env)
+char	**build_envp_from_lst_env(t_env *env)
 {
-    int count;
-    t_env *tmp;
+	int		count;
+	t_env	*tmp;
+	char	**envp;
+	int		i;
+	char	*tmp2;
+
 	count = 0;
 	tmp = env;
-    while (tmp)
-    {
-        count++;
-        tmp = tmp->next;
-    }
-
-    char **envp = malloc(sizeof(char *) * (count + 1));
-    if (!envp)
-        return NULL;
-
-    int i = 0;
-    tmp = env;
-    while (tmp)
-    {
-        envp[i] = ft_strjoin(tmp->key, "=");
-        char *tmp2 = envp[i];
-        envp[i] = ft_strjoin(tmp2, tmp->value);
-        free(tmp2);
-        tmp = tmp->next;
-        i++;
-    }
-    envp[i] = NULL;
-    return envp;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	envp = malloc(sizeof(char *) * (count + 1));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		envp[i] = ft_strjoin(tmp->key, "=");
+		tmp2 = envp[i];
+		envp[i] = ft_strjoin(tmp2, tmp->value);
+		free(tmp2);
+		tmp = tmp->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
-
 
 // //////////////////////////////////////////////
 // // Libérer envp
@@ -388,7 +392,7 @@ int	exec_cmd(t_data *data)
 	// printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	int pipe_fd[2], prev_fd = -1;
 	ret = 0;
-	update_envp(data); //ne marche pas pour l'instant
+	update_envp(data); // ne marche pas pour l'instant
 	while (curr)
 	{
 		if (curr->next && pipe(pipe_fd) == -1)
@@ -410,7 +414,7 @@ int	exec_cmd(t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			// apply_redirections(curr);
+			apply_redirections(curr);
 			curr->path = get_path(data->envp, curr->args[0], &ret);
 			if (!curr->path)
 			{

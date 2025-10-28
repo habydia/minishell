@@ -15,7 +15,7 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 char	*get_path(char **envp, char *argv_cmd, int *ret);
 char	*ft_strdup(const char *s);
 char	*get_unique_heredoc_path(void);
-char	*handle_heredoc(char *delimiter);
+// char	*handle_heredoc(char *delimiter);
 void	apply_redirections(t_cmd *cmd);
 // char	**build_argv(t_pars *pars);
 void	free_argv(char **argv);
