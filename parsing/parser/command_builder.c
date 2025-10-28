@@ -3,7 +3,7 @@
 /*
  * Gère un token de redirection
  */
-static void	handle_redirection_token(t_token **current, t_cmd *cmd)
+static int	handle_redirection_token(t_token **current, t_cmd *cmd)
 {
 	t_redir_type	redir_type;
 	t_redir			*new_redir;
@@ -30,9 +30,12 @@ static void	handle_redirection_token(t_token **current, t_cmd *cmd)
 				handle_heredoc(new_redir);
 			if (new_redir)
 				add_redir_back(&(cmd->redirs), new_redir);
+			if (!new_redir)
+				return (0);
 			*current = (*current)->next;
 		}
 	}
+	return (1);
 }
 
 /*
@@ -53,7 +56,10 @@ static int	handle_word_token(char ***args, int *count, int *capacity,
 	}
 	(*args)[*count] = ft_strdup(value);
 	if (!(*args)[*count])
+	{
+		free(*args);
 		return (0);
+	}
 	(*count)++;
 	return (1);
 }
@@ -65,7 +71,8 @@ static char	**init_args_array(const char *cmd_name, int *capacity)
 	args = malloc(sizeof(char *) * (*capacity));
 	if (!args)
 		return (NULL);
-	args[0] = ft_strdup(cmd_name);
+	if (args[0] == NULL) // si pas de 1er commande nom de cmd vide
+		args[0] = ft_strdup(cmd_name);
 	if (!args[0])
 	{
 		free(args);
@@ -76,7 +83,7 @@ static char	**init_args_array(const char *cmd_name, int *capacity)
 //  * Construit simultanément les arguments et redirections
 //  * en parcourant les tokens une seule fois
 //  */
-static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
+static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 {
 	t_token	*current;
 	char	**args;
@@ -84,11 +91,11 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	int		arg_capacity;
 
 	if (!tokens || !*tokens || !cmd)
-		return ;
+		return (0);
 	current = *tokens;
 	args = init_args_array(cmd->name, &arg_capacity);
 	if (!args)
-		return ;
+		return (0);
 	arg_count = 1;
 	while (current && current->type != T_PIPE && current->type != T_EOF)
 	{
@@ -98,13 +105,17 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 					current->value))
 			{
 				free_args_on_error(args);
-				return ;
+				return (0);
 			}
 			current = current->next;
 		}
 		else if (current->type >= T_REDIR_IN && current->type <= T_HEREDOC)
 		{
-			handle_redirection_token(&current, cmd);
+			if (!handle_redirection_token(&current, cmd))
+			{
+				free_args_on_error(args);
+				return (0);
+			}
 		}
 		else
 		{
@@ -114,6 +125,7 @@ static void	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	args[arg_count] = NULL;
 	cmd->args = args;
 	*tokens = current;
+	return (1);
 }
 /*
  * Construit une commande à partir des tokens
@@ -126,15 +138,30 @@ t_cmd	*build_command(t_token **tokens)
 	if (!tokens || !*tokens)
 		return (NULL);
 	cmd = create_cmd();
+	printf("Created new command structure\n");
 	if (!cmd)
 		return (NULL);
 	current = *tokens;
 	if (current && current->type == T_WORD)
 	{
 		cmd->name = ft_strdup(current->value);
+		if (!cmd->name)
+		{
+			free_cmds(cmd);
+			return (NULL);
+		}
 		current = current->next;
 	}
-	build_args_and_redirections(&current, cmd);
+	else
+	{
+		// Pas de nom de commande - créer une commande vide
+		cmd->name = NULL;
+	}
+	if (!build_args_and_redirections(&current, cmd))
+	{
+		free_cmds(cmd);
+		return (NULL);
+	}
 	*tokens = current;
 	return (cmd);
 }

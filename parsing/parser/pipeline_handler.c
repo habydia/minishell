@@ -10,10 +10,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-	
-
 	cmds = handle_pipeline(tokens);
-	
 	return (cmds);
 }
 
@@ -31,8 +28,13 @@ t_cmd	*handle_pipeline(t_token *tokens)
 		return (NULL);
 	current_token = tokens;
 	first_cmd = build_command(&current_token);
+	// modifier pour qu'il cherche jusqu'a tomber sur le 1er t_word,
+	// modifier la logique tout T_WORD qui n'est pas après un opérateur de redirection est soit la commande (si c'est le premier),
+	// soit un argument
 	if (!first_cmd)
+	{
 		return (NULL);
+	}
 	current_cmd = first_cmd;
 	while (current_token && current_token->type != T_EOF)
 	{
