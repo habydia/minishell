@@ -1,6 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "libft/libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -132,16 +133,5 @@ void				free_args_on_error(char **args);
 // Debug (optionnel)
 void				print_tokens(t_token *tokens);
 void				print_cmds(t_cmd *cmds);
-
-// Utilitaires string
-int					ft_isspace(char c);
-char				*ft_strdup(const char *s);
-char				**ft_split(const char *s, char c);
-int					ft_strlen(const char *s);
-char				*ft_strjoin(const char *s1, const char *s2);
-int					ft_isalnum(int c);
-int					ft_isalpha(int c);
-char				*ft_itoa(int n);
-size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif

@@ -46,7 +46,7 @@ static int	handle_word_token(char ***args, int *count, int *capacity,
 	if (*count >= *capacity - 1)
 	{
 		*capacity *= 2;
-		new_args = realloc(*args, sizeof(char *) * (*capacity));
+		new_args = ft_realloc(*args, sizeof(char *) * (*capacity));
 		if (!new_args)
 			return (0);
 		*args = new_args;

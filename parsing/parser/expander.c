@@ -86,7 +86,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		if (*j >= *(data->result_size) - 1)
 		{
 			*(data->result_size) *= 2;
-			new_result = realloc(*data->result, *(data->result_size));
+			new_result = ft_realloc(*data->result, *(data->result_size));
 			if (!new_result)
 			{
 				free(*data->result);
@@ -155,4 +155,3 @@ static char	*expand_simple_string(const char *str)
 	result[j] = '\0';
 	return (result);
 }
-

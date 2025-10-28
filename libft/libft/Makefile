@@ -6,7 +6,7 @@
 #    By: hadia <hadia@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/24 19:30:04 by hadia             #+#    #+#              #
-#    Updated: 2025/10/24 19:30:05 by hadia            ###   ########.fr        #
+#    Updated: 2025/10/28 21:29:53 by hadia            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES = ft_bzero.c \
 		ft_toupper.c \
 		ft_atoi.c \
 		ft_calloc.c \
+		ft_realloc.c \
 		ft_strdup.c \
 		ft_strndup.c \
 		ft_memmove.c \
