@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   get_path_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 16:54:11 by hadia             #+#    #+#             */
-/*   Updated: 2025/10/28 18:12:35 by lebroue          ###   ########.fr       */
+/*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
+/*   Updated: 2025/10/28 17:36:29 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	int		i;
-
-	i = 0;
-	if (!s || !*s)
-		return (NULL);
-	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if (!dup)
-		return (NULL);
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
+#include "env.h"
+#include "parsing.h"
+#include "exec.h"

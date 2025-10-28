@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 17:27:42 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 17:35:55 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 	*ret = 127;
 	return (NULL);
 }
+
+//////////////////////////////////////////////
+/// GET PATH pour choper le path de chaque commandes, test l'excution
+////////////////////////////////////////////
 
 char	*get_path(char **envp, char *argv_cmd, int *ret)
 {
