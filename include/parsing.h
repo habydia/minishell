@@ -1,7 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "libft/libft/libft.h"
+# include "../libft/libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
