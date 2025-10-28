@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 00:54:34 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 17:05:36 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,38 +316,38 @@ void	free_argv(char **argv)
 //////////////////////////////////////////////
 // Construire envp depuis liste chaînée env
 //////////////////////////////////////////////
-char	**build_envp_from_lst_env(t_env *env)
-{
-	int		count;
-	t_env	*tmp;
-	char	**envp;
-	int		i;
-	char	*tmp2;
+// char	**build_envp_from_lst_env(t_env *env)
+// {
+// 	int		count;
+// 	t_env	*tmp;
+// 	char	**envp;
+// 	int		i;
+// 	char	*tmp2;
 
-	count = 0;
-	tmp = env;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	envp = malloc(sizeof(char *) * (count + 1));
-	if (!envp)
-		return (NULL);
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		envp[i] = ft_strjoin(tmp->key, "=");
-		tmp2 = envp[i];
-		envp[i] = ft_strjoin(tmp2, tmp->value);
-		free(tmp2);
-		tmp = tmp->next;
-		i++;
-	}
-	envp[i] = NULL;
-	return (envp);
-}
+// 	count = 0;
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		count++;
+// 		tmp = tmp->next;
+// 	}
+// 	envp = malloc(sizeof(char *) * (count + 1));
+// 	if (!envp)
+// 		return (NULL);
+// 	i = 0;
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		envp[i] = ft_strjoin(tmp->key, "=");
+// 		tmp2 = envp[i];
+// 		envp[i] = ft_strjoin(tmp2, tmp->value);
+// 		free(tmp2);
+// 		tmp = tmp->next;
+// 		i++;
+// 	}
+// 	envp[i] = NULL;
+// 	return (envp);
+// }
 
 // //////////////////////////////////////////////
 // // Libérer envp
@@ -370,12 +370,12 @@ void	free_envp(char **envp)
 // //////////////////////////////////////////////
 // // Mettre à jour envp dans data
 // //////////////////////////////////////////////
-void	update_envp(t_data *data)
-{
-	if (data->envp)
-		free_envp(data->envp);
-	data->envp = build_envp_from_lst_env(data->env);
-}
+// void	update_envp(t_data *data)
+// {
+// 	if (data->envp)
+// 		free_envp(data->envp);
+// 	data->envp = build_envp_from_lst_env(data->env);
+// }
 
 //////////////////////////////////////////////
 // Exécuter la liste de commandes avec pipes
