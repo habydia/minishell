@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 17:23:03 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/28 17:26:10 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,9 +342,10 @@ int	exec_cmd(t_data *data)
 	// int		ret;
 	t_cmd *curr; // t_exec	*curr;
 	curr = data->cmds;
-	// printf(" %s", data->cmds->args[0]);
-	// printf("OKKKKKKKKKKKKKKKKKKKKKKKKKKK\n");
-	int pipe_fd[2], prev_fd = -1;
+	
+	int pipe_fd[2]; 
+	int prev_fd;
+	prev_fd = -1;
 	ret = 0;
 	update_envp(data); // ne marche pas pour l'instant
 	while (curr)
