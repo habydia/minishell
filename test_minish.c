@@ -9,6 +9,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	envd = NULL;
+	printf("OKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	init_lst_env(&envd, env); // segfault
 	handle_signals();
 	while (1)

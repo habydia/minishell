@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:22:27 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/27 22:03:32 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/29 16:22:03 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,5 @@ void				print_envp(char **envp);
 
 
 int	free_all(t_data *data, int errcode, char *str);
-
 
 #endif
