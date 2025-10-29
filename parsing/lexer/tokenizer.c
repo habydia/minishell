@@ -1,4 +1,5 @@
 #include "../../include/parsing.h"
+
 static void	tokenize_operator(const char *line, int *i, int *start,
 		t_token **tokens)
 {
@@ -23,7 +24,6 @@ static void	tokenize_operator(const char *line, int *i, int *start,
 	add_token_back(tokens, create_token(type, value));
 	free(value);
 }
-
 
 static void	tokenize_quote(const char *line, int *start, int *i,
 		t_token **tokens)
@@ -71,12 +71,26 @@ static void	tokenize_word(int *start, int *i, t_token **tokens,
 /*
  * Découpe une ligne en tokens
  */
+
+static void	handle_quote(const char *line, int *i, int *start, t_token **tokens)
+{
+	char	quote_type;
+
+	quote_type = line[*i];
+	i++;           // passer le guillemet d'ouverture
+	start = i - 1; // inclure le guillemet d'ouverture
+	while (line[*i] && line[*i] != quote_type)
+		i++;
+	if (line[*i] == quote_type)
+		i++; // inclure le guillemet de fermeture
+	tokenize_quote(line, start, i, tokens);
+}
+
 t_token	*tokenize_line(const char *line)
 {
 	t_token	*tokens;
 	int		i;
 	int		start;
-	char	quote_type;
 
 	tokens = NULL;
 	i = 0;
@@ -90,16 +104,7 @@ t_token	*tokenize_line(const char *line)
 		if (is_operator_char(line[i]))
 			tokenize_operator(line, &i, &start, &tokens);
 		else if (line[i] == '"' || line[i] == '\'')
-		{
-			quote_type = line[i];
-			i++;           // passer le guillemet d'ouverture
-			start = i - 1; // inclure le guillemet d'ouverture
-			while (line[i] && line[i] != quote_type)
-				i++;
-			if (line[i] == quote_type)
-				i++; // inclure le guillemet de fermeture
-			tokenize_quote(line, &start, &i, &tokens);
-		}
+			handle_quote(line, &i, &start, &tokens);
 		else
 		{
 			while (line[i] && !ft_isspace(line[i])
@@ -110,8 +115,6 @@ t_token	*tokenize_line(const char *line)
 	}
 	return (tokens);
 }
-
-
 
 /*
  * Crée un nouveau token
@@ -134,20 +137,17 @@ t_token	*create_token(t_token_type type, const char *value)
  */
 void	add_token_back(t_token **tokens, t_token *new_token)
 {
-	t_token *current;
+	t_token	*current;
 
 	if (!tokens || !new_token)
 		return ;
-
 	if (!*tokens)
 	{
 		*tokens = new_token;
 		return ;
 	}
-
 	current = *tokens;
 	while (current->next)
 		current = current->next;
-
 	current->next = new_token;
 }

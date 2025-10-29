@@ -1,35 +1,47 @@
 #include "../../include/parsing.h"
 
+/// ok nb ligne
 /*
  * Gère les types de redirections (< << > >>)
  */
+
+static t_token_type	handle_redirection_in(const char *str, int *i)
+{
+	if (str[*i + 1] == '<')
+	{
+		(*i) += 2;
+		return (T_HEREDOC);
+	}
+	else
+	{
+		(*i)++;
+		return (T_REDIR_IN);
+	}
+}
+
+static t_token_type	handle_redirection_out(const char *str, int *i)
+{
+	if (str[*i + 1] == '>')
+	{
+		(*i) += 2;
+		return (T_REDIR_APPEND);
+	}
+	else
+	{
+		(*i)++;
+		return (T_REDIR_OUT);
+	}
+}
+
 static t_token_type	get_redirection_type(const char *str, int *i)
 {
 	if (str[*i] == '<')
 	{
-		if (str[*i + 1] == '<')
-		{
-			(*i) += 2;
-			return (T_HEREDOC);
-		}
-		else
-		{
-			(*i)++;
-			return (T_REDIR_IN);
-		}
+		return (handle_redirection_in(str, i));
 	}
 	else if (str[*i] == '>')
 	{
-		if (str[*i + 1] == '>')
-		{
-			(*i) += 2;
-			return (T_REDIR_APPEND);
-		}
-		else
-		{
-			(*i)++;
-			return (T_REDIR_OUT);
-		}
+		return (handle_redirection_out(str, i));
 	}
 	(*i)++;
 	return (T_WORD);

@@ -3,11 +3,31 @@
 /*
  * Gère un token de redirection
  */
-static int	handle_redirection_token(t_token **current, t_cmd *cmd)
+
+static int	process_redirection_token(t_token **current,
+		t_redir_type redir_type, t_cmd *cmd)
+{
+	char	*target_file;
+	t_redir	*new_redir;
+
+	target_file = (*current)->value;
+	new_redir = create_redir(redir_type, target_file);
+	if (new_redir)
+	{
+		if (redir_type == R_HEREDOC)
+			handle_heredoc(new_redir);
+		if (new_redir)
+			add_redir_back(&(cmd->redirs), new_redir);
+		if (!new_redir)
+			return (0);
+		*current = (*current)->next;
+	}
+	return (1);
+}
+
+static int	build_redirection_token(t_token **current, t_cmd *cmd)
 {
 	t_redir_type	redir_type;
-	t_redir			*new_redir;
-	char			*target_file;
 
 	if ((*current)->type == T_REDIR_IN)
 		redir_type = R_IN;
@@ -22,18 +42,7 @@ static int	handle_redirection_token(t_token **current, t_cmd *cmd)
 	*current = (*current)->next;
 	if (*current && (*current)->type == T_WORD)
 	{
-		target_file = (*current)->value;
-		new_redir = create_redir(redir_type, target_file);
-		if (new_redir)
-		{
-			if (redir_type == R_HEREDOC)
-				handle_heredoc(new_redir);
-			if (new_redir)
-				add_redir_back(&(cmd->redirs), new_redir);
-			if (!new_redir)
-				return (0);
-			*current = (*current)->next;
-		}
+		process_redirection_token(current, redir_type, cmd);
 	}
 	return (1);
 }
@@ -41,25 +50,6 @@ static int	handle_redirection_token(t_token **current, t_cmd *cmd)
 /*
  * Gère l'ajout d'un token WORD au tableau d'arguments
  */
-static int	handle_word_token(char ***args, int *count, int *capacity,
-		const char *value)
-{
-	char	**new_args;
-
-	if (*count >= *capacity - 1)
-	{
-		*capacity *= 2;
-		new_args = ft_realloc(*args, sizeof(char *) * (*capacity));
-		if (!new_args)
-			return (0);
-		*args = new_args;
-	}
-	(*args)[*count] = ft_strdup(value);
-	if (!(*args)[*count])
-		return (0);
-	(*count)++;
-	return (1);
-}
 static char	**init_args_array(const char *cmd_name, int *capacity)
 {
 	char	**args;
@@ -110,9 +100,32 @@ static char	*find_command_name(t_token *tokens)
 	}
 	return (NULL);
 }
-//  * Construit simultanément les arguments et redirections
-//  * en parcourant les tokens une seule fois
-//  */
+/* Construit simultanément les arguments et redirections
+* en parcourant les tokens une seule fois
+Si c'est le nom de commande,
+on le skip pour les args seulement si ce n'est pas le premier arg
+Skip le nom de commande car il est déjà dans args[0]*/
+
+static int	handle_word_token(char ***args, int *count, int *capacity,
+		const char *value)
+{
+	char	**new_args;
+
+	if (*count >= *capacity - 1)
+	{
+		*capacity *= 2;
+		new_args = ft_realloc(*args, sizeof(char *) * (*capacity));
+		if (!new_args)
+			return (0);
+		*args = new_args;
+	}
+	(*args)[*count] = ft_strdup(value);
+	if (!(*args)[*count])
+		return (0);
+	(*count)++;
+	return (1);
+}
+
 static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 {
 	t_token	*current;
@@ -131,12 +144,9 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	{
 		if (current->type == T_WORD)
 		{
-			// Si c'est le nom de commande, on le skip pour les args seulement si ce n'est pas le premier arg
-			if (cmd->name && arg_count == 1 && strcmp(current->value, cmd->name) == 0)
-			{
-				// Skip le nom de commande car il est déjà dans args[0]
+			if (cmd->name && arg_count == 1 && strcmp(current->value,
+					cmd->name) == 0)
 				current = current->next;
-			}
 			else
 			{
 				if (!handle_word_token(&args, &arg_count, &arg_capacity,
@@ -150,16 +160,14 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 		}
 		else if (current->type >= T_REDIR_IN && current->type <= T_HEREDOC)
 		{
-			if (!handle_redirection_token(&current, cmd))
+			if (!build_redirection_token(&current, cmd))
 			{
 				free_args_on_error(args);
 				return (0);
 			}
 		}
 		else
-		{
 			current = current->next;
-		}
 	}
 	args[arg_count] = NULL;
 	cmd->args = args;
@@ -168,7 +176,7 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 }
 /*
  * Construit une commande à partir des tokens
- */
+ Trouver le nom de la commande*/
 t_cmd	*build_command(t_token **tokens)
 {
 	t_cmd	*cmd;
@@ -181,10 +189,7 @@ t_cmd	*build_command(t_token **tokens)
 	if (!cmd)
 		return (NULL);
 	current = *tokens;
-	
-	// Trouver le nom de la commande
 	cmd->name = find_command_name(current);
-	
 	if (!build_args_and_redirections(&current, cmd))
 	{
 		free_cmds(cmd);

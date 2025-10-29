@@ -1,4 +1,4 @@
-
+// ok nb ligne
 #include "../../include/parsing.h"
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
