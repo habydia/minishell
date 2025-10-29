@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/29 23:24:01 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 00:22:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
     return(1);
 }
 
-int redir_out_trunc_open_and_close_secure(t_redir *redir, t_redir_type type)
+int redir_out_open_and_close_secure(t_redir *redir, t_redir_type type)
 {
     int fd;
 	if (type == R_OUT_TRUNC)
@@ -62,7 +62,6 @@ int redir_out_trunc_open_and_close_secure(t_redir *redir, t_redir_type type)
     return(1);
 }
 
-// gerer les cas ou les opens cassent et les dup2
 int	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*redir;
@@ -79,10 +78,10 @@ int	apply_redirections(t_cmd *cmd)
 			if(redir_in_open_and_dup_close_secure(redir, true) == -1)
 				return(-1);
 		if (redir->type == R_OUT_TRUNC)
-            if (redir_out_trunc_open_and_close_secure(redir, R_OUT_TRUNC) == -1)
+            if (redir_out_open_and_close_secure(redir, R_OUT_TRUNC) == -1)
 				return (-1);
 		if (redir->type == R_OUT_APPEND)
-			if (redir_out_trunc_open_and_close_secure(redir, R_OUT_APPEND) == -1)
+			if (redir_out_open_and_close_secure(redir, R_OUT_APPEND) == -1)
 				return (-1);
 		redir = redir->next;
 	}
