@@ -56,10 +56,7 @@ static int	handle_word_token(char ***args, int *count, int *capacity,
 	}
 	(*args)[*count] = ft_strdup(value);
 	if (!(*args)[*count])
-	{
-		free(*args);
 		return (0);
-	}
 	(*count)++;
 	return (1);
 }
@@ -71,14 +68,47 @@ static char	**init_args_array(const char *cmd_name, int *capacity)
 	args = malloc(sizeof(char *) * (*capacity));
 	if (!args)
 		return (NULL);
-	if (args[0] == NULL) // si pas de 1er commande nom de cmd vide
-		args[0] = ft_strdup(cmd_name);
-	if (!args[0])
+	if (cmd_name != NULL)
 	{
-		free(args);
-		return (NULL);
+		args[0] = ft_strdup(cmd_name);
+		if (!args[0])
+		{
+			free(args);
+			return (NULL);
+		}
 	}
+	else
+		args[0] = NULL;
 	return (args);
+}
+/*
+ * Trouve le premier T_WORD qui n'est pas après un opérateur de redirection
+ * Retourne NULL si aucun nom de commande trouvé
+ */
+static char	*find_command_name(t_token *tokens)
+{
+	t_token	*current;
+	int		after_redirection;
+
+	if (!tokens)
+		return (NULL);
+	current = tokens;
+	after_redirection = 0;
+	while (current && current->type != T_PIPE && current->type != T_EOF)
+	{
+		if (current->type >= T_REDIR_IN && current->type <= T_HEREDOC)
+		{
+			after_redirection = 1;
+		}
+		else if (current->type == T_WORD)
+		{
+			if (!after_redirection)
+				return (ft_strdup(current->value));
+			after_redirection = 0;
+		}
+		current = current->next;
+	}
+	return (NULL);
 }
 //  * Construit simultanément les arguments et redirections
 //  * en parcourant les tokens une seule fois
@@ -101,13 +131,22 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	{
 		if (current->type == T_WORD)
 		{
-			if (!handle_word_token(&args, &arg_count, &arg_capacity,
-					current->value))
+			// Si c'est le nom de commande, on le skip pour les args seulement si ce n'est pas le premier arg
+			if (cmd->name && arg_count == 1 && strcmp(current->value, cmd->name) == 0)
 			{
-				free_args_on_error(args);
-				return (0);
+				// Skip le nom de commande car il est déjà dans args[0]
+				current = current->next;
 			}
-			current = current->next;
+			else
+			{
+				if (!handle_word_token(&args, &arg_count, &arg_capacity,
+						current->value))
+				{
+					free_args_on_error(args);
+					return (0);
+				}
+				current = current->next;
+			}
 		}
 		else if (current->type >= T_REDIR_IN && current->type <= T_HEREDOC)
 		{
@@ -142,21 +181,10 @@ t_cmd	*build_command(t_token **tokens)
 	if (!cmd)
 		return (NULL);
 	current = *tokens;
-	if (current && current->type == T_WORD)
-	{
-		cmd->name = ft_strdup(current->value);
-		if (!cmd->name)
-		{
-			free_cmds(cmd);
-			return (NULL);
-		}
-		current = current->next;
-	}
-	else
-	{
-		// Pas de nom de commande - créer une commande vide
-		cmd->name = NULL;
-	}
+	
+	// Trouver le nom de la commande
+	cmd->name = find_command_name(current);
+	
 	if (!build_args_and_redirections(&current, cmd))
 	{
 		free_cmds(cmd);
