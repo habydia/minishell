@@ -1,6 +1,7 @@
 #include "../../include/parsing.h"
 
-static void	tokenize_operator(const char *line, int *i, int *start,
+// ok nb ligne
+static int	tokenize_operator(const char *line, int *i, int *start,
 		t_token **tokens)
 {
 	t_token_type	type;
@@ -12,7 +13,7 @@ static void	tokenize_operator(const char *line, int *i, int *start,
 	if (!value)
 	{
 		free_tokens(*tokens);
-		return ;
+		return (0);
 	}
 	j = 0;
 	while (j < *i - *start)
@@ -23,15 +24,21 @@ static void	tokenize_operator(const char *line, int *i, int *start,
 	value[j] = '\0';
 	add_token_back(tokens, create_token(type, value));
 	free(value);
+	return (1);
 }
 
-static void	tokenize_quote(const char *line, int *start, int *i,
+static int	tokenize_quote(const char *line, int *start, int *i,
 		t_token **tokens)
 {
 	char	*quoted_value;
 	int		j;
 
 	quoted_value = malloc(*i - *start + 1);
+	if (!quoted_value)
+	{
+		free_tokens(*tokens);
+		return (0);
+	}
 	if (quoted_value)
 	{
 		j = 0;
@@ -44,9 +51,10 @@ static void	tokenize_quote(const char *line, int *start, int *i,
 		add_token_back(tokens, create_token(T_WORD, quoted_value));
 		free(quoted_value);
 	}
+	return (1);
 }
 
-static void	tokenize_word(int *start, int *i, t_token **tokens,
+static int	tokenize_word(int *start, int *i, t_token **tokens,
 		const char *line)
 {
 	char	*word;
@@ -56,7 +64,7 @@ static void	tokenize_word(int *start, int *i, t_token **tokens,
 	if (!word)
 	{
 		free_tokens(*tokens);
-		return ;
+		return (0);
 	}
 	j = 0;
 	while (j < *i - *start)
@@ -67,23 +75,42 @@ static void	tokenize_word(int *start, int *i, t_token **tokens,
 	word[j] = '\0';
 	add_token_back(tokens, create_token(T_WORD, word));
 	free(word);
+	return (1);
 }
 /*
  * Découpe une ligne en tokens
  */
 
-static void	handle_quote(const char *line, int *i, int *start, t_token **tokens)
+static int	handle_quote(const char *line, int *i, int *start, t_token **tokens)
 {
 	char	quote_type;
 
 	quote_type = line[*i];
-	i++;           // passer le guillemet d'ouverture
-	start = i - 1; // inclure le guillemet d'ouverture
+	(*i)++;          // passer le guillemet d'ouverture
+	*start = *i - 1; // inclure le guillemet d'ouverture
 	while (line[*i] && line[*i] != quote_type)
-		i++;
+		(*i)++;
 	if (line[*i] == quote_type)
-		i++; // inclure le guillemet de fermeture
-	tokenize_quote(line, start, i, tokens);
+		(*i)++; // inclure le guillemet de fermeture
+	if (!tokenize_quote(line, start, i, tokens))
+		return (0);
+	return (1);
+}
+
+static int	handle_operator_and_quote(int *i, int *start, const char *line,
+		t_token **tokens)
+{
+	if (is_operator_char(line[*i]))
+	{
+		if (!tokenize_operator(line, i, start, tokens))
+			return (0);
+	}
+	else if (line[*i] == '"' || line[*i] == '\'')
+	{
+		if (!handle_quote(line, i, start, tokens))
+			return (0);
+	}
+	return (1);
 }
 
 t_token	*tokenize_line(const char *line)
@@ -101,16 +128,18 @@ t_token	*tokenize_line(const char *line)
 		if (!line[i])
 			break ;
 		start = i;
-		if (is_operator_char(line[i]))
-			tokenize_operator(line, &i, &start, &tokens);
-		else if (line[i] == '"' || line[i] == '\'')
-			handle_quote(line, &i, &start, &tokens);
+		if (is_operator_char(line[i]) || line[i] == '"' || line[i] == '\'')
+		{
+			if (!handle_operator_and_quote(&i, &start, line, &tokens))
+				return (0);
+		}
 		else
 		{
 			while (line[i] && !ft_isspace(line[i])
 				&& !is_operator_char(line[i]))
 				i++;
-			tokenize_word(&start, &i, &tokens, line);
+			if (!tokenize_word(&start, &i, &tokens, line))
+				return (0);
 		}
 	}
 	return (tokens);

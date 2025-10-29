@@ -1,5 +1,6 @@
 #include "../../include/parsing.h"
 
+// ok nb ligne
 static char	*process_token_expansion(const char *value);
 static char	*remove_quotes(const char *value, char quote_type);
 static char	*expand_simple_string(const char *str);
@@ -62,11 +63,9 @@ static char	*process_token_expansion(const char *value)
 		return (expand_simple_string(value));
 	}
 }
-static void	handle_expansion(const char *str, size_t *i, size_t *j,
+static void	process_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
-	char	*new_result;
-
 	if (str[*i] == '\\' && str[*i + 1] == '$')
 	{
 		(*data->result)[(*j)++] = '$';
@@ -81,22 +80,26 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 			return ;
 		}
 	}
-	else
+}
+static void	handle_expansion(const char *str, size_t *i, size_t *j,
+		t_expand_data *data)
+{
+	char	*new_result;
+
+	process_expansion(str, i, j, data);
+	if (*j >= *(data->result_size) - 1)
 	{
-		if (*j >= *(data->result_size) - 1)
+		*(data->result_size) *= 2;
+		new_result = ft_realloc(*data->result, *(data->result_size));
+		if (!new_result)
 		{
-			*(data->result_size) *= 2;
-			new_result = ft_realloc(*data->result, *(data->result_size));
-			if (!new_result)
-			{
-				free(*data->result);
-				*data->result = NULL;
-				return ;
-			}
-			*data->result = new_result;
+			free(*data->result);
+			*data->result = NULL;
+			return ;
 		}
-		(*data->result)[(*j)++] = str[(*i)++];
+		*data->result = new_result;
 	}
+	(*data->result)[(*j)++] = str[(*i)++];
 }
 
 /*
