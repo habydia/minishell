@@ -55,16 +55,17 @@ t_cmd	*parsing(const char *line)
 
 	tokens = line_lexer(line);
 	if (!tokens)
-		return (NULL);
-
+	return (NULL);
+	
 	tokens = expand_tokens(tokens);
 	if (!tokens)
-		return (NULL);
-
+	return (NULL);
+	
 	cmds = parse_tokens(tokens);
 	if (!cmds)
-		free_cmds(cmds);
-
+	free_cmds(cmds);
+	
 	free_tokens(tokens);
+	printf("OKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	return (cmds);
 }

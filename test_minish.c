@@ -9,7 +9,6 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	envd = NULL;
-	printf("OKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	init_lst_env(&envd, env); // segfault
 	handle_signals();
 	while (1)
@@ -18,13 +17,19 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 			continue ;
 		if (line[0] != '\0')
-		add_history(line);
+			add_history(line);
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);
 		print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);
-		exec_cmd(&data);
+		if(exec_cmd(&data) == -1)
+		{
+			free_cmds(data.cmds);
+			free(line);
+			rl_clear_history();
+			return(1);
+		}
 		free_cmds(data.cmds);
 		free(line);
 	}

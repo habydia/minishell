@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/29 14:49:31 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/29 23:28:29 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,61 +198,60 @@ char	*get_unique_heredoc_path(void)
 //////////////////////////////////////////////
 // Appliquer les redirections (in/out)
 //////////////////////////////////////////////
-void	apply_redirections(t_cmd *cmd)
-// gerer les cas ou les opens cassent et les dup2
-{
-	t_redir *redir;
-	int fd;
-	char *file = NULL;
+// void	apply_redirections(t_cmd *cmd)
+// // gerer les cas ou les opens cassent et les dup2
+// {
+// 	t_redir *redir;
+// 	int fd;
+// 	char *file = NULL;
 
-	redir = cmd->redirs;
-	while (redir)
-	{
-		if (redir->type == R_IN)
-		{
-			fd = open(redir->file, O_RDONLY);
-			if (fd != -1)
-			{
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-			}
-		}
-		else if (redir->type == R_OUT_TRUNC)
-		{
-			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd != -1)
-			{
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-		}
-		else if (redir->type == R_OUT_APPEND)
-		{
-			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd != -1)
-			{
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-		}
-		else if (redir->type == R_HEREDOC)
-		{
-			printf("OKKKKKK");
-			if (redir->file)
-			{
-				fd = open(redir->file, O_RDONLY);
-				if (fd != -1)
-				{
-					dup2(fd, STDIN_FILENO);
-					close(fd);
-				}
-				unlink(file);
-				free(file);
-			}
-		}
-		redir = redir->next;
-	}
-}
+// 	redir = cmd->redirs;
+// 	while (redir)
+// 	{
+// 		if (redir->type == R_IN)
+// 		{
+// 			fd = open(redir->file, O_RDONLY);
+// 			if (fd != -1)
+// 			{
+// 				dup2(fd, STDIN_FILENO);
+// 				close(fd);
+// 			}
+// 		}
+// 		else if (redir->type == R_OUT_TRUNC)
+// 		{
+// 			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 			if (fd != -1)
+// 			{
+// 				dup2(fd, STDOUT_FILENO);
+// 				close(fd);
+// 			}
+// 		}
+// 		else if (redir->type == R_OUT_APPEND)
+// 		{
+// 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+// 			if (fd != -1)
+// 			{
+// 				dup2(fd, STDOUT_FILENO);
+// 				close(fd);
+// 			}
+// 		}
+// 		else if (redir->type == R_HEREDOC)
+// 		{
+// 			if (redir->file)
+// 			{
+// 				fd = open(redir->file, O_RDONLY);
+// 				if (fd != -1)
+// 				{
+// 					dup2(fd, STDIN_FILENO);
+// 					close(fd);
+// 				}
+// 				unlink(file);
+// 				free(file);
+// 			}
+// 		}
+// 		redir = redir->next;
+// 	}
+// }
 
 /*
 parsing :
@@ -373,12 +372,21 @@ int	exec_cmd(t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			apply_redirections(curr);
+			if(apply_redirections(curr) == -1)
+			{
+				close(pipe_fd[0]);
+				close(pipe_fd[1]);
+				free_all(data, ret, "");
+				exit(EXIT_FAILURE);
+			}
 			curr->path = get_path(data->envp, curr->args[0], &ret);
 			if (!curr->path)
 			{
 				fprintf(stderr, "Command not found: %s\n", curr->args[0]);
+				close(pipe_fd[0]);
+				close(pipe_fd[1]);
 				free_all(data, ret, "");
+				exit(EXIT_FAILURE);
 			}
 			execve(curr->path, curr->args, data->envp);
 			perror("execve");

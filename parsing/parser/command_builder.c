@@ -185,7 +185,7 @@ t_cmd	*build_command(t_token **tokens)
 	if (!tokens || !*tokens)
 		return (NULL);
 	cmd = create_cmd();
-	printf("Created new command structure\n");
+	// printf("Created new command structure\n");
 	if (!cmd)
 		return (NULL);
 	current = *tokens;
