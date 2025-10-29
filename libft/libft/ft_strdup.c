@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:54:11 by hadia             #+#    #+#             */
-/*   Updated: 2025/10/29 17:12:28 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/29 17:13:54 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
-	// if (!s || !*s)
-	// 	return (NULL); // empeche readline de ce lancer
+	if (!s || !*s)
+		return (NULL); // empeche readline de ce lancer
 	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
 	if (!dup)
 		return (NULL);
