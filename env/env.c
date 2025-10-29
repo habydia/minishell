@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/29 16:33:54 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/29 17:07:37 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	init_lst_env(t_env **envd, char **env)
 		if (!node->key)
 			free_lst_env(envd, true, 0);
 		node->value = ft_strdup(ft_strchr(env[i], '=') + 1);
+		printf("%d, %s\n",i, env[i]);
 		if (!node->value)
 		{
 			printf("ofsdfjdskf");
