@@ -1,8 +1,10 @@
-#include "parsing.h"
+#include "../../include/parsing.h"
 
 static char	*process_token_expansion(const char *value);
 static char	*remove_quotes(const char *value, char quote_type);
 static char	*expand_simple_string(const char *str);
+
+// int			g_exit_status = 0;
 
 /*
  * Fonction principale pour l'expansion des tokens
@@ -60,6 +62,42 @@ static char	*process_token_expansion(const char *value)
 		return (expand_simple_string(value));
 	}
 }
+static void	handle_expansion(const char *str, size_t *i, size_t *j,
+		t_expand_data *data)
+{
+	char	*new_result;
+
+	if (str[*i] == '\\' && str[*i + 1] == '$')
+	{
+		(*data->result)[(*j)++] = '$';
+		(*i) += 2;
+	}
+	else if (str[*i] == '$')
+	{
+		if (!handle_dollar_sign(str, i, data))
+		{
+			free(*data->result);
+			*data->result = NULL;
+			return ;
+		}
+	}
+	else
+	{
+		if (*j >= *(data->result_size) - 1)
+		{
+			*(data->result_size) *= 2;
+			new_result = ft_realloc(*data->result, *(data->result_size));
+			if (!new_result)
+			{
+				free(*data->result);
+				*data->result = NULL;
+				return ;
+			}
+			*data->result = new_result;
+		}
+		(*data->result)[(*j)++] = str[(*i)++];
+	}
+}
 
 /*
  * Supprime les guillemets d'ouverture et de fermeture
@@ -98,7 +136,6 @@ static char	*expand_simple_string(const char *str)
 	size_t			i;
 	size_t			j;
 	t_expand_data	data;
-	char			*new_result;
 
 	if (!str)
 		return (NULL);
@@ -113,35 +150,7 @@ static char	*expand_simple_string(const char *str)
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] == '\\' && str[i + 1] == '$')
-		{
-			result[j++] = '$';
-			i += 2;
-		}
-		else if (str[i] == '$')
-		{
-			if (!handle_dollar_sign(str, &i, &data))
-			{
-				free(result);
-				return (NULL);
-			}
-		}
-		else
-		{
-			if (j >= result_size - 1)
-			{
-				result_size *= 2;
-				new_result = realloc(result, result_size); // attention c'est une fonction interdite
-				if (!new_result)
-				{
-					free(result);
-					return (NULL);
-				}
-				result = new_result;
-				data.result = &result;
-			}
-			result[j++] = str[i++];
-		}
+		handle_expansion(str, &i, &j, &data);
 	}
 	result[j] = '\0';
 	return (result);

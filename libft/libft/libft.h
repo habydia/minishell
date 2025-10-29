@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:30:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/10/24 19:30:54 by hadia            ###   ########.fr       */
+/*   Updated: 2025/10/28 21:35:53 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t size);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 void				*ft_bzero(char *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
+void				*ft_realloc(void *ptr, size_t new_size);
 void				*ft_memset(void *s, int c, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);

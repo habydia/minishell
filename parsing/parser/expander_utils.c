@@ -1,5 +1,5 @@
-
-#include "parsing.h"
+// ok nb ligne
+#include "../../include/parsing.h"
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 {
@@ -14,7 +14,7 @@ static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 	while (*j + val_len >= *result_size)
 	{
 		*result_size *= 2;
-		new_result = realloc(*result, *result_size);
+		new_result = ft_realloc(*result, *result_size);
 		if (!new_result)
 		{
 			free(*result);
@@ -62,7 +62,7 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 	while (*(data->j) + val_len >= *(data->result_size))
 	{
 		*(data->result_size) *= 2;
-		new_result = realloc(*(data->result), *(data->result_size));
+		new_result = ft_realloc(*(data->result), *(data->result_size));
 		if (!new_result)
 		{
 			free(*(data->result));
