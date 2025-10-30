@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 14:18:05 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 18:25:50 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	ft_strjoin_checker(char *buffer,char *to_free, char **paths, int *ret)
 }
 /////////////////////////////////////////////
 ///////////////GET-PATH//////////////////////
-//////////////////////////////////////////////
+/////////////////////////////////////////////                                       //// A FINIR DE NORMER
+
 char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 		char *argv_cmd)
 {
@@ -90,6 +91,7 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 	*ret = 127;
 	return (NULL);
 }
+
 //////////////////////////////////////////////
 /// GET PATH pour choper le path de chaque commandes, test l'excution
 ////////////////////////////////////////////

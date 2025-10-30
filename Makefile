@@ -20,6 +20,7 @@ SRC = parsing/lexer/lexer.c \
 	  signal/* \
 	  exec/* \
 	  env/* \
+	  builtins/* \
 	  test_minish.c \
       parsing/parsing.c \
 

@@ -13,27 +13,27 @@ int	main(int ac, char **av, char **env)
 	running = 1; 
 	init_lst_env(&envd, env); // segfault
 	handle_signals();
-	while (running)
+	while(1) //(running) // flad de running pour continuer la boubcle, si 
 	{
 		line = reader();
 		if (!line)
 		{
-			running = 0;
+			// running = 0;
 			continue;
 		}
 	
 		if (line[0] != '\0')
 			add_history(line);
-		if(data.envp) // libere lancien envp
-			free_envp(data.envp);
+		// if(data.envp) // libere lancien envp // fais segfault le niminsh
+		// 	free_envp(data.envp);
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);
 		print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);
-		if(exec_cmd(&data) == -1)
+		if(exec_cmd(&data, line) == -1)
 		{
-			free_cmds(data.cmds);
+			free_cmds(data.cmds);// free 
 			free(line);
 			// free_all(&data, 0, "");
 			rl_clear_history();
@@ -75,7 +75,7 @@ void	print_cmds(t_cmd *cmds)
 			printf("No arguments\n");
 		}
 		if (tmp->redirs)
-		{
+		{	
 			r_tmp = tmp->redirs;
 			printf("Redirections:\n");
 			while (r_tmp)

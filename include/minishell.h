@@ -5,6 +5,8 @@
 # include "exec.h"
 # include "minishell_signals.h"
 # include "parsing.h"
+# include "builtins.h"
+# include "env.h"
 # include <errno.h>
 # include <fcntl.h> // open()
 # include <readline/history.h>

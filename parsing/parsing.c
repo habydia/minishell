@@ -66,6 +66,6 @@ t_cmd	*parsing(const char *line)
 	free_cmds(cmds);
 	
 	free_tokens(tokens);
-	printf("OKKKKKKKKKKKKKKKKKKKKKKKKK\n");
+	// printf("OKKKKKKKKKKKKKKKKKKKKKKKKK\n");
 	return (cmds);
 }
