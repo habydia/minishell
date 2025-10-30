@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:14:33 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 21:40:34 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 00:16:59 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_env(char **env)
 	int	i;
 
 	if (!env)
-		return (1); // erreur : pas d'environnement
+		return (1); // erreur : pas d'environnement c'est OK /
 
 	i = 0;
 	while (env[i])

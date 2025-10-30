@@ -26,6 +26,7 @@ int	main(int ac, char **av, char **env)
 			add_history(line);
 		// if(data.envp) // libere lancien envp // fais segfault le niminsh
 		// 	free_envp(data.envp);
+		// a verfier
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);
 		print_cmds(data.cmds);
