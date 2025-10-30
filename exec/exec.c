@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 14:03:14 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 15:06:21 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,7 +375,7 @@ int	exec_cmd(t_data *data)
 			{
 				close(pipe_fd[0]);
 				close(pipe_fd[1]);
-				free_all(data, ret, "");
+				free_all(data, ret, "");// ecrire la bonne str de retour
 				exit(EXIT_FAILURE);
 			}
 			curr->path = get_path(data->envp, curr->args[0], &ret); // chope le path de la commande
@@ -389,7 +389,7 @@ int	exec_cmd(t_data *data)
 			}
 			execve(curr->path, curr->args, data->envp);
 			perror("execve");
-			free_all(data, 0, "MERDE");
+			free_all(data, 0, "MERDE");//mettre la bonne str de retour
 			exit(EXIT_FAILURE);
 		}
 		else if (pid < 0)
