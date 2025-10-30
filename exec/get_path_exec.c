@@ -6,15 +6,13 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/29 15:03:41 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 14:18:05 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "env.h"
-#include "parsing.h"
 #include "exec.h"
-
+#include "parsing.h"
 
 char	*envp_search(char **envp)
 {
@@ -40,15 +38,17 @@ int	path_check(char *path, int *ret)
 	return (0);
 }
 
-int ft_strjoin_checker(char *buffer, char **paths, int *ret)
+int	ft_strjoin_checker(char *buffer,char *to_free, char **paths, int *ret)
 {
-    if (!buffer)
-		{
-			ft_free_tab_str(paths);
-			*ret = 1;
-			return (0);
-		}
-    return(1);
+	if (!buffer)
+	{
+		if(to_free)
+			free(to_free);
+		ft_free_tab_str(paths);
+		*ret = 1;
+		return (0);
+	}
+	return (1);
 }
 /////////////////////////////////////////////
 ///////////////GET-PATH//////////////////////
@@ -65,16 +65,19 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 	while (paths[i])
 	{
 		buffer = ft_strjoin(paths[i], "/");
-        if(!ft_strjoin_checker(buffer, paths, ret))
-            return(NULL);
+		if (!ft_strjoin_checker(buffer, NULL, paths, ret)) // a verifier pour la securisation du buffer checker
+			return (NULL);
 		new_path = ft_strjoin(buffer, argv_cmd);
-		free(buffer);
+		if (!ft_strjoin_checker(new_path, buffer, paths, ret))
+			return (NULL);
 		if (!new_path)
 		{
+			free(buffer);
 			ft_free_tab_str(paths);
 			*ret = 1;
 			return (NULL);
 		}
+		free(buffer);
 		if (access(new_path, F_OK | X_OK) == 0)
 		{
 			ft_free_tab_str(paths);
@@ -97,7 +100,6 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 	char	*buffer;
 
 	buffer = NULL;
-	// printf("OKKKKKKKKKKKKKKKKKKKKKKK");
 	if (!argv_cmd)
 	{
 		*ret = 1;

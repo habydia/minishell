@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/29 23:28:29 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 14:03:14 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,8 +342,7 @@ int	exec_cmd(t_data *data)
 	pid_t	pid;
 	int		ret;
 
-	// int		ret;
-	t_cmd *curr; // t_exec	*curr;
+	t_cmd *curr;
 	curr = data->cmds;
 	
 	int pipe_fd[2]; 
@@ -353,12 +352,12 @@ int	exec_cmd(t_data *data)
 	update_envp(data);
 	while (curr)
 	{
-		if (curr->next && pipe(pipe_fd) == -1)
+		if (curr->next && pipe(pipe_fd) == -1)// securisation du pipe dans le process parent
 		{
 			perror("pipe");
 			return (1);
 		}
-		pid = fork();
+		pid = fork();// fork pour la creations des enfants.
 		if (pid == 0)
 		{
 			if (prev_fd != -1)
@@ -372,20 +371,20 @@ int	exec_cmd(t_data *data)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			if(apply_redirections(curr) == -1)
+			if(apply_redirections(curr) == -1) // apply redirections securise
 			{
 				close(pipe_fd[0]);
 				close(pipe_fd[1]);
 				free_all(data, ret, "");
 				exit(EXIT_FAILURE);
 			}
-			curr->path = get_path(data->envp, curr->args[0], &ret);
+			curr->path = get_path(data->envp, curr->args[0], &ret); // chope le path de la commande
 			if (!curr->path)
 			{
 				fprintf(stderr, "Command not found: %s\n", curr->args[0]);
 				close(pipe_fd[0]);
 				close(pipe_fd[1]);
-				free_all(data, ret, "");
+				free_all(data, ret, "");// mettre la bonne str de retour
 				exit(EXIT_FAILURE);
 			}
 			execve(curr->path, curr->args, data->envp);

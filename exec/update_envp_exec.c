@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:41:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/28 17:20:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/30 14:28:36 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,23 @@ int count_node(t_env *tmp, int count)
 	}
 	return(count);
 }
+
+int	ft_strjoin_checker_envp(char *buffer,char *to_free, char **paths)
+{
+	if (!buffer)
+	{
+		if(to_free)
+			free(to_free);
+		ft_free_tab_str(paths);
+		// *ret = 1;
+		return (0);
+	}
+	return (1);
+}
 //////////////////////////////////////////////
 // Construire envp  en char ** depuis liste chaînée env
 //////////////////////////////////////////////
-char	**build_envp_tab_from_lst_env(t_env *env)
+char	**build_envp_tab_from_lst_env(t_env *env) // peux etre envyer un int *ret pour les strjoin
 {
 	int		count;
 	t_env	*tmp;
@@ -48,8 +61,12 @@ char	**build_envp_tab_from_lst_env(t_env *env)
 	while (tmp)
 	{
 		envp[i] = ft_strjoin(tmp->key, "=");
+		if (!ft_strjoin_checker_envp(envp[i], NULL, &tmp->key)) // a verifier pour la securisation du buffer checker
+			return (NULL);
 		key_equal = envp[i];
 		envp[i] = ft_strjoin(key_equal, tmp->value);
+		if(!ft_strjoin_checker_envp(key_equal, envp[i] , &tmp->key)) // a verifier pour la securisation du buffer checker
+			return (NULL);
 		free(key_equal);
 		tmp = tmp->next;
 		i++;
