@@ -22,11 +22,11 @@ static void	build_pipeline(t_token **current_token, t_cmd **current_cmd)
 {
 	t_cmd	*new_cmd;
 
-	while (current_token && (*current_token)->type != T_EOF)
+	while (current_token && *current_token && (*current_token)->type != T_EOF)
 	{
 		if ((*current_token)->type == T_PIPE)
 		{
-			current_token = &(*current_token)->next;
+			*current_token = (*current_token)->next;
 			new_cmd = build_command(current_token);
 			if (new_cmd)
 			{
@@ -35,7 +35,7 @@ static void	build_pipeline(t_token **current_token, t_cmd **current_cmd)
 			}
 		}
 		else
-			current_token = &(*current_token)->next;
+			*current_token = (*current_token)->next;
 	}
 }
 t_cmd	*handle_pipeline(t_token *tokens)
