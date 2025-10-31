@@ -6,83 +6,76 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 23:17:42 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 13:28:46 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// void print_env_in_order(char **env)
-	//doit print l'env dans l'ordre alphabetique
-// {
-// }
-static bool identifier_correct(char *str)
+// Vérifie si un identifiant est valide pour export (avant le '=')
+static bool	identifier_correct(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str || !*str)
-		return false;
-
+		return (false);
 	// Premier caractère : lettre ou '_'
 	if (!ft_isalpha(str[i]) && str[i] != '_')
-		return false;
+		return (false);
 	i++;
-
 	// Les suivants jusqu'à '=' : lettres, chiffres ou '_'
 	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return false;
+			return (false);
 		i++;
 	}
-
-	return true;
+	return (true);
 }
 
-
+// Ajoute ou remplace une variable dans l'environnement
 void	add_in_env(char *str, char **env)
 {
-	char	*key;
-	char	*value;
-	char	*new_entry;
-	int		i;
-	size_t	key_len;
-	size_t	value_len;
 	char	*eq_pos;
+	char	*new_entry;
+	char	*value;
+	char	*key;
+	int		i;
 
 	i = 0;
 	eq_pos = ft_strchr(str, '=');
 	if (!eq_pos)
 		return ;
-	key_len = eq_pos - str;
-	key = ft_strndup(str, key_len);
-	value = ft_strdup(eq_pos + 1);
-	while (env[i] && ft_strncmp(key, env[i], key_len) != 0)
+	key = ft_strndup(str, eq_pos - str); // Clé avant '='
+	value = ft_strdup(eq_pos + 1);       // Valeur après '='// Cherche si la clé existe déjà
+	while (env[i] && ft_strncmp(key, env[i], eq_pos - str) != 0)
 		i++;
-	value_len = ft_strlen(value);
-	new_entry = malloc(key_len + 1 + value_len + 1); // clé + '=' + valeur+ '\0'
+	new_entry = malloc(ft_strlen(key) + 1 + ft_strlen(value) + 1);	// Crée la nouvelle entrée "key=value"
 	if (!new_entry)
 	{
 		free(key);
 		free(value);
 		return ;
 	}
-	ft_strlcpy(new_entry, key, key_len + 1);
-	new_entry[key_len] = '=';
-	ft_strlcpy(new_entry + key_len + 1, value, value_len + 1);
-	free(env[i]);
+	ft_strlcpy(new_entry, key, ft_strlen(key) + 1);
+	new_entry[ft_strlen(key)] = '=';
+	ft_strlcpy(new_entry + ft_strlen(key) + 1, value, ft_strlen(value) + 1);
+	if (env[i])// Remplace si existe, sinon ajoute
+		free(env[i]);
 	env[i] = new_entry;
-	env[i + 1] = NULL;
+	if (!env[i + 1])// Assure que le tableau reste NULL-terminé
+		env[i + 1] = NULL;
 	free(key);
 	free(value);
 }
 
-int	ft_export(char **str, char **env)
+int	ft_export(char **args, char **env)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	if (str[1] == NULL)
+	if (!args[1])// Si aucun argument, affiche l'env
 	{
 		while (env[i])
 		{
@@ -91,21 +84,25 @@ int	ft_export(char **str, char **env)
 			write(1, "\n", 1);
 			i++;
 		}
+		return (0);
 	}
-	else if (identifier_correct(str[1]))
+	i = 0;
+	while (args[++i])// Traite chaque argument
 	{
-		while (str[++i])
+		if (!identifier_correct(args[i]))
 		{
-			if (ft_strchr(str[i], '='))
-				add_in_env(str[i], env);
+			// Identifiant invalide
+			write(2, "bash: export: `", 15);
+			write(2, args[i], ft_strlen(args[i]));
+			write(2, "': not a valid identifier\n", 25);
+			errno = 1;
 		}
-	}
-	else
-	{
-		write(2, "bash: export: `", 15);
-		write(2, str[1], ft_strlen(str[1]));
-		write(2, "': not a valid identifier\n", 25);
-		errno = 1;
+		else
+		{
+			// Ajoute ou remplace dans env si '=' présent
+			if (ft_strchr(args[i], '='))
+				add_in_env(args[i], env);
+		}
 	}
 	return (0);
 }
