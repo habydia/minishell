@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 13:28:46 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:16:28 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ void	add_in_env(char *str, char **env)
 	if (!eq_pos)
 		return ;
 	key = ft_strndup(str, eq_pos - str); // Clé avant '='
-	value = ft_strdup(eq_pos + 1);       // Valeur après '='// Cherche si la clé existe déjà
+	value = ft_strdup(eq_pos + 1);      
+		// Valeur après '='// Cherche si la clé existe déjà
 	while (env[i] && ft_strncmp(key, env[i], eq_pos - str) != 0)
 		i++;
-	new_entry = malloc(ft_strlen(key) + 1 + ft_strlen(value) + 1);	// Crée la nouvelle entrée "key=value"
+	new_entry = malloc(ft_strlen(key) + 1 + ft_strlen(value) + 1);
+		// Crée la nouvelle entrée "key=value"
 	if (!new_entry)
 	{
 		free(key);
@@ -61,10 +63,10 @@ void	add_in_env(char *str, char **env)
 	ft_strlcpy(new_entry, key, ft_strlen(key) + 1);
 	new_entry[ft_strlen(key)] = '=';
 	ft_strlcpy(new_entry + ft_strlen(key) + 1, value, ft_strlen(value) + 1);
-	if (env[i])// Remplace si existe, sinon ajoute
+	if (env[i]) // Remplace si existe, sinon ajoute
 		free(env[i]);
 	env[i] = new_entry;
-	if (!env[i + 1])// Assure que le tableau reste NULL-terminé
+	if (!env[i + 1]) // Assure que le tableau reste NULL-terminé
 		env[i + 1] = NULL;
 	free(key);
 	free(value);
@@ -75,7 +77,7 @@ int	ft_export(char **args, char **env)
 	int	i;
 
 	i = 0;
-	if (!args[1])// Si aucun argument, affiche l'env
+	if (!args[1]) // Si aucun argument, affiche l'env
 	{
 		while (env[i])
 		{
@@ -87,12 +89,12 @@ int	ft_export(char **args, char **env)
 		return (0);
 	}
 	i = 0;
-	while (args[++i])// Traite chaque argument
+	while (args[++i]) // Traite chaque argument
 	{
 		if (!identifier_correct(args[i]))
 		{
 			// Identifiant invalide
-			write(2, "bash: export: `", 15);
+			write(2, "minishell: export: `", 21);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 25);
 			errno = 1;

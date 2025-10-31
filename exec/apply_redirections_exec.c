@@ -6,14 +6,13 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 00:25:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 15:16:38 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "exec.h"
 #include "parsing.h"
-
 
 int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
 {
@@ -22,7 +21,8 @@ int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
 	fd = open(redir->file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(redir->file); // affiche "bash: file: No such file or directory"
+		perror(redir->file);
+			// affiche "minishell: file: No such file or directory"
 		return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)

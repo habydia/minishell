@@ -6,20 +6,12 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:18:02 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 19:36:26 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 15:35:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "builtins.h"
-
-bool	skip_white_spaces(const char *str, int *i)
-{
-	while (str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13))
-		// skip les white spaces
-		(*i)++;
-	return (true);
-}
 
 int	get_sign(const char *str, int *i) // SKIP LES SIGNES ET VERIFIE LE SIGN
 {
@@ -41,8 +33,6 @@ bool	check_if_only_digits(const char *str, int start)
 	int	i;
 
 	i = start;
-	if (!ft_isdigit(str[i])) // SECU: doit commencer par un chiffre
-		return (false);
 	while (str[i]) // il ne doit y avoir que des digits
 	{
 		if (!ft_isdigit(str[i]))
@@ -53,8 +43,7 @@ bool	check_if_only_digits(const char *str, int start)
 }
 const char	*skip_zero_at_begining(const char *nb)
 {
-	while (*nb == '0' && nb[1] != '\0')
-		// skip les zéros,mais garde un seul zéro si suivis d'un '\0'
+	while (*nb == '0' && nb[1] != '\0')// skip les zéros,mais garde un seul zéro si suivis d'un '\0'
 		nb++;
 	return (nb);
 }

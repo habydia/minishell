@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 23:43:56 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 15:16:38 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,4 @@ int	ft_cd(char **args)
 //	- Si ecrit cd                                                    ~/ retour sur home.
 //  5 - Gerer le cd .. ?
 //  6
-//	- gerer le cd ~\      | ouvre un heredoc et verifie si le directory ~EOF existe | Exemple : cd ~\   > yo  ==> bash: cd: ~yo: No such file or directory
+//	- gerer le cd ~\      | ouvre un heredoc et verifie si le directory ~EOF existe | Exemple : cd ~\   > yo  ==> minishell: cd: ~yo: No such file or directory

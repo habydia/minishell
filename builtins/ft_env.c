@@ -6,13 +6,13 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:14:33 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 00:16:59 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 13:34:37 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	strsearch(const char *str, int c)
+static int	ft_strsearch(const char *str, int c)
 {
 	int				i;
 	unsigned char	tmp;
@@ -40,7 +40,7 @@ int	ft_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (strsearch(env[i], '='))
+		if (ft_strsearch(env[i], '='))
 			printf("%s\n", env[i]);
 		i++;
 	}

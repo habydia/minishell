@@ -3,42 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 13:54:06 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/25 03:21:54 by Hadia            ###   ########.fr       */
+/*   Created: 2025/10/31 16:29:28 by lebroue           #+#    #+#             */
+/*   Updated: 2025/10/31 16:38:13 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
 #include "../include/env.h"
+#include "../include/parsing.h"
 
+/*
 static int	lstsize_env(t_env *envd)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	if (!envd)
-		return (0);
-	if (!envd->next)
-		return (1);
-	while (envd->next)
+	return (0);
+	while (envd)
 	{
 		envd = envd->next;
 		i++;
 	}
 	return (i);
 }
+*/
 
 void	free_lst_env(t_env **envd, bool ext, int errcode)
 {
 	t_env	*tmp;
-	int		size;
 
-	size = lstsize_env(*envd);
 	if (!(*envd))
 		return ;
-	while (size--)
+	while (*envd)
 	{
 		tmp = (*envd)->next;
 		if ((*envd)->key)

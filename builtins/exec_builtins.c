@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 13:30:43 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/31 16:15:08 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	exec_builtins(t_data *data, char **env, char *input)
 		&& ft_strlen(cmd->args[0]) == 4)
 	{
 		status = ft_exit(cmd->args, data);
-		if (status != -12) // remplacer-12 par une valeur spéciale si tu veux signaler "ne pas quitter"
+		if (status != -12)
+			// remplacer-12 par une valeur spéciale si tu veux signaler "ne pas quitter"
 		{
 			free(input);
 			ft_free_tab(cmd->args);
@@ -65,8 +66,8 @@ int	exec_builtins(t_data *data, char **env, char *input)
 		status = ft_unset(cmd->args, env);
 	else
 	{
-		printf("bash: %s: command not found\n", input);
-		status = 127; //oui, c’est la bonne valeur pour "command not found"
+		printf("minishell: %s: command not found\n", input);
+		status = 127; // oui, c’est la bonne valeur pour "command not found"
 	}
 	return (status);
 }

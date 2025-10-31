@@ -1,6 +1,8 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <limits.h>
+
 # include "minishell.h"
 # include "parsing.h"
 
