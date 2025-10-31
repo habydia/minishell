@@ -65,8 +65,6 @@ t_cmd	*parsing(const char *line)
 		return (NULL);
 
 	cmds = parse_tokens(tokens);
-	// if (!cmds)
-	// 	free_cmds(cmds);
 
 	free_tokens(token_start);
 	return (cmds);

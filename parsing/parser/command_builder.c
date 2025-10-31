@@ -126,52 +126,67 @@ static int	handle_word_token(char ***args, int *count, int *capacity,
 	return (1);
 }
 
-static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
+static int	handle_token(t_token **current, t_cmd *cmd, char ***args,
+		int *arg_count, int *arg_capacity)
+{
+	if ((*current)->type == T_WORD)
+	{
+		if (cmd->name && *arg_count == 1 && strcmp((*current)->value,
+				cmd->name) == 0)
+			*current = (*current)->next;
+		else
+		{
+			if (!handle_word_token(args, arg_count, arg_capacity,
+					(*current)->value))
+				return (0);
+			*current = (*current)->next;
+		}
+	}
+	else if ((*current)->type >= T_REDIR_IN && (*current)->type <= T_HEREDOC)
+	{
+		if (!build_redirection_token(current, cmd))
+			return (0);
+	}
+	else
+		*current = (*current)->next;
+	return (1);
+}
+
+static int	process_tokens(t_token **tokens, t_cmd *cmd, char **args,
+		int *arg_count)
 {
 	t_token	*current;
+	int		arg_capacity;
+
+	current = *tokens;
+	arg_capacity = 10;
+	while (current && current->type != T_PIPE && current->type != T_EOF)
+	{
+		if (!handle_token(&current, cmd, &args, arg_count, &arg_capacity))
+		{
+			free_args_on_error(args);
+			return (0);
+		}
+	}
+	*tokens = current;
+	return (1);
+}
+
+static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
+{
 	char	**args;
 	int		arg_count;
-	int		arg_capacity;
 
 	if (!tokens || !*tokens || !cmd)
 		return (0);
-	current = *tokens;
-	args = init_args_array(cmd->name, &arg_capacity);
+	args = init_args_array(cmd->name, &arg_count);
 	if (!args)
 		return (0);
 	arg_count = 1;
-	while (current && current->type != T_PIPE && current->type != T_EOF)
-	{
-		if (current->type == T_WORD)
-		{
-			if (cmd->name && arg_count == 1 && strcmp(current->value,
-					cmd->name) == 0)
-				current = current->next;
-			else
-			{
-				if (!handle_word_token(&args, &arg_count, &arg_capacity,
-						current->value))
-				{
-					free_args_on_error(args);
-					return (0);
-				}
-				current = current->next;
-			}
-		}
-		else if (current->type >= T_REDIR_IN && current->type <= T_HEREDOC)
-		{
-			if (!build_redirection_token(&current, cmd))
-			{
-				free_args_on_error(args);
-				return (0);
-			}
-		}
-		else
-			current = current->next;
-	}
+	if (!process_tokens(tokens, cmd, args, &arg_count))
+		return (0);
 	args[arg_count] = NULL;
 	cmd->args = args;
-	*tokens = current;
 	return (1);
 }
 /*

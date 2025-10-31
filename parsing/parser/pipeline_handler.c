@@ -1,5 +1,5 @@
 #include "../../include/parsing.h"
-
+//ok nb ligne
 /*
  * Fonction principale du parser
  * Transforme une liste de tokens en AST de commandes
@@ -53,20 +53,5 @@ t_cmd	*handle_pipeline(t_token *tokens)
 		return (NULL);
 	current_cmd = first_cmd;
 	build_pipeline(&current_token, &current_cmd);
-	// while (current_token && current_token->type != T_EOF)
-	// {
-	// 	if (current_token->type == T_PIPE)
-	// 	{
-	// 		current_token = current_token->next;
-	// 		new_cmd = build_command(&current_token);
-	// 		if (new_cmd)
-	// 		{
-	// 			current_cmd->next = new_cmd;
-	// 			current_cmd = new_cmd;
-	// 		}
-	// 	}
-	// 	else
-	// 		current_token = current_token->next;
-	// }
 	return (first_cmd);
 }
