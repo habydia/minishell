@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:54:11 by hadia             #+#    #+#             */
-/*   Updated: 2024/11/13 16:41:04 by hadia            ###   ########.fr       */
+/*   Updated: 2025/10/29 18:50:27 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strdup(const char *s)
@@ -17,6 +18,8 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
+	// if (!s || !*s)
+	// 	return (NULL); // empeche readline de ce lancer
 	dup = malloc(sizeof(char) * ft_strlen(s) + 1);
 	if (!dup)
 		return (NULL);

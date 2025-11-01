@@ -1,6 +1,7 @@
 
 # SIGNAL HANDLING
 
+
 ## Objectif
 Gérer les signaux système (SIGINT, SIGQUIT) dans le minishell pour assurer un comportement cohérent avec bash.
 

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/29 16:33:54 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/10/29 18:54:10 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ void	init_lst_env(t_env **envd, char **env)
 	while (env && env[i])
 	{
 		if (add_back_env(envd) == 1)
-		{
-			// printf("OKKKKKKKKKKKKKKKKKKKKKKKKK1\n");
 			exit(EXIT_FAILURE);
-		}
-		// printf("OKKKKKKKKKKKKKKKKKKKKKKKKK2\n");
 		node = ft_lstlast_env(*envd);
 		if (!node)
 			free_lst_env(envd, true, 0);
@@ -36,13 +32,9 @@ void	init_lst_env(t_env **envd, char **env)
 			free_lst_env(envd, true, 0);
 		node->value = ft_strdup(ft_strchr(env[i], '=') + 1);
 		if (!node->value)
-		{
-			printf("ofsdfjdskf");
 			free_lst_env(envd, true, 0);
-		}
 		i++;
 	}
-	// printf("OKKKKKKKKKKKKKKKKKKKKKKKKK3\n");
 
 }
 

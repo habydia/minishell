@@ -1,6 +1,9 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# include <limits.h>
+
+# include "minishell.h"
 # include "parsing.h"
 
 void	print_lst_env(t_env *envd);
@@ -16,13 +19,13 @@ char	*get_path(char **envp, char *argv_cmd, int *ret);
 char	*ft_strdup(const char *s);
 char	*get_unique_heredoc_path(void);
 // char	*handle_heredoc(char *delimiter);
-void	apply_redirections(t_cmd *cmd);
+int		apply_redirections(t_cmd *cmd);
 // char	**build_argv(t_pars *pars);
 void	free_argv(char **argv);
 // char	**build_envp_from_lst_env(t_env *env);
 void	free_envp(char **envp);
 void	update_envp(t_data *data);
-int		exec_cmd(t_data *data);
+int		exec_cmd(t_data *data, char *input);
 
 // #include "env.h"
 ////PATH UTILS///
