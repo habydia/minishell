@@ -1,6 +1,7 @@
 #include "../../include/parsing.h"
 
 /// ok nb ligne
+//nb funct 5
 /*
  * Gère les types de redirections (< << > >>)
  */

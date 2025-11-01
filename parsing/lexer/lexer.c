@@ -1,6 +1,7 @@
 #include "../../include/parsing.h"
 
-// ok nb ligne
+// ok nb ligne 
+//nb funct 1
 /*
  * Fonction principale du lexer
  * Transforme une ligne de commande en liste de tokens

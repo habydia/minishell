@@ -1,22 +1,21 @@
 #include "../../include/parsing.h"
 //ok nb ligne
-/*
- * Fonction principale du parser
- * Transforme une liste de tokens en AST de commandes
- */
-t_cmd	*parse_tokens(t_token *tokens)
+//nb func 3
+
+void	free_redirs(t_redir *redirs)
 {
-	t_cmd	*cmds;
+	t_redir	*current;
+	t_redir	*temp;
 
-	if (!tokens)
-		return (NULL);
-	cmds = handle_pipeline(tokens);
-	return (cmds);
+	current = redirs;
+	while (current)
+	{
+		temp = current->next;
+		free(current->file);
+		free(current);
+		current = temp;
+	}
 }
-
-/*
- * Gère les pipelines - divise les tokens en commandes séparées par des pipes
- */
 
 static void	build_pipeline(t_token **current_token, t_cmd **current_cmd)
 {
@@ -54,4 +53,14 @@ t_cmd	*handle_pipeline(t_token *tokens)
 	current_cmd = first_cmd;
 	build_pipeline(&current_token, &current_cmd);
 	return (first_cmd);
+}
+
+t_cmd	*parse_tokens(t_token *tokens)
+{
+	t_cmd	*cmds;
+
+	if (!tokens)
+		return (NULL);
+	cmds = handle_pipeline(tokens);
+	return (cmds);
 }

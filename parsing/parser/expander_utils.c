@@ -1,5 +1,8 @@
 // ok nb ligne
+// ok nb function 5
 #include "../../include/parsing.h"
+
+int	g_exit_status = 0;
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 {
