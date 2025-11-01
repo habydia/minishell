@@ -1,16 +1,16 @@
-// Crée fichier temporaire unique                       │
-// │     ├─ Lit l'input utilisateur (readline) jusqu'au délimiteur│
-// │     ├─ Écrit dans le fichier temporaire                     │
-// │     ├─ Ferme le fichier                                     │
-// │     └─ Retourne le nom du fichier temporaire
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_handler.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:34 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:16:45 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//  Exec lit cmd->redirs                                    │
-// │  2. Si type == R_HEREDOC:                                   │
-// │     ├─ open(redir->file, O_RDONLY)                          │
-// │     ├─ dup2() vers stdin                                    │
-// │     └─ unlink() pour supprimer après
-
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 static char	*generate_temp_filename(void)
 {
@@ -27,10 +27,27 @@ static char	*generate_temp_filename(void)
 	return (filename);
 }
 
+static void	write_in_heredoc_file(int fd, const char *delimiter)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
 void	handle_heredoc(t_redir *redir)
 {
 	int		fd;
-	char	*line;
 	char	*temp_filename;
 	char	*delimiter;
 
@@ -50,21 +67,9 @@ void	handle_heredoc(t_redir *redir)
 		free(delimiter);
 		return ;
 	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
+	write_in_heredoc_file(fd, delimiter);
 	close(fd);
 	free(redir->file);
 	free(delimiter);
 	redir->file = temp_filename;
-	// Met à jour le nom du fichier dans la redirection
 }

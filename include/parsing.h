@@ -14,6 +14,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 /* ========== ENUMS ========== */
 
 // Types de tokens pour le lexer
@@ -58,12 +59,20 @@ typedef struct s_redir
 // Structure pour une commande
 typedef struct s_cmd
 {
-	char *name; // nom de la commande
-	char			*path;
+	char *name;         // nom de la commande
+	char *path;         // chemin de la commandes
 	char **args;        // tableau d'arguments
 	t_redir *redirs;    // liste des redirections
 	struct s_cmd *next; // commande suivante (pour pipes)
 }					t_cmd;
+
+// Structure pour la construction des arguments
+typedef struct s_args_builder
+{
+	char			**args;
+	int				count;
+	int				capacity;
+}					t_args_builder;
 
 // Structure pour l'expansion des variables
 typedef struct s_expand_data
@@ -91,6 +100,21 @@ t_token				*tokenize_line(const char *line);
 t_token				*create_token(t_token_type type, const char *value);
 void				add_token_back(t_token **tokens, t_token *new_token);
 
+// utils_tokenizer.c - Fonctions utilitaires pour le tokenizer
+
+int					tokenize_operator(const char *line, int *i, int *start,
+						t_token **tokens);
+
+int					tokenize_quote(const char *line, int *start, int *i,
+						t_token **tokens);
+
+int					tokenize_word(int *start, int *i, t_token **tokens,
+						const char *line);
+int					handle_quote(const char *line, int *i, int *start,
+						t_token **tokens);
+
+int					handle_operator_and_quote(int *i, int *start,
+						const char *line, t_token **tokens);
 // lexer/quote_handler.c - Gestion des guillemets
 int					is_quoted_section(const char *str, int start);
 
@@ -105,12 +129,13 @@ t_cmd				*parse_tokens(t_token *tokens);
 t_token				*expand_tokens(t_token *tokens);
 int					handle_dollar_sign(const char *line, size_t *i,
 						t_expand_data *data);
-
+char				*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - Fonctions utilitaires pour l'expansion
 int					handle_dollar_sign(const char *line, size_t *i,
 						t_expand_data *data);
 
 // parser/command_builder.c - Construction des commandes
+int					build_redirection_token(t_token **current, t_cmd *cmd);
 t_cmd				*build_command(t_token **tokens);
 t_cmd				*create_cmd(void);
 
@@ -121,6 +146,15 @@ void				handle_heredoc(t_redir *redir);
 // parser/redirect_handler.c - Gestion des redirections
 t_redir				*create_redir(t_redir_type type, const char *file);
 void				add_redir_back(t_redir **redirs, t_redir *new_redir);
+
+// utils_command_builder.c Fonctions utilitaires pour la construction des commandes
+int					handle_word_token(t_args_builder *builder,
+						const char *value);
+int					handle_token(t_token **current, t_cmd *cmd,
+						t_args_builder *builder);
+int					process_tokens(t_token **tokens, t_cmd *cmd, char **args,
+						int *arg_count);
+char				**init_args_array(const char *cmd_name, int *capacity);
 
 /* ========== UTILITAIRES ========== */
 
@@ -133,16 +167,5 @@ void				free_args_on_error(char **args);
 // Debug (optionnel)
 void				print_tokens(t_token *tokens);
 void				print_cmds(t_cmd *cmds);
-
-// Utilitaires string
-// int					ft_isspace(char c);
-// char				*ft_strdup(const char *s);
-// char				**ft_split(const char *s, char c);
-// int					ft_strlen(const char *s);
-// char				*ft_strjoin(const char *s1, const char *s2);
-// int					ft_isalnum(int c);
-// int					ft_isalpha(int c);
-// char				*ft_itoa(int n);
-// size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif

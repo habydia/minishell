@@ -17,6 +17,8 @@ SRC = parsing/lexer/lexer.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
 	  parsing/parser/heredoc_handler.c \
+	  parsing/lexer/tokenizer_utils.c \
+	  parsing/parser/command_builder_utils.c \
 	  signal/* \
 	  exec/* \
 	  env/* \
