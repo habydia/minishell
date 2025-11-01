@@ -1,11 +1,17 @@
-#include "../../include/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_handler.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:48 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:21:36 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// ok nb ligne
-//nb func 5
+#include "parsing.h"
 
-/*
- * Crée une nouvelle commande
- */
 t_cmd	*create_cmd(void)
 {
 	t_cmd	*cmd;
@@ -22,9 +28,6 @@ t_cmd	*create_cmd(void)
 	return (cmd);
 }
 
-/*
- * Crée une nouvelle redirection
- */
 t_redir	*create_redir(t_redir_type type, const char *file)
 {
 	t_redir	*redir;
@@ -45,9 +48,6 @@ t_redir	*create_redir(t_redir_type type, const char *file)
 	return (redir);
 }
 
-/*
- * Ajoute une redirection à la fin de la liste
- */
 void	add_redir_back(t_redir **redirs, t_redir *new_redir)
 {
 	t_redir	*current;
@@ -65,9 +65,6 @@ void	add_redir_back(t_redir **redirs, t_redir *new_redir)
 	current->next = new_redir;
 }
 
-/*
- * Libère le tableau d'arguments en cas d'erreur
- */
 void	free_args_on_error(char **args)
 {
 	int	i;

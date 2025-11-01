@@ -1,9 +1,16 @@
-#include "../../include/parsing.h"
-//nb ligne ok
-//nb function 5
-/*
- * Gère un token de redirection
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_builder.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:20 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:20:07 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parsing.h"
 
 static int	process_redirection_token(t_token **current,
 		t_redir_type redir_type, t_cmd *cmd)
@@ -47,10 +54,7 @@ int	build_redirection_token(t_token **current, t_cmd *cmd)
 	}
 	return (1);
 }
-/*
- * Trouve le premier T_WORD qui n'est pas après un opérateur de redirection
- * Retourne NULL si aucun nom de commande trouvé
- */
+
 static char	*find_command_name(t_token *tokens)
 {
 	t_token	*current;
@@ -76,16 +80,6 @@ static char	*find_command_name(t_token *tokens)
 	}
 	return (NULL);
 }
-/* Construit simultanément les arguments et redirections
-* en parcourant les tokens une seule fois
-Si c'est le nom de commande,
-on le skip pour les args seulement si ce n'est pas le premier arg
-Skip le nom de commande car il est déjà dans args[0]*/
-
-
-
-
-
 
 static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 {
@@ -104,9 +98,7 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	cmd->args = args;
 	return (1);
 }
-/*
- * Construit une commande à partir des tokens
- Trouver le nom de la commande*/
+
 t_cmd	*build_command(t_token **tokens)
 {
 	t_cmd	*cmd;
@@ -128,5 +120,3 @@ t_cmd	*build_command(t_token **tokens)
 	*tokens = current;
 	return (cmd);
 }
-
-

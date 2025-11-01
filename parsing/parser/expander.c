@@ -1,7 +1,17 @@
-#include "../../include/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:27:28 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// ok nb ligne
-// nb funct 5
+#include "parsing.h"
+
 static void	process_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
@@ -20,6 +30,7 @@ static void	process_expansion(const char *str, size_t *i, size_t *j,
 		}
 	}
 }
+
 static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
@@ -40,9 +51,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 	}
 	(*data->result)[(*j)++] = str[(*i)++];
 }
-/*
- * Effectue l'expansion des variables dans une chaîne simple
- */
+
 static char	*expand_simple_string(const char *str)
 {
 	char			*result;
@@ -70,9 +79,6 @@ static char	*expand_simple_string(const char *str)
 	return (result);
 }
 
-/*
- * Traite l'expansion d'un token selon son type (guillemets ou non)
- */
 static char	*process_token_expansion(const char *value)
 {
 	int		len;
@@ -100,10 +106,7 @@ static char	*process_token_expansion(const char *value)
 		return (expand_simple_string(value));
 	}
 }
-/*
- * Fonction principale pour l'expansion des tokens
- * Parcourt tous les tokens et effectue l'expansion selon les règles
- */
+
 t_token	*expand_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -125,5 +128,3 @@ t_token	*expand_tokens(t_token *tokens)
 	}
 	return (tokens);
 }
-
-

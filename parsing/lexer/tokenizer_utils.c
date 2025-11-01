@@ -1,8 +1,18 @@
-#include "../../include/parsing.h"
-//ln ligne ok
-//nb func5
-int	tokenize_operator(const char *line, int *i, int *start,
-		t_token **tokens)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:07 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:26:36 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parsing.h"
+
+int	tokenize_operator(const char *line, int *i, int *start, t_token **tokens)
 {
 	t_token_type	type;
 	char			*value;
@@ -27,8 +37,7 @@ int	tokenize_operator(const char *line, int *i, int *start,
 	return (1);
 }
 
-int	tokenize_quote(const char *line, int *start, int *i,
-		t_token **tokens)
+int	tokenize_quote(const char *line, int *start, int *i, t_token **tokens)
 {
 	char	*quoted_value;
 	int		j;
@@ -54,8 +63,7 @@ int	tokenize_quote(const char *line, int *start, int *i,
 	return (1);
 }
 
-int	tokenize_word(int *start, int *i, t_token **tokens,
-		const char *line)
+int	tokenize_word(int *start, int *i, t_token **tokens, const char *line)
 {
 	char	*word;
 	int		j;
@@ -77,21 +85,18 @@ int	tokenize_word(int *start, int *i, t_token **tokens,
 	free(word);
 	return (1);
 }
-/*
- * Découpe une ligne en tokens
- */
 
 int	handle_quote(const char *line, int *i, int *start, t_token **tokens)
 {
 	char	quote_type;
 
 	quote_type = line[*i];
-	(*i)++;          // passer le guillemet d'ouverture
-	*start = *i - 1; // inclure le guillemet d'ouverture
+	(*i)++;
+	*start = *i - 1;
 	while (line[*i] && line[*i] != quote_type)
 		(*i)++;
 	if (line[*i] == quote_type)
-		(*i)++; // inclure le guillemet de fermeture
+		(*i)++;
 	if (!tokenize_quote(line, start, i, tokens))
 		return (0);
 	return (1);

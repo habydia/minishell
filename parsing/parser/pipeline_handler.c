@@ -1,6 +1,16 @@
-#include "../../include/parsing.h"
-//ok nb ligne
-//nb func 3
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline_handler.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:39 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:27:09 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parsing.h"
 
 void	free_redirs(t_redir *redirs)
 {
@@ -37,13 +47,13 @@ static void	build_pipeline(t_token **current_token, t_cmd **current_cmd)
 			*current_token = (*current_token)->next;
 	}
 }
+
 t_cmd	*handle_pipeline(t_token *tokens)
 {
 	t_cmd	*first_cmd;
 	t_cmd	*current_cmd;
 	t_token	*current_token;
 
-	// t_cmd	*new_cmd;
 	if (!tokens)
 		return (NULL);
 	current_token = tokens;

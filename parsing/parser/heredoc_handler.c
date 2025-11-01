@@ -1,7 +1,16 @@
-// ok nb ligne
-//nb funct 3
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_handler.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:34 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:16:45 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "parsing.h"
 
 static char	*generate_temp_filename(void)
 {
@@ -35,6 +44,7 @@ static void	write_in_heredoc_file(int fd, const char *delimiter)
 		free(line);
 	}
 }
+
 void	handle_heredoc(t_redir *redir)
 {
 	int		fd;

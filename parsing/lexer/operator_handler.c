@@ -1,10 +1,16 @@
-#include "../../include/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operator_handler.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:03 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:17:15 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/// ok nb ligne
-//nb funct 5
-/*
- * Gère les types de redirections (< << > >>)
- */
+#include "parsing.h"
 
 static t_token_type	handle_redirection_in(const char *str, int *i)
 {

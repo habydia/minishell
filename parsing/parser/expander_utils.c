@@ -1,8 +1,18 @@
-// ok nb ligne
-// ok nb function 5
-#include "../../include/parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/01 05:20:19 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	g_exit_status = 0;
+#include "parsing.h"
+
+int			g_exit_status = 0;
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 {
