@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:41:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 15:03:46 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/03 20:42:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	**build_envp_tab_from_lst_env(t_env *env) // peux etre envyer un int *ret p
 	envp[i] = NULL;
 	return (envp);
 }
+
 
 
 // //////////////////////////////////////////////

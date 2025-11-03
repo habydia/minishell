@@ -12,6 +12,7 @@ int	main(int ac, char **av, char **env)
 	envd = NULL;
 	running = 1;
 	init_lst_env(&envd, env); // segfault
+	save_std_in_out(&data);
 	handle_signals();
 	while (1) //(running) // flag de running pour continuer la boubcle, si
 	{
@@ -28,12 +29,13 @@ int	main(int ac, char **av, char **env)
 		// a verfier
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);
-		print_cmds(data.cmds);
+		// print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);
-		if (exec_cmd(&data, line) == -1)
+		g_exit_status = exec_cmd(&data, line);
+		if (g_exit_status == -1)
 		{
-			printf("feuuuuuuuuuuuuuuuur\n");
+			// printf("feuuuuuuuuuuuuuuuur\n");
 			// free_all(&data, 0, "");
 			free(line);
 			rl_clear_history();

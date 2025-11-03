@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 16:37:55 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/03 20:50:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	isnumber(const char *str) // CHECK SI LE NOMBRE EST VALIDE
 	const char *nb;
 	int sign;
 
-	printf("input: '%s'\n", str);
+	// printf("input: '%s'\n", str);
 	i = 0;
 	if (!str || !*str) // secu de str == NULL
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 16:15:08 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/03 20:36:40 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ void	ft_free_tab(char **dst)
 	free(dst);
 }
 
-int	exec_builtins(t_data *data, char **env, char *input)
+int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer char **env
 {
-	t_cmd	*cmd;
 	int		status;
 
-	cmd = data->cmds;
 	status = 0;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);

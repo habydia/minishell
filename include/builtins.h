@@ -88,7 +88,7 @@ int			ft_export(char **args, char **env);
 ////////////////////// EXEC BUILTINS //////////////////
 ///////////////////////////////////////////////////////
 
-int		exec_builtins(t_data *data, char **env, char *input);
+int		exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
 
 /////////////////////////// FREE ///////////////////////////
 

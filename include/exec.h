@@ -27,6 +27,14 @@ void	free_envp(char **envp);
 void	update_envp(t_data *data);
 int		exec_cmd(t_data *data, char *input);
 
+
+
+void	reset_std_in_out(t_data *data);
+
+
+void	save_std_in_out(t_data *data);
+
+
 // #include "env.h"
 ////PATH UTILS///
 // void	ft_free_tab_str(char **str);
