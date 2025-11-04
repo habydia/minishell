@@ -7,7 +7,7 @@ char	*reader(void)
 	// rl_catch_signals = 0;
 	line = readline("Minishell> ");
 	if (line == NULL)
-		exit(0);
+		exit(1);
 	if (!line)
 	{
 		perror("Error reading line");
