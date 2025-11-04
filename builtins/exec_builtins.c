@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 20:21:24 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 21:47:30 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	ft_free_tab(char **dst)
 	free(dst);
 }
 
-int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer char **env
+int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 {
-	int		status;
+	int	status;
 
 	status = 0;
 	if (!cmd || !cmd->args || !cmd->args[0])
@@ -42,7 +42,6 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer 
 	{
 		status = ft_exit(cmd->args, data);
 		if (status != -12)
-			// remplacer-12 par une valeur spéciale pour signaler "ne pas quitter"
 		{
 			free(input);
 			ft_free_tab(cmd->args);
@@ -65,9 +64,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer 
 	else
 	{
 		printf("minishell: %s: command not found\n", input);
-		status = 127; // oui, c’est la bonne valeur pour "command not found"
+		status = 127; 
 	}
 	return (status);
 }
-
-/*Parcourir ta liste chaine pour trouver les builtins*/ // DONE
