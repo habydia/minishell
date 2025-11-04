@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/03 20:36:40 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 01:10:16 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer 
 		status = ft_cd(cmd->args);
 	else if (ft_strncmp(cmd->args[0], "export", 6) == 0
 		&& ft_strlen(cmd->args[0]) == 6)
-		status = ft_export(cmd->args, env);
+		status = ft_export(cmd->args, env, data);
 	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0
 		&& ft_strlen(cmd->args[0]) == 5)
 		status = ft_unset(cmd->args, env);

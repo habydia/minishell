@@ -24,8 +24,7 @@ int	main(int ac, char **av, char **env)
 		}
 		if (line[0] != '\0')
 			add_history(line);
-		// if(data.envp) // libere lancien envp // fais segfault le minish
-		// 	free_envp(data.envp);
+		// if(data.envp) // libere lancien envp //
 		// a verfier
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);

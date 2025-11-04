@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:12:24 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 21:41:23 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 00:48:03 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_pwd(void)
 		perror("pwd");
 		return (1); // code d'erreur standard
 	}
-	printf("%s\n", buff);
+	write(1, buff, strlen(buff)); // affiche le chemin
+    write(1, "\n", 1);           // ajoute le retour à la ligne
 	free(buff);
 	return (0);
 }

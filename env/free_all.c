@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 21:52:57 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/29 16:21:50 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 03:05:32 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,4 @@ int	free_all(t_data *data, int errcode, char *str)
 	    ft_putstr_fd(str, 2);
 	exit(errcode);
 }
+
