@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 23:05:02 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 23:49:20 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_cd(char **args)
 	size_t	limit;
 
 	limit = 255;
-	if (args[2]) // trop d'arguments ?
+	if (args[2])
 	{
 		write(2, "cd: too many arguments\n", 24);
 		return (1);
@@ -33,6 +33,7 @@ int	ft_cd(char **args)
 				|| args[1][1] == '/')))
 	{
 		path = getenv("HOME");
+		printf("%s/n", path);
 		if (!path)
 		{
 			write(2, "cd: HOME not set\n", 17);
@@ -40,7 +41,8 @@ int	ft_cd(char **args)
 		}
 	}
 	else
-		path = args[1];
+		path = ft_strdup(args[1]);
+	printf("%s/n", path);
 	if (strlen(path) > limit)
 	{
 		write(2, "cd: File name too long\n", 24);
@@ -49,7 +51,7 @@ int	ft_cd(char **args)
 	ret = chdir(path);
 	if (ret == -1)
 	{
-		perror("cd"); 
+		perror("cd");
 		return (1);
 	}
 	return (0);

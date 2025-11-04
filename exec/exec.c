@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 19:55:29 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 23:48:17 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,15 +193,24 @@ int	exec_cmd(t_data *data, char *input)
 	update_envp(data);
 	// Si c'est une seule commande et que c'est un builtin,
 	// on l'exécute directement dans le processus parent
-	if (is_single_cmd(data) && !ft_strncmp(curr->name, "exit", 5))
+	if (is_single_cmd(data) /*&& !ft_strncmp(curr->name, "exit", 5)*/)
 	{
-		if (apply_redirections(curr) == -1)
+		if(!ft_strncmp(curr->name, "exit", 5))
 		{
-			free_all(data, 1, NULL); // Libère la mémoire et met ret=1
-			exit(1);                 // Sort de l'enfant
+			if (apply_redirections(curr) == -1)
+			{
+				free_all(data, 1, NULL); // Libère la mémoire et met ret=1
+				exit(1);                 // Sort de l'enfant
+			}
+			ret = exec_builtins(curr, data, data->envp, input);
+			return(ret);
 		}
-		ret = exec_builtins(curr, data, data->envp, input);
-		return(ret);
+		if(!ft_strncmp(curr->name, "cd", 2))
+		{
+			ret = exec_builtins(curr, data, data->envp, input);
+			
+		}
+		
 		// free_all(data, ret, NULL);
 		// free_all_parent(data, NULL);
 		// printf("OKKKKKKKKKKKKKK");
