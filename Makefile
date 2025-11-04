@@ -8,8 +8,7 @@ ifeq ($(UNAME_S),Darwin) #macOS
 	LDFLAGS = -L/opt/homebrew/opt/readline/lib
 endif
 
-SRC = parsing/lexer/lexer.c \
-      parsing/lexer/operator_handler.c \
+SRC = parsing/lexer/operator_handler.c \
       parsing/lexer/tokenizer.c \
       parsing/parser/command_builder.c \
 	  parsing/parser/expander.c \

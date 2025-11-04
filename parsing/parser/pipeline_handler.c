@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:39 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:27:09 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/04 22:29:22 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,4 @@ t_cmd	*handle_pipeline(t_token *tokens)
 	current_cmd = first_cmd;
 	build_pipeline(&current_token, &current_cmd);
 	return (first_cmd);
-}
-
-t_cmd	*parse_tokens(t_token *tokens)
-{
-	t_cmd	*cmds;
-
-	if (!tokens)
-		return (NULL);
-	cmds = handle_pipeline(tokens);
-	return (cmds);
 }
