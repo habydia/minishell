@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 21:47:30 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 23:03:31 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ void	ft_free_tab(char **dst)
 	free(dst);
 }
 
+int	ft_exit_handle(t_cmd *cmd, t_data *data, int status, char *input)
+{
+	status = ft_exit(cmd->args, data);
+	if (status != -12)
+	{
+		free(input);
+		ft_free_tab(cmd->args);
+		free_all(data, status, NULL);
+		exit(status);
+	}
+	return (status);
+}
+
 int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 {
 	int	status;
@@ -32,39 +45,24 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 	status = 0;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	if (ft_strncmp(cmd->args[0], "env", 3) == 0 && ft_strlen(cmd->args[0]) == 3)
+	if (ft_strncmp(cmd->args[0], "env", 3) == 0)
 		status = ft_env(env);
-	else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0
-		&& ft_strlen(cmd->args[0]) == 3)
+	else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
 		status = ft_pwd();
-	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0
-		&& ft_strlen(cmd->args[0]) == 4)
-	{
-		status = ft_exit(cmd->args, data);
-		if (status != -12)
-		{
-			free(input);
-			ft_free_tab(cmd->args);
-			free_all(data, status, NULL);
-			exit(status);
-		}
-	}
-	else if (ft_strncmp(cmd->args[0], "echo", 4) == 0
-		&& ft_strlen(cmd->args[0]) == 4)
+	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
+		status = ft_exit_handle(cmd, data, status, input);
+	else if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		status = ft_echo(cmd->args);
-	else if (ft_strncmp(cmd->args[0], "cd", 2) == 0
-		&& ft_strlen(cmd->args[0]) == 2)
+	else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
 		status = ft_cd(cmd->args);
-	else if (ft_strncmp(cmd->args[0], "export", 6) == 0
-		&& ft_strlen(cmd->args[0]) == 6)
+	else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
 		status = ft_export(cmd->args, env, data);
-	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0
-		&& ft_strlen(cmd->args[0]) == 5)
+	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
 		status = ft_unset(cmd->args, env);
 	else
 	{
 		printf("minishell: %s: command not found\n", input);
-		status = 127; 
+		status = 127;
 	}
 	return (status);
 }
