@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 18:43:23 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 20:21:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input) // retirer 
 	{
 		status = ft_exit(cmd->args, data);
 		if (status != -12)
-			// remplacer-12 par une valeur spéciale si tu veux signaler "ne pas quitter"
+			// remplacer-12 par une valeur spéciale pour signaler "ne pas quitter"
 		{
 			free(input);
 			ft_free_tab(cmd->args);
