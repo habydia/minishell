@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:49:12 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/04 19:39:13 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data)
 			return (0);
 	}
 	else
-		(*(data->result))[(*(data->j))++] = line[(*i)++];
+		(*(data->result))[(*(data->j))] = '$';
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:27:28 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/04 19:43:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,26 @@ static void	process_expansion(const char *str, size_t *i, size_t *j,
 	}
 }
 
+static void	handle_mixed_quotes(const char *str, size_t *i)
+{
+	if ((str[*i] == '"' && str[*i + 1] == '"') || (str[*i] == '\'' && str[*i
+			+ 1] == '\''))
+	{
+		(*i) += 2;
+		return ;
+	}
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		(*i)++;
+		return ;
+	}
+}
 static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
 	char	*new_result;
 
+	handle_mixed_quotes(str, i);
 	process_expansion(str, i, j, data);
 	if (*j >= *(data->result_size) - 1)
 	{
@@ -79,12 +94,21 @@ static char	*expand_simple_string(const char *str)
 	return (result);
 }
 
+// static int	is_quoted_charter(const char *value, int i)
+// {
+// 	if (i > 0 && (value[i - 1] == '\'' || value[i - 1] == '"'))
+// 		return (1);
+// 	return (0);
+// }
+
 static char	*process_token_expansion(const char *value)
 {
 	int		len;
 	char	*temp;
 	char	*expanded;
+	int		i;
 
+	i = 0;
 	if (!value)
 		return (NULL);
 	len = ft_strlen(value);
