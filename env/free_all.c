@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 21:52:57 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 03:05:32 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 17:36:37 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,18 @@ int	free_all(t_data *data, int errcode, char *str)
 	exit(errcode);
 }
 
+int	free_all_parent(t_data *data, char *str)
+{
+	if (data->env)
+		free_lst_env(&data->env, false, 0);
+	if (data->cmds)
+		free_cmds(data->cmds);
+	if (data->envp)
+		free_tab(data->envp);
+	if (data->dst)
+		free_tab(data->dst);
+    if(str)
+	    ft_putstr_fd(str, 2);
+	// exit(errcode);
+	return(1);
+}

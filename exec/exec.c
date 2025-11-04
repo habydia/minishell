@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 03:05:47 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/04 18:55:07 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,23 @@ void	reset_std_in_out(t_data *data)
 	close(data->saved_stdout);
 }
 
+
+int	waiting(pid_t pid, int status)
+{
+	int		ret;
+	pid_t	pid_at_exit;
+
+	while (1)
+	{
+		pid_at_exit = wait(&status);
+		if (pid_at_exit == pid)
+			ret = WEXITSTATUS(status);
+		if (pid_at_exit < 0)
+			break ;
+	}
+	return (ret);
+}
+
 //////////////////////////////////////////////
 // Exécuter la liste de commandes avec pipes
 //////////////////////////////////////////////
@@ -169,13 +186,14 @@ int	exec_cmd(t_data *data, char *input)
 	ret = 0;           // Code de retour de la commande
 	curr = data->cmds; // Commande courante
 	int pipe_fd[2];    // Tableau pour les pipes [0]=lecture, [1]=écriture
-	prev_fd = -1;      // FD du pipe précédent pour la redirection stdin
+	prev_fd = -1;  
+	status = 0;    // FD du pipe précédent pour la redirection stdin
 	// Statut utilisé pour récupérer le code de sortie des enfants
 	// Met à jour le tableau envp à partir de t_data
 	update_envp(data);
 	// Si c'est une seule commande et que c'est un builtin,
 	// on l'exécute directement dans le processus parent
-	if (is_single_cmd(data) && is_builtins(curr->name))
+	if (is_single_cmd(data) && !ft_strncmp(curr->name, "exit", 5))
 	{
 		if (apply_redirections(curr) == -1)
 		{
@@ -183,8 +201,10 @@ int	exec_cmd(t_data *data, char *input)
 			exit(1);                 // Sort de l'enfant
 		}
 		ret = exec_builtins(curr, data, data->envp, input);
-		reset_std_in_out(data);
-		free_all(data, ret, NULL);
+		return(ret);
+		// free_all(data, ret, NULL);
+		// free_all_parent(data, NULL);
+		// printf("OKKKKKKKKKKKKKK");
 		// return (ret);
 	}
 	// Boucle sur toutes les commandes de la pipeline
@@ -262,10 +282,7 @@ int	exec_cmd(t_data *data, char *input)
 		curr = curr->next;
 	}
 	// Parent attend tous les enfants pour récupérer leurs codes de sortie
-	while (wait(&status) > 0)
-		;
+	ret  = waiting(pid, status);
 	// Récupérer le code de sortie du dernier processus
-	if (WIFEXITED(status))
-		ret = WEXITSTATUS(status);
 	return (ret);
 }
