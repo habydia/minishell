@@ -133,6 +133,7 @@ char				*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - Fonctions utilitaires pour l'expansion
 int					handle_dollar_sign(const char *line, size_t *i,
 						t_expand_data *data);
+char				*process_token_expansion(const char *value);
 
 // parser/command_builder.c - Construction des commandes
 int					build_redirection_token(t_token **current, t_cmd *cmd);

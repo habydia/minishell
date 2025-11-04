@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 19:43:21 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/04 22:33:27 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	handle_mixed_quotes(const char *str, size_t *i)
 		return ;
 	}
 }
+
 static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
@@ -94,14 +95,7 @@ static char	*expand_simple_string(const char *str)
 	return (result);
 }
 
-// static int	is_quoted_charter(const char *value, int i)
-// {
-// 	if (i > 0 && (value[i - 1] == '\'' || value[i - 1] == '"'))
-// 		return (1);
-// 	return (0);
-// }
-
-static char	*process_token_expansion(const char *value)
+char	*process_token_expansion(const char *value)
 {
 	int		len;
 	char	*temp;
@@ -115,9 +109,7 @@ static char	*process_token_expansion(const char *value)
 	if (len < 2)
 		return (expand_simple_string(value));
 	if (value[0] == '\'' && value[len - 1] == '\'')
-	{
 		return (remove_quotes(value, '\''));
-	}
 	else if (value[0] == '"' && value[len - 1] == '"')
 	{
 		temp = remove_quotes(value, '"');
@@ -129,26 +121,4 @@ static char	*process_token_expansion(const char *value)
 	{
 		return (expand_simple_string(value));
 	}
-}
-
-t_token	*expand_tokens(t_token *tokens)
-{
-	t_token	*current;
-	char	*expanded;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type == T_WORD && current->value)
-		{
-			expanded = process_token_expansion(current->value);
-			if (expanded && expanded != current->value)
-			{
-				free(current->value);
-				current->value = expanded;
-			}
-		}
-		current = current->next;
-	}
-	return (tokens);
 }
