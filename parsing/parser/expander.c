@@ -6,13 +6,13 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 22:33:27 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/05 04:16:28 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static void	process_expansion(const char *str, size_t *i, size_t *j,
+static int	process_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
 	if (str[*i] == '\\' && str[*i + 1] == '$')
@@ -26,9 +26,10 @@ static void	process_expansion(const char *str, size_t *i, size_t *j,
 		{
 			free(*data->result);
 			*data->result = NULL;
-			return ;
+			return (0);
 		}
 	}
+	return (1);
 }
 
 static void	handle_mixed_quotes(const char *str, size_t *i)
@@ -50,22 +51,27 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
 	char	*new_result;
+	size_t	old_size;
 
+	old_size = *i;
 	handle_mixed_quotes(str, i);
 	process_expansion(str, i, j, data);
-	if (*j >= *(data->result_size) - 1)
+	if (old_size == *i && str[*i])
 	{
-		*(data->result_size) *= 2;
-		new_result = ft_realloc(*data->result, *(data->result_size));
-		if (!new_result)
+		if (*j >= *(data->result_size) - 1)
 		{
-			free(*data->result);
-			*data->result = NULL;
-			return ;
+			*(data->result_size) *= 2;
+			new_result = ft_realloc(*data->result, *(data->result_size));
+			if (!new_result)
+			{
+				free(*data->result);
+				*data->result = NULL;
+				return ;
+			}
+			*data->result = new_result;
 		}
-		*data->result = new_result;
+		(*data->result)[(*j)++] = str[(*i)++];
 	}
-	(*data->result)[(*j)++] = str[(*i)++];
 }
 
 static char	*expand_simple_string(const char *str)
