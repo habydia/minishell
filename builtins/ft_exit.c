@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 01:39:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 04:21:55 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_exit(char **args, t_data *data)
 		if (args[2])
 		{
 			write(2, "minishell: exit: too many arguments\n", 37);
-			nb = 2;
+			nb = 1;
 		}
 		else
 			nb = ft_atoi(args[1]);
