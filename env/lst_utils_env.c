@@ -6,29 +6,12 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 16:29:28 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 16:38:13 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:06:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/env.h"
 #include "../include/parsing.h"
-
-/*
-static int	lstsize_env(t_env *envd)
-{
-	int	i;
-
-	i = 0;
-	if (!envd)
-	return (0);
-	while (envd)
-	{
-		envd = envd->next;
-		i++;
-	}
-	return (i);
-}
-*/
 
 void	free_lst_env(t_env **envd, bool ext, int errcode)
 {

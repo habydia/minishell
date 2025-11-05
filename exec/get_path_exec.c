@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/30 18:25:50 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:07:56 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*envp_search(char **envp)
 		return (NULL);
 	while (*envp)
 	{
-		// printf("*envp=%s\n", *envp);
 		if (ft_strncmp("PATH=", *envp, 5) == 0)
 			return (*envp + 5);
 		envp++;
@@ -50,9 +49,6 @@ int	ft_strjoin_checker(char *buffer,char *to_free, char **paths, int *ret)
 	}
 	return (1);
 }
-/////////////////////////////////////////////
-///////////////GET-PATH//////////////////////
-/////////////////////////////////////////////                                       //// A FINIR DE NORMER
 
 char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 		char *argv_cmd)

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 23:29:05 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 02:56:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 	else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
 		status = ft_export(cmd->args, env, data);
 	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
-		status = ft_unset(cmd->args, env);
+		status = ft_unset(cmd->args, env, data);
 	else
 	{
 		printf("minishell: %s: command not found\n", input);

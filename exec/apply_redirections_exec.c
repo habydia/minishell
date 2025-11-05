@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/10/31 15:16:38 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:07:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
 	if (fd == -1)
 	{
 		perror(redir->file);
-			// affiche "minishell: file: No such file or directory"
 		return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)

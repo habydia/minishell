@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/11/05 01:49:54 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:05:05 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_lst_env(t_env **envd, char **env)
 			free_lst_env(envd, true, 0);
 		i++;
 	}
-
 }
 
 static int	count_env(t_data *data)
@@ -96,4 +95,3 @@ void	init_envp(t_data *data)
 	}
 	data->envp[i] = NULL;
 }
-

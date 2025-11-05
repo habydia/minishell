@@ -43,7 +43,6 @@ void					print_envp(char **envp);
 
 int						free_all(t_data *data, int errcode, char *str);
 
-int	free_all_parent(t_data *data, char *str);
 
 void	add_or_update_env(t_env **env, char *str);
 

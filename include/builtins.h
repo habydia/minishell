@@ -76,7 +76,7 @@ int			ft_cd(char **str);
 ///////////// UNSET /////////////
 /////////////////////////////////
 
-int			ft_unset(char **str, char **env);
+int			ft_unset(char **args, char **env, t_data *data);
 
 /////////////////////////////////
 ///////////// EXPORT ////////////
