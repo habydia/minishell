@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:12:24 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 02:23:57 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:42:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_pwd(void)
 		return (1);
 	}
 	write(1, buff, strlen(buff));
+	write(1, "\n", 1);
 	free(buff);
 	return (0);
 }

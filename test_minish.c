@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **env)
 		// a verfier
 		init_data(&data, &envd, NULL);
 		data.cmds = parsing(line);
-		print_cmds(data.cmds);
+		// print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);
 		g_exit_status = exec_cmd(&data, line);
