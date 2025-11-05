@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 19:01:06 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 01:39:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,23 @@ int	ft_atoi(const char *str)
 	return (sign * result);
 }
 
-bool	isnumber(const char *str) // CHECK SI LE NOMBRE EST VALIDE
+bool	isnumber(const char *str)
 {
-	int i;
-	int nb_start;
-	const char *nb;
-	int sign;
+	int			i;
+	int			nb_start;
+	const char	*nb;
+	int			sign;
 
-	// printf("input: '%s'\n", str);
 	i = 0;
-	if (!str || !*str) // secu de str == NULL
+	if (!str || !*str)
 		return (false);
 	sign = get_sign(str, &i);
-	nb_start = i;                             // point de depart
-	if (!check_if_only_digits(str, nb_start)) // check si tout est digit
+	nb_start = i;
+	if (!check_if_only_digits(str, nb_start))
 		return (false);
 	nb = &str[nb_start];
-	nb = skip_zero_at_begining(nb);      // skip les 0 devant
-	if (!check_len_and_limits(nb, sign)) // check taille et valeur max/min
+	nb = skip_zero_at_begining(nb);
+	if (!check_len_and_limits(nb, sign))
 		return (false);
 	return (true);
 }
@@ -67,7 +66,7 @@ int	ft_exit(char **args, t_data *data)
 	long long	nb;
 
 	nb = 0;
-	write(1, "exit\n", 5); // affiche "exit" sur stdout
+	write(1, "exit\n", 5);
 	if (args[1])
 	{
 		if (!isnumber(args[1]))
@@ -75,7 +74,7 @@ int	ft_exit(char **args, t_data *data)
 			write(2, "minishell: exit: ", 18);
 			write(2, args[1], ft_strlen(args[1]));
 			write(2, ": numeric argument required\n", 27);
-			return(-12); //nb = 2;
+			return (-12);
 		}
 		if (args[2])
 		{
@@ -85,42 +84,8 @@ int	ft_exit(char **args, t_data *data)
 		else
 			nb = ft_atoi(args[1]);
 	}
-	// 🔹 Libération mémoire
 	free_envp(data->envp);
 	free_cmds(data->cmds);
 	free_lst_env(&data->env, false, 0);
-	// return (0); // exit sans argument : code de retour par défaut
-	exit((int)(nb % 256)); // code de retour modulo 256
+	exit((int)(nb % 256));
 }
-
-////IL Y A 8 FONCTIONS,
-// IL FAUT ECLATER LES UTILS DE EXIT EN ft_exit_utils.c : OK DONE
-
-/*!!!!!GERER LE RETOUR D'ERREUR DE EXIT CORRECT SUR LA DERNIERE COMMANDE RECU!!!!!*/
-
-/* 1er cas : "exit jhdsjhfdsjhf dsjhfdsjfjdsfhds"      : OK DONE
-minishell: exit: jhdsjhfdsjhf: numeric argument required
-echo $? =2
-*/
-
-/* 2eme cas : "exit 15 fdfds"     :   OK DONE MAINTENANT IL EXIT
-exit
-minishell: exit: too many arguments
-N'EXIT PAS
-*/
-
-/* 3eme cas : "exit [nbr]"
-exit
-echo $? = [nbr]
-*/
-
-// 9223372036854775807 = int64_MAX                                  : OK DONE C'EST REGLER
-/*4eme cas : exit [nbr > 64-bit signed integer ou nbr < 64-bit signed integer]
-exit
-minishell: exit: 4444444444444444444444444444: numeric argument required
-echo $? = 2
-*/
-
-/*5eme cas : exit
-exit
-... (6lignes restantes)*/
