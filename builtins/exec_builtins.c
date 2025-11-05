@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 02:56:06 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 03:56:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_free_tab(char **dst)
 int	ft_exit_handle(t_cmd *cmd, t_data *data, int status, char *input)
 {
 	status = ft_exit(cmd->args, data);
-	if (status != -12)
+	if (status != 2)
 	{
 		free(input);
 		ft_free_tab(cmd->args);
