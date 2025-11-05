@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:12:24 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 00:48:03 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 02:23:57 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,9 @@ int	ft_pwd(void)
 	if (!buff)
 	{
 		perror("pwd");
-		return (1); // code d'erreur standard
+		return (1);
 	}
-	write(1, buff, strlen(buff)); // affiche le chemin
-    write(1, "\n", 1);           // ajoute le retour à la ligne
+	write(1, buff, strlen(buff));
 	free(buff);
 	return (0);
 }
-
-// marche mais la remonter d'erreur n'est pas faite !
-// pwd marche meme si env est vide. il faudra stocker le pwd dans une variable
-// d'environnement.

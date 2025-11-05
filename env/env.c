@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/10/29 18:54:10 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 01:49:54 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	free_envp_at_init(char **envp)
 	free(envp);
 }
 
-void	init_envp(t_data *data) // renomner pour initialiser envp pour lst
+void	init_envp(t_data *data)
 {
 	t_env	*tmp;
 	char	*str;
@@ -96,3 +96,4 @@ void	init_envp(t_data *data) // renomner pour initialiser envp pour lst
 	}
 	data->envp[i] = NULL;
 }
+
