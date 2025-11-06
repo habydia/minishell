@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 04:10:02 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 22:40:40 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ static int	handle_no_args(char **env)
 	i = 0;
 	while (env[i])
 	{
-		write(1, "export ", 7);
-		write(1, env[i], ft_strlen(env[i]));
-		write(1, "\n", 1);
+		printf("export %s\n", env[i]);
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 18:25:08 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 22:46:41 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	free_envp_at_init(char **envp)
 
 void	init_envp(t_data *data)
 {
-	t_env *tmp;
-	char *str;
-	int i;
+	t_env	*tmp;
+	char	*str;
+	int		i;
 
 	i = count_env(data);
 	if (data->envp)
@@ -85,7 +85,9 @@ void	init_envp(t_data *data)
 	while (tmp)
 	{
 		if (tmp->value == NULL)
+		{
 			data->envp[i] = ft_strdup(tmp->key);
+		}
 		else
 		{
 			str = ft_strjoin(tmp->key, "=");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 16:12:33 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/06 21:58:42 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	add_or_update_env(t_env **env, char *str)
 
 	split_key_value(str, &key, &value);
 	updated = try_update_existing_env(*env, key, value);
-	if (updated)
+	if (updated == true)
 		return ;
 	add_new_env_node(env, key, value);
 }

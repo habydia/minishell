@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:35:05 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 01:27:49 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 22:35:28 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	ft_echo(char **str)
 	}
 	while (str[i])
 	{
-		write(1, str[i], ft_strlen(str[i]));
+		printf("%s", str[i]);
 		if (str[i + 1])
-			write(1, " ", 1);
+			printf(" ");
 		i++;
 	}
 	if (!n_flag)

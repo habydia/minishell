@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 04:21:55 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 21:50:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	ft_exit(char **args, t_data *data)
 	{
 		if (!isnumber(args[1]))
 		{
-			write(2, "minishell: exit: ", 18);
+			write(2, "minishell: exit: ", 17);
 			write(2, args[1], ft_strlen(args[1]));
-			write(2, ": numeric argument required\n", 27);
+			write(2, ": numeric argument required\n", 29);
 			return (-12);
 		}
 		if (args[2])

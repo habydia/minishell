@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 03:03:05 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 22:43:47 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,26 @@ static bool	identifier_correct(char *str)
 static void	delete_env_node(t_env **env_list, const char *key_to_del)
 {
 	t_env	*prev;
-	t_env	*cur;
+	t_env	*curr;
 
-	cur = *env_list;
+	curr = *env_list;
 	prev = NULL;
-	while (cur)
+	while (curr)
 	{
-		if (ft_strcmp(cur->key, key_to_del) == 0)
+		if (ft_strcmp(curr->key, key_to_del) == 0)
 		{
 			if (prev)
-				prev->next = cur->next;
+				prev->next = curr->next;
 			else
-				*env_list = cur->next;
-			free(cur->key);
-			if (cur->value)
-				free(cur->value);
-			free(cur);
+				*env_list = curr->next;
+			free(curr->key);
+			if (curr->value)
+				free(curr->value);
+			free(curr);
 			return ;
 		}
-		prev = cur;
-		cur = cur->next;
+		prev = curr;
+		curr = curr->next;
 	}
 }
 
