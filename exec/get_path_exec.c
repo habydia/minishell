@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 03:07:56 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:53:25 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	path_check(char *path, int *ret)
 	return (0);
 }
 
-int	ft_strjoin_checker(char *buffer,char *to_free, char **paths, int *ret)
+int	ft_strjoin_checker(char *buffer, char *to_free, char **paths, int *ret)
 {
 	if (!buffer)
 	{
-		if(to_free)
+		if (to_free)
 			free(to_free);
 		ft_free_tab_str(paths);
 		*ret = 1;
@@ -59,21 +59,14 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 	i = 0;
 	if (paths == NULL)
 		return (NULL);
-	while (paths[i])
+	while (paths[i++])
 	{
 		buffer = ft_strjoin(paths[i], "/");
-		if (!ft_strjoin_checker(buffer, NULL, paths, ret)) // a verifier pour la securisation du buffer checker
+		if (!ft_strjoin_checker(buffer, NULL, paths, ret))
 			return (NULL);
 		new_path = ft_strjoin(buffer, argv_cmd);
 		if (!ft_strjoin_checker(new_path, buffer, paths, ret))
 			return (NULL);
-		if (!new_path)
-		{
-			free(buffer);
-			ft_free_tab_str(paths);
-			*ret = 1;
-			return (NULL);
-		}
 		free(buffer);
 		if (access(new_path, F_OK | X_OK) == 0)
 		{
@@ -81,16 +74,12 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 			return (new_path);
 		}
 		free(new_path);
-		i++;
 	}
 	ft_free_tab_str(paths);
 	*ret = 127;
 	return (NULL);
 }
 
-//////////////////////////////////////////////
-/// GET PATH pour choper le path de chaque commandes, test l'excution
-////////////////////////////////////////////
 char	*get_path(char **envp, char *argv_cmd, int *ret)
 {
 	char	*path;

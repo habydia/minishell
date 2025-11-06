@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_envp_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:41:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 03:16:09 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 15:25:18 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,75 +14,105 @@
 #include "exec.h"
 #include "parsing.h"
 
-//////////////////////////////////////////////
-// Compte le nombre de node de la liste chainee envp du pars
-//////////////////////////////////////////////
-int count_node(t_env *tmp, int count)
+int	count_node(t_env *tmp)
 {
+	int	count;
+
+	count = 0;
 	while (tmp)
 	{
 		count++;
 		tmp = tmp->next;
 	}
-	return(count);
+	return (count);
 }
 
 int	ft_strjoin_checker_envp(char *buffer, char **envp, int i)
 {
 	if (!buffer)
 	{
-		while(i >= 0)
+		while (i >= 0)
 		{
 			free(envp[i]);
 			i--;
 		}
 		free(envp);
-		// *ret = 1;
 		return (0);
 	}
 	return (1);
 }
-//////////////////////////////////////////////
-// Construire envp  en char ** depuis liste chaînée env
-//////////////////////////////////////////////
-char	**build_envp_tab_from_lst_env(t_env *env) // peux etre envyer un int *ret pour les strjoin
+char	**build_envp_tab_from_lst_env(t_env *env)
 {
-	int		count;
-	t_env	*tmp;
-	char	**envp;
+	t_env	*curr;
 	int		i;
+	char	**envp;
 	char	*key_equal;
 
-	count = 0;
-	tmp = env;
 	i = 0;
-	count = count_node(tmp, count); 
-	envp = malloc(sizeof(char *) * (count + 1));
+	curr = env;
+	envp = ft_calloc(sizeof(char *), (count_node(curr) + 1));
 	if (!envp)
 		return (NULL);
-	tmp = env;
-	while (tmp)
+	while (curr)
 	{
-		envp[i] = ft_strjoin(tmp->key, "=");
-		if (!ft_strjoin_checker_envp(envp[i], envp, i)) // a verifier pour la securisation du buffer checker
+		if (curr->key && curr->value == NULL)
+			envp[i] = ft_strdup(curr->key);
+		else if (curr->value != NULL)
+		{
+			free(envp[i]);
+			envp[i] = ft_strjoin(curr->key, "=");
+		}
+		if (!ft_strjoin_checker_envp(envp[i], envp, i))
 			return (NULL);
-		key_equal = envp[i];
-		envp[i] = ft_strjoin(key_equal, tmp->value);
+		key_equal = ft_strdup(envp[i]);
+		if (curr->value != NULL)
+		{
+			free(envp[i]);
+			envp[i] = ft_strjoin(key_equal, curr->value);
+		}
 		free(key_equal);
-		if(!ft_strjoin_checker_envp(envp[i], envp , i)) // a verifier pour la securisation du buffer checker
+		if (!ft_strjoin_checker_envp(envp[i], envp, i))
 			return (NULL);
-		tmp = tmp->next;
+		curr = curr->next;
 		i++;
 	}
 	envp[i] = NULL;
 	return (envp);
 }
 
+// char	**build_envp_tab_from_lst_env(t_env *env)
+// {
+// 	// int		count;
+// 	// t_env	*tmp;
+// 	// char	**envp;
+// 	// int		i;
+// 	// char	*key_equal;
 
+// 	// count = 0;
+// 	// tmp = env;
+// 	// i = 0;
+// 	// count = count_node(tmp, count);
+// 	// envp = malloc(sizeof(char *) * (count + 1));
+// 	// if (!envp)
+// 	// 	return (NULL);
+// 	// tmp = env;
+// 	// while (tmp)
+// 	// {
+// 	// 	envp[i] = ft_strjoin(tmp->key, "=");
+// 	// 	if (!ft_strjoin_checker_envp(envp[i], envp, i))
+// 	// 		return (NULL);
+// 	// 	key_equal = envp[i];
+// 	// 	envp[i] = ft_strjoin(key_equal, tmp->value);
+// 	// 	free(key_equal);
+// 	// 	if (!ft_strjoin_checker_envp(envp[i], envp, i))
+// 	// 		return (NULL);
+// 	// 	tmp = tmp->next;
+// 	// 	i++;
+// 	// }
+// 	// envp[i] = NULL;
+// 	return (join_key_equal_and_value(env));
+// }
 
-// //////////////////////////////////////////////
-// // Mettre à jour envp dans data
-// //////////////////////////////////////////////
 void	update_envp(t_data *data)
 {
 	if (data->envp)
