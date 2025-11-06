@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 21:58:42 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 23:04:49 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	add_new_env_node(t_env **env, char *key, char *value)
 	t_env	*new_node;
 	t_env	*tmp;
 
-	new_node = malloc(sizeof(t_env));
+	new_node = ft_calloc(sizeof(t_env));
 	if (!new_node)
 	{
 		free(key);

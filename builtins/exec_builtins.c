@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 22:48:51 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 23:30:29 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	ft_exit_handle(t_cmd *cmd, t_data *data, int status, char *input)
 	if (status != 2)
 	{
 		free(input);
-		ft_free_tab(cmd->args);
 		free_all(data, status, NULL);
 		exit(status);
 	}
