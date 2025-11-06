@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/11/06 17:36:11 by lebroue          ###   ########.fr       */
+/*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
+/*   Updated: 2025/11/06 18:25:08 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/env.h"
 #include "../include/minishell.h"
@@ -84,9 +85,7 @@ void	init_envp(t_data *data)
 	while (tmp)
 	{
 		if (tmp->value == NULL)
-		{
 			data->envp[i] = ft_strdup(tmp->key);
-		}
 		else
 		{
 			str = ft_strjoin(tmp->key, "=");
