@@ -6,7 +6,7 @@
 Gérer les signaux système (SIGINT, SIGQUIT) dans le minishell pour assurer un comportement cohérent avec bash.
 
 ## Architecture
-
+    
 ### 1. CONFIGURATION DES SIGNAUX
 
 **SIGINT (Ctrl+C)** :
