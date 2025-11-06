@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 19:10:11 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 19:28:16 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,16 +174,14 @@ int	exec_cmd(t_data *data, char *input)
 	t_cmd	*curr;
 	int		prev_fd;
 	int		status;
-
 	pid_t pid;         // PID du processus enfant
+	int pipe_fd[2];    // Tableau pour les pipes [0]=lecture, [1]=écriture
+
 	ret = 0;           // Code de retour de la commande
 	curr = data->cmds; // Commande courante
-	int pipe_fd[2];    // Tableau pour les pipes [0]=lecture, [1]=écriture
-	prev_fd = -1;
-	status = 0; // FD du pipe précédent pour la redirection stdin
-	// Statut utilisé pour récupérer le code de sortie des enfants
-	// Met à jour le tableau envp à partir de t_data
-	update_envp(data);
+	prev_fd = -1;	// FD du pipe précédent pour la redirection stdin
+	status = 0; // Statut utilisé pour récupérer le code de sortie des enfants
+	update_envp(data);// Met à jour le tableau envp à partir de t_data
 	// Si c'est une seule commande et que c'est un builtin,
 	// on l'exécute directement dans le processus parent
 	if (is_single_cmd(data) /*&& !ft_strncmp(curr->name, "exit", 5)*/)

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:14:33 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 01:31:39 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 20:27:56 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	ft_env(char **env)
 	while (env[i])
 	{
 		if (ft_strsearch(env[i], '='))
-			printf("%s\n", env[i]);
+		{
+			write(1, env[i], ft_strlen(env[i]));
+			write(1, "\n", 1);
+		}
 		i++;
 	}
 	return (0);
