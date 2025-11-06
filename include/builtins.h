@@ -1,12 +1,14 @@
 #ifndef BUILTINS_H
-#define BUILTINS_H
-#include "../libft/libft/libft.h"
-#include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+# define BUILTINS_H
+# include "../libft/libft/libft.h"
+# include "env.h"
+# include "minishell.h"
+# include "parsing.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 
-#define INT64_MAX_STR "9223372036854775807"
-#define INT64_MIN_STR "9223372036854775808"
+# define INT64_MAX_STR "9223372036854775807"
+# define INT64_MIN_STR "9223372036854775808"
 
 ///////////////////////////////////////////////////////
 ////////////////////// BUILTINS ///////////////////////
@@ -15,27 +17,27 @@
 /////////////////////////////////
 ///////////// PWD ///////////////
 /////////////////////////////////
-int		ft_pwd(void);
+int			ft_pwd(void);
 
 /////////////////////////////////
 ///////////// ENV ///////////////
 /////////////////////////////////
 
 /*ENV*/
-int		ft_env(char **env);
+int			ft_env(char **env);
 
 /////////////////////////////////
 ///////////// EXIT //////////////
 /////////////////////////////////
 
 /*EXIT*/
-int	ft_exit(char **args, t_data *data);
+int			ft_exit(char **args, t_data *data);
 
 /*EXIT UTILS : ATOLL*/
-long long ft_atoll(const char *str);
+long long	ft_atoll(const char *str);
 
 /*EXIT UTILS : IS NUMBER*/
-bool isnumber(const char *str);
+bool		isnumber(const char *str);
 
 /////////////////////////////////
 ///////////EXIT UTILS////////////
@@ -88,7 +90,7 @@ int			ft_export(char **args, char **env, t_data *data);
 ////////////////////// EXEC BUILTINS //////////////////
 ///////////////////////////////////////////////////////
 
-int		exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
+int			exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
 
 /////////////////////////// FREE ///////////////////////////
 
@@ -100,10 +102,10 @@ int		exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
 // {
 // 	char *input; //direct dans data ?
 // 	char **str;
-		//tableau du split modifie pour les quote de input ?? ou stocker dans parsing ?
+// tableau du split modifie pour les quote de input ?? ou stocker dans parsing ?
 // 	t_env	*env; //structure pour l'env avec char *key && char *value ??
 // 	t_parsing *parsing;
-		//structure qui contiendra la structure token ? ou juste appelez s_token ?
+// structure qui contiendra la structure token ? ou juste appelez s_token ?
 // 	s_data *next;
 // }
 

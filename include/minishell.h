@@ -1,12 +1,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "env.h"
-# include "exec.h"
-# include "minishell_signals.h"
-# include "parsing.h"
 # include "builtins.h"
 # include "env.h"
+# include "exec.h"
+# include "ft_free.h"
+# include "minishell_signals.h"
+# include "parsing.h"
 # include <errno.h>
 # include <fcntl.h> // open()
 # include <readline/history.h>

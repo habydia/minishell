@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 21:42:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/04 21:42:16 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 15:51:01 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell_signals.h"
 
 char	*reader(void)
 {
-	char *line;
+	char	*line;
 
 	line = readline("Minishell> ");
 	if (line == NULL)
