@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 19:28:16 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 23:57:16 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,9 @@ int	exec_cmd(t_data *data, char *input)
 			curr->path = get_path(data->envp, curr->args[0], &ret);
 			if (!curr->path)
 			{
-				fprintf(stderr, "Command not found: %s\n", curr->args[0]);
+				write(2, "Command not found: ", 19);                   
+				write(2, curr->args[0], strlen(curr->args[0]));
+				write(2, "\n", 1);  
 				free_all(data, 127, NULL);
 				exit(127); // Code 127 pour commande non trouvée
 			}
