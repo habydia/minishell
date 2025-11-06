@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 02:23:28 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/06 16:12:33 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static bool	try_update_existing_env(t_env *env, const char *key, char *value)
 				free(tmp->value);
 				tmp->value = value;
 			}
-			else
-			{
-				free((char *)key);
-			}
+			free((char *)key);
 			return (true);
 		}
 		tmp = tmp->next;
