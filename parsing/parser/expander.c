@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 22:33:27 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/06 14:56:35 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 {
 	char	*new_result;
 
+	// size_t	old_size;
+	// old_size = *i;
 	handle_mixed_quotes(str, i);
 	process_expansion(str, i, j, data);
+	// if (old_size == *i && str[*i])
+	// {
 	if (*j >= *(data->result_size) - 1)
 	{
 		*(data->result_size) *= 2;
@@ -66,6 +70,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		*data->result = new_result;
 	}
 	(*data->result)[(*j)++] = str[(*i)++];
+	// }
 }
 
 static char	*expand_simple_string(const char *str)

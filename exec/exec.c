@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 02:58:30 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 19:10:11 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ void	ft_free_tab_str(char **str)
 	}
 	free(str);
 }
-
-
-
-
-
 
 //////////////////////////////////////////////
 // Générer un nom unique pour chaque heredoc
@@ -64,7 +59,6 @@ char	*get_unique_heredoc_path(void)
 		i++;
 	}
 }
-
 
 /*
 parsing :
@@ -155,7 +149,6 @@ void	reset_std_in_out(t_data *data)
 	close(data->saved_stdout);
 }
 
-
 int	waiting(pid_t pid, int status)
 {
 	int		ret;
@@ -186,8 +179,8 @@ int	exec_cmd(t_data *data, char *input)
 	ret = 0;           // Code de retour de la commande
 	curr = data->cmds; // Commande courante
 	int pipe_fd[2];    // Tableau pour les pipes [0]=lecture, [1]=écriture
-	prev_fd = -1;  
-	status = 0;    // FD du pipe précédent pour la redirection stdin
+	prev_fd = -1;
+	status = 0; // FD du pipe précédent pour la redirection stdin
 	// Statut utilisé pour récupérer le code de sortie des enfants
 	// Met à jour le tableau envp à partir de t_data
 	update_envp(data);
@@ -195,7 +188,7 @@ int	exec_cmd(t_data *data, char *input)
 	// on l'exécute directement dans le processus parent
 	if (is_single_cmd(data) /*&& !ft_strncmp(curr->name, "exit", 5)*/)
 	{
-		if(!ft_strncmp(curr->name, "exit", 5))
+		if (!ft_strncmp(curr->name, "exit", 5))
 		{
 			if (apply_redirections(curr) == -1)
 			{
@@ -203,22 +196,22 @@ int	exec_cmd(t_data *data, char *input)
 				exit(1);                 // Sort de l'enfant
 			}
 			ret = exec_builtins(curr, data, data->envp, input);
-			return(ret);
+			return (ret);
 		}
-		if(!ft_strncmp(curr->name, "cd", 2))
+		if (!ft_strncmp(curr->name, "cd", 2))
 		{
 			ret = exec_builtins(curr, data, data->envp, input);
-			return(ret);
+			return (ret);
 		}
-			if(!ft_strncmp(curr->name, "export", 6))
+		if (!ft_strncmp(curr->name, "export", 6))
 		{
 			ret = exec_builtins(curr, data, data->envp, input);
-			return(ret);
+			return (ret);
 		}
-			if(!ft_strncmp(curr->name, "unset", 5))
+		if (!ft_strncmp(curr->name, "unset", 5))
 		{
 			ret = exec_builtins(curr, data, data->envp, input);
-			return(ret);
+			return (ret);
 		}
 	}
 	// Boucle sur toutes les commandes de la pipeline
@@ -296,7 +289,7 @@ int	exec_cmd(t_data *data, char *input)
 		curr = curr->next;
 	}
 	// Parent attend tous les enfants pour récupérer leurs codes de sortie
-	ret  = waiting(pid, status);
+	ret = waiting(pid, status);
 	// Récupérer le code de sortie du dernier processus
 	return (ret);
 }

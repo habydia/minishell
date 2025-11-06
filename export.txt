@@ -1,0 +1,17 @@
+export test -> 
+cur->key = test 
+cur->value = NULL 
+-> dans ce cas la pas de join envp[i] = test
+
+export test= -> 
+cur->key = test 
+cur->value = '\0'
+-> dans ce cas la envp[i] = test=
+
+export test=test -> 
+cur->key = test 
+cur->value = "test"
+-> dans ce cas la envp[i] = test=test
+
+
+ctrl + D : fait leak quand minishell se ferme

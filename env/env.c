@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:53:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/11/05 03:05:05 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/05 18:36:38 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,19 @@ void	init_envp(t_data *data)
 		free_envp_at_init(data->envp);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
-		free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+		free_all(data, 0, "Error\nMalloc fail in init_envp 1\n");
 	i = 0;
 	tmp = data->env;
 	while (tmp)
 	{
 		str = ft_strjoin(tmp->key, "=");
 		if (!str)
-			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			free_all(data, 0, "Error\nMalloc fail in init_envp 2\n");
 		data->envp[i] = ft_strjoin(str, tmp->value);
 		free(str);
+		// printf("%p %p\n %s\n", data->envp, data->envp[i], data->envp[i]);
 		if (!data->envp || !data->envp[i])
-			free_all(data, 0, "Error\nMalloc fail in init_envp\n");
+			free_all(data, 0, "Error\nMalloc fail in init_envp 3\n");
 		i++;
 		tmp = tmp->next;
 	}
