@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:54:11 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/06 15:27:44 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/06 23:34:41 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
-	// if (!s || !*s)
-	// 	return (NULL); // empeche readline de ce lancer
-	dup = ft_calloc(sizeof(char), ft_strlen(s) + 1);
+	if (!s)
+		return (NULL);
+	dup = ft_calloc(sizeof(char) , ft_strlen(s) + 1);
 	if (!dup)
 		return (NULL);
 	while (s[i])
