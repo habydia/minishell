@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 21:50:24 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 20:28:32 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ int	ft_exit(char **args, t_data *data)
 		else
 			nb = ft_atoi(args[1]);
 	}
-	free_envp(data->envp);
-	free_cmds(data->cmds);
-	free_lst_env(&data->env, false, 0);
-	exit((int)(nb % 256));
+	free_all(data, nb % 256, NULL);
+	return (0);
 }

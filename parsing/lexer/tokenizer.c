@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 06:00:53 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 20:13:22 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,20 @@ static int	process_token(const char *line, int *i, t_token **tokens)
 	}
 	else
 	{
-		while (line[*i] && !ft_isspace(line[*i]) && !is_operator_char(line[*i])) // probleme : il devrait pas skip les "", ce qui fais que echo a"b     c" ne marche pas. Il devrait s'arreter a la premiere quote et executer le skip des quotes.
-			(*i)++;
+		while (line[*i] && !ft_isspace(line[*i]) && !is_operator_char(line[*i]))
+		{
+			if (line[*i] == '"' || line[*i] == '\'')
+			{
+				char quote = line[*i];
+				(*i)++;
+				while (line[*i] && line[*i] != quote)
+					(*i)++;
+				if (line[*i] == quote)
+					(*i)++;
+			}
+			else
+				(*i)++;
+		}
 		if (!tokenize_word(&start, i, tokens, line))
 			return (0);
 	}
