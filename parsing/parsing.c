@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 22:29:10 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 03:21:11 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*line_lexer(const char *line)
 	return (tokens);
 }
 
-t_token	*expand_tokens(t_token *tokens)
+t_token	*expand_tokens(t_token *tokens, t_env *env)
 {
 	t_token	*current;
 	char	*expanded;
@@ -35,7 +35,7 @@ t_token	*expand_tokens(t_token *tokens)
 	{
 		if (current->type == T_WORD && current->value)
 		{
-			expanded = process_token_expansion(current->value);
+			expanded = process_token_expansion(current->value, env);
 			if (expanded && expanded != current->value)
 			{
 				free(current->value);
@@ -57,7 +57,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 	return (cmds);
 }
 
-t_cmd	*parsing(const char *line)
+t_cmd	*parsing(const char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_token	*token_start;
@@ -67,7 +67,7 @@ t_cmd	*parsing(const char *line)
 	if (!tokens)
 		return (NULL);
 	token_start = tokens;
-	tokens = expand_tokens(tokens);
+	tokens = expand_tokens(tokens, env);
 	if (!tokens)
 		return (NULL);
 	cmds = parse_tokens(tokens);

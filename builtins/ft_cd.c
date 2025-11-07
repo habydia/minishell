@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 22:50:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 02:43:24 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	ft_cd(char **args)
 	if (path_checker_limit(path, limit) == true)
 		return (1);
 	ret = chdir(path);
+	free(path);
 	if (check_chdir(ret) == true)
 		return (1);
 	return (0);

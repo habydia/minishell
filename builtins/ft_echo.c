@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:35:05 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 22:48:48 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 02:45:59 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int	ft_echo(char **str)
 		i++;
 	}
 	if (!n_flag)
-		write(1, "\n", 1);
+		printf("\n");
 	return (0);
 }

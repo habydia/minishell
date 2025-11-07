@@ -14,6 +14,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include "env.h"
 
 /* ========== ENUMS ========== */
 
@@ -80,6 +81,7 @@ typedef struct s_expand_data
 	char			**result;
 	size_t			*result_size;
 	size_t			*j;
+	t_env			*env;
 }					t_expand_data;
 
 // Variable globale pour l'exit status
@@ -88,7 +90,7 @@ extern int			g_exit_status;
 /* ========== FONCTIONS PRINCIPALES ========== */
 
 // parsing.c - Fonction principale
-t_cmd				*parsing(const char *line);
+t_cmd				*parsing(const char *line, t_env *env);
 
 /* ========== LEXER ========== */
 
@@ -126,14 +128,14 @@ int					is_operator_char(char c);
 
 t_cmd				*parse_tokens(t_token *tokens);
 // parser/expander.c - Expansion des variables
-t_token				*expand_tokens(t_token *tokens);
+t_token				*expand_tokens(t_token *tokens, t_env *env);
 int					handle_dollar_sign(const char *line, size_t *i,
 						t_expand_data *data);
 char				*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - Fonctions utilitaires pour l'expansion
 int					handle_dollar_sign(const char *line, size_t *i,
 						t_expand_data *data);
-char				*process_token_expansion(const char *value);
+char				*process_token_expansion(const char *value, t_env *env);
 
 // parser/command_builder.c - Construction des commandes
 int					build_redirection_token(t_token **current, t_cmd *cmd);

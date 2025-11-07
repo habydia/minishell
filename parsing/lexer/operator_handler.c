@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operator_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:03 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:17:15 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 00:18:50 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ static t_token_type	get_redirection_type(const char *str, int *i)
 	return (T_WORD);
 }
 
-/*
- * Détermine le type d'opérateur et avance l'index
- */
 t_token_type	get_operator_type(const char *str, int *i)
 {
 	if (str[*i] == '|')
@@ -72,9 +69,6 @@ t_token_type	get_operator_type(const char *str, int *i)
 	return (T_WORD);
 }
 
-/*
- * Vérifie si un caractère est le début d'un opérateur
- */
 int	is_operator_char(char c)
 {
 	return (c == '|' || c == '<' || c == '>');

@@ -59,6 +59,8 @@
         "streambuf": "c",
         "typeinfo": "c",
         "minishell.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "env.h": "c",
+        "minishell_signals.h": "c"
     }
 }

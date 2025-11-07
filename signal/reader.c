@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 21:42:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 15:51:01 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 02:55:23 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signals.h"
+#include "env.h"
 
-char	*reader(void)
+char	*reader(t_data *data)
 {
 	char	*line;
 
 	line = readline("Minishell> ");
 	if (line == NULL)
-		exit(1);
+		free_all(data, 1, NULL);
 	if (!line)
 	{
 		perror("Error reading line");

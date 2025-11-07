@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/06 17:35:59 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 03:22:43 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
 	char	*new_result;
-	size_t	old_size;
 
-	old_size = *i;
 	handle_mixed_quotes(str, i);
-	process_expansion(str, i, j, data);
-	if (old_size == *i && str[*i])
+	if (!process_expansion(str, i, j, data))
+		return ;
+	if (str[*i])
 	{
 		if (*j >= *(data->result_size) - 1)
 		{
@@ -74,7 +73,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 	}
 }
 
-static char	*expand_simple_string(const char *str)
+static char	*expand_simple_string(const char *str, t_env *env)
 {
 	char			*result;
 	size_t			result_size;
@@ -82,6 +81,7 @@ static char	*expand_simple_string(const char *str)
 	size_t			j;
 	t_expand_data	data;
 
+	data.env = env;
 	if (!str)
 		return (NULL);
 	result_size = ft_strlen(str) * 2 + 1;
@@ -94,14 +94,12 @@ static char	*expand_simple_string(const char *str)
 	i = 0;
 	j = 0;
 	while (str[i])
-	{
 		handle_expansion(str, &i, &j, &data);
-	}
 	result[j] = '\0';
 	return (result);
 }
 
-char	*process_token_expansion(const char *value)
+char	*process_token_expansion(const char *value, t_env *env)
 {
 	int		len;
 	char	*temp;
@@ -113,18 +111,16 @@ char	*process_token_expansion(const char *value)
 		return (NULL);
 	len = ft_strlen(value);
 	if (len < 2)
-		return (expand_simple_string(value));
+		return (expand_simple_string(value, env));
 	if (value[0] == '\'' && value[len - 1] == '\'')
 		return (remove_quotes(value, '\''));
 	else if (value[0] == '"' && value[len - 1] == '"')
 	{
 		temp = remove_quotes(value, '"');
-		expanded = expand_simple_string(temp);
+		expanded = expand_simple_string(temp, env);
 		free(temp);
 		return (expanded);
 	}
 	else
-	{
-		return (expand_simple_string(value));
-	}
+		return (expand_simple_string(value, env));
 }

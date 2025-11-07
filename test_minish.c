@@ -5,29 +5,28 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_env	*envd;
 	t_data	data;
-	int		running;
+	// int		running;
 
 	(void)ac;
 	(void)av;
 	envd = NULL;
-	running = 1;
+	// running = 1;
 	init_lst_env(&envd, env); // segfault
 	save_std_in_out(&data);
 	handle_signals();
 	while (1) //(running) // flag de running pour continuer la boubcle, si
 	{
-		line = reader();
+		init_data(&data, &envd, NULL);
+		line = reader(&data);
 		if (!line)
 		{
-			// running = 0;
 			continue ;
 		}
 		if (line[0] != '\0')
 			add_history(line);
 		// if(data.envp) // libere lancien envp //
 		// a verfier
-		init_data(&data, &envd, NULL);
-		data.cmds = parsing(line);
+		data.cmds = parsing(line, envd);
 		// print_cmds(data.cmds);
 		init_envp(&data);
 		// print_lst_env(envd);

@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../libft/libft/libft.h"
+# include "env.h"
 
 extern int g_exit_status;
 extern volatile sig_atomic_t g_interrupted;
@@ -18,6 +19,6 @@ void setup_sigquit(void);
 void handle_sigint(int sig);
 void handle_signals(void);
 
-char    *reader(void);
+char	*reader(t_data *data);
 
 #endif /* MINISHELL_SIGNALS_H */

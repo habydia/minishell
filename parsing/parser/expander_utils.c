@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 22:25:23 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 03:29:36 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,24 @@ static char	*extract_var_name(const char *line, size_t *i)
 	return (var_name);
 }
 
+char	*ft_getenv(char *name, t_env *envp)
+{
+	while (envp)
+	{
+		if (ft_strcmp(name, envp->key) == 0)
+			return (envp->value);
+		envp = envp->next;
+	}
+	return (NULL);
+}
+
 static int	expand_env_var(char *var_name, t_expand_data *data)
 {
 	char	*env_value;
 	char	*new_result;
 	size_t	val_len;
 
-	env_value = getenv(var_name);
+	env_value = ft_getenv(var_name, data->env);
 	if (!env_value)
 		env_value = "";
 	val_len = ft_strlen(env_value);

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:44:54 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 23:53:50 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 00:35:09 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	process_env_node(t_env *curr, char **envp, int i)
 		free(envp[i]);
 		envp[i] = ft_strjoin(key_equal, curr->value);
 	}
-	free(key_equal);
+    free(key_equal);
 	if (!ft_strjoin_checker_envp(envp[i], envp, i))
 		return ;
 }

@@ -27,6 +27,9 @@ void	reset_std_in_out(t_data *data);
 
 void	save_std_in_out(t_data *data);
 
+void	process_env_node(t_env *curr, char **envp, int i);
+
+
 // #include "env.h"
 ////PATH UTILS///
 // void	ft_free_tab_str(char **str);

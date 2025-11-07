@@ -69,14 +69,14 @@ re: fclean all
 debug: CFLAGS += -g3
 debug: fclean all
 	valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes --suppressions=readline.supp \
-		--trace-children=yes ./minishell
+		--track-origins=yes --suppressions=$(PWD)/readline.supp \
+		--trace-children=yes --track-fds=yes ./minishell
 
 # Compile for debug mode + valgrind
 fdebug: CFLAGS += -g3 -DDEBUG_MODE=1
 fdebug: fclean all
 	DEBUG_MODE=1 valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes --suppressions=readline.supp \
+		--track-origins=yes --suppressions=$(PWD)/readline.supp \
 		--trace-children=yes ./minishell
 
 .PHONY: all clean fclean re debug fdebug
