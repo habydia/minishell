@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 03:22:43 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 05:31:51 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		if (*j >= *(data->result_size) - 1)
 		{
 			*(data->result_size) *= 2;
-			new_result = ft_realloc(*data->result, *(data->result_size));
+			new_result = ft_realloc(*data->result, *j, *(data->result_size));
 			if (!new_result)
 			{
 				free(*data->result);

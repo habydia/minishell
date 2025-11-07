@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:19:33 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 05:28:49 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_word_token(t_args_builder *builder, const char *value)
 	if (builder->count >= builder->capacity - 1)
 	{
 		builder->capacity *= 2;
-		new_args = ft_realloc(builder->args, sizeof(char *)
+		new_args = ft_realloc(builder->args, builder->count, sizeof(char *)
 				* (builder->capacity));
 		if (!new_args)
 			return (0);

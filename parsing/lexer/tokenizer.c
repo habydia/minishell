@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:34:48 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/07 06:00:53 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static int	process_token(const char *line, int *i, t_token **tokens)
 	int	start;
 
 	start = *i;
-	if (is_operator_char(line[*i]) || line[*i] == '"' || line[*i] == '\'')
+	if (is_operator_char(line[*i]))
 	{
 		if (!handle_operator_and_quote(i, &start, line, tokens))
 			return (0);
 	}
 	else
 	{
-		while (line[*i] && !ft_isspace(line[*i]) && !is_operator_char(line[*i]))
+		while (line[*i] && !ft_isspace(line[*i]) && !is_operator_char(line[*i])) // probleme : il devrait pas skip les "", ce qui fais que echo a"b     c" ne marche pas. Il devrait s'arreter a la premiere quote et executer le skip des quotes.
 			(*i)++;
 		if (!tokenize_word(&start, i, tokens, line))
 			return (0);

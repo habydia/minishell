@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 03:29:36 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 05:35:16 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 	while (*j + val_len >= *result_size)
 	{
 		*result_size *= 2;
-		new_result = ft_realloc(*result, *result_size);
+		new_result = ft_realloc(*result, *j, *result_size);
 		if (!new_result)
 		{
 			free(*result);
@@ -84,7 +84,7 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 	while (*(data->j) + val_len >= *(data->result_size))
 	{
 		*(data->result_size) *= 2;
-		new_result = ft_realloc(*(data->result), *(data->result_size));
+		new_result = ft_realloc(*(data->result), *data->j, *(data->result_size));
 		if (!new_result)
 		{
 			free(*(data->result));

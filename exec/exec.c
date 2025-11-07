@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 02:47:02 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/07 04:37:59 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,8 @@ int	exec_cmd(t_data *data, char *input)
 				exit(1);                 // Sort de l'enfant
 			}
 			ret = exec_builtins(curr, data, data->envp, input);
-			return (ret);
+			free_all(data, ret, NULL);
+			// return (ret);
 		}
 		if (!ft_strncmp(curr->name, "cd", 2))
 		{
