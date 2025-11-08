@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 18:52:08 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 19:16:20 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
 
 
 
-void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
+void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input) // A NORMER ENCORE
 {
     int ret = 0;
 
