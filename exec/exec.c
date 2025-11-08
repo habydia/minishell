@@ -6,15 +6,13 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 17:10:44 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 18:52:08 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "exec.h"
 #include "parsing.h"
-
-// lose(), read(), write(), dup2(), pipe()
 
 ///////////////////////////////
 ///////GET PATH - UTILS////////
@@ -32,17 +30,6 @@ void	ft_free_tab_str(char **str)
 	free(str);
 }
 
-
-
-/*
-parsing :
-- trouver hd
-- open 2 fd ( 1 ecriture (parsing) | 1 lecture (exec))
-- unlink immediatement le fichier (plus reference sur le filesystem)
-- rempli le fd d'ecriture avec le contenu du hd puis close le fd d'ecriture
-- envoie le fd de lecture a l'exec,
-	qui l'utilisera puis closera une fois les operations effectuees
-*/
 
 //////////////////////////////////////////////
 // Libérer argv
@@ -87,7 +74,7 @@ int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
 	int	ret;
 
 	ret = 0;
-	if (!ft_strncmp(curr->name, "exit", 5))
+	if (!ft_strcmp(curr->name, "exit"))
 	{
 		if (apply_redirections(curr) == -1)
 		{
@@ -97,10 +84,12 @@ int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
 		ret = exec_builtins(curr, data, data->envp, input);
 		free_all(data, ret, NULL);
 	}
-	if (!ft_strncmp(curr->name, "cd", 2)
-		|| !ft_strncmp(curr->name, "export", 6)
-		|| !ft_strncmp(curr->name, "unset", 5))
+	if (!ft_strcmp(curr->name, "cd")
+		|| !ft_strcmp(curr->name, "export")
+		|| !ft_strcmp(curr->name, "unset"))
 	{
+		if (apply_redirections(curr) == -1)
+			return (1);
 		ret = exec_builtins(curr, data, data->envp, input);
 		return (ret);
 	}
@@ -136,7 +125,6 @@ void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
     {
         ret = exec_builtins(curr, data, data->envp, input);
         free_all(data, ret, NULL);
-        exit(ret);
     }
 
     curr->path = get_path(data->envp, curr->args[0], &ret);
@@ -146,7 +134,6 @@ void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
         write(2, curr->args[0], strlen(curr->args[0]));
         write(2, "\n", 1);
         free_all(data, 127, NULL);
-        exit(127);
     }
 
     close(data->saved_stdin);
@@ -154,53 +141,55 @@ void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
     execve(curr->path, curr->args, data->envp);
     perror("execve");
     free_all(data, 1, NULL);
-    exit(1);
 }
 
 
 
 
 ////////////////////////////////////////////////////////////////////////////
-static void	handle_parent_process(t_cmd **curr, int *prev_fd, int *pipe_fd)
+void handle_parent_process(t_cmd **curr, t_pipe *p)
 {
-	if (*prev_fd != -1)
-		close(*prev_fd);
-	if ((*curr)->next)
-	{
-		close(pipe_fd[1]);
-		*prev_fd = pipe_fd[0];
-	}
-	*curr = (*curr)->next;
+    if (p->prev_fd != -1)
+        close(p->prev_fd);
+    if ((*curr)->next)
+    {
+        close(p->pipe_fd[1]);// Fermeture côté écriture
+        p->prev_fd = p->pipe_fd[0];// On garde le côté lecture pour la prochaine commande
+    }
+    *curr = (*curr)->next;
 }
 
 
 
-int	execute_pipeline(t_data *data, t_cmd *curr, char *input)
+int execute_pipeline(t_data *data, t_cmd *curr, char *input, int ret)
 {
-	int		ret;
-	int		prev_fd;
-	int		status;
-	pid_t	pid;
-	int		pipe_fd[2];
-	t_pipe p;
-
-	ret = 0;
-	prev_fd = -1;
+	int status;
+    pid_t pid;
+    t_pipe p;
+	
 	status = 0;
-	while (curr)
-	{
-		if (curr->next && pipe(pipe_fd) == -1)
-			return (perror("pipe"), 1);
-		pid = fork();
-		if (pid < 0)
-			return (perror("fork"), 1);
-		if (pid == 0)
-			handle_child_process(data, curr, &p, input);
-		handle_parent_process(&curr, &prev_fd, pipe_fd);
-	}
-	ret = waiting(pid, status);
-	return (ret);
+    p.prev_fd = -1;
+    while (curr)
+    {
+     	if (curr->next && pipe(p.pipe_fd) == -1)
+		{
+			perror("pipe");
+			return (1);
+		}
+        pid = fork();
+    	if (pid < 0) // Erreur de fork
+		{
+			perror("fork");
+			return (1);
+		}
+        if (pid == 0)
+            handle_child_process(data, curr, &p, input);
+        handle_parent_process(&curr, &p);
+    }
+    ret = waiting(pid, status);
+    return (ret);
 }
+
 
 
 int	exec_cmd(t_data *data, char *input)
@@ -211,17 +200,14 @@ int	exec_cmd(t_data *data, char *input)
 
 	ret = 0;
 	curr = data->cmds;
-	
 	update_envp(data);
-
 	if (is_single_cmd(data))
 	{
 		single_ret = handle_parent_builtins(data, curr, input);
 		if (single_ret != -1)
 			return (single_ret);
 	}
-
-	ret = execute_pipeline(data, curr, input);
+	ret = execute_pipeline(data, curr, input, ret);
 	return (ret);
 }
 

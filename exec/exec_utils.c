@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 17:09:49 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 18:43:10 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	waiting(pid_t pid, int status)
 {
 	int		ret;
 	pid_t	pid_at_exit;
-
+	
+	ret = 0;
 	while (1)
 	{
 		pid_at_exit = wait(&status);

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 15:15:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 18:55:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_cd(char **args)
 			printf("cd: HOME not set\n");
 			return (1);
 		}
+		path = ft_strdup(path);
 	}
 	else
 		path = ft_strdup(args[1]);
