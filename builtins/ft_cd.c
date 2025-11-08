@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 02:43:24 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 15:15:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_cd(char **args)
 	if (check_to_many_arguments(args) == true)
 		return (1);
 	if (!args[1] || (args[1][0] == '~' && (args[1][1] == '\0'
-		|| args[1][1] == '/')))
+				|| args[1][1] == '/')))
 	{
 		path = getenv("HOME");
 		if (!path)
