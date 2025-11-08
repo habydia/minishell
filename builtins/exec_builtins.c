@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 19:06:29 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 19:14:43 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
 	if (ft_strcmp(cmd->args[0], "env") == 0)
-		status = ft_env(cmd->args, env);
+		status = ft_env(env);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		status = ft_pwd();
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
