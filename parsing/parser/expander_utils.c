@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 05:35:16 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 01:28:46 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,6 @@ static char	*extract_var_name(const char *line, size_t *i)
 	return (var_name);
 }
 
-char	*ft_getenv(char *name, t_env *envp)
-{
-	while (envp)
-	{
-		if (ft_strcmp(name, envp->key) == 0)
-			return (envp->value);
-		envp = envp->next;
-	}
-	return (NULL);
-}
-
 static int	expand_env_var(char *var_name, t_expand_data *data)
 {
 	char	*env_value;
@@ -84,7 +73,8 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 	while (*(data->j) + val_len >= *(data->result_size))
 	{
 		*(data->result_size) *= 2;
-		new_result = ft_realloc(*(data->result), *data->j, *(data->result_size));
+		new_result = ft_realloc(*(data->result), *data->j,
+				*(data->result_size));
 		if (!new_result)
 		{
 			free(*(data->result));

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 03:21:11 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/08 23:11:02 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parsing.h"
 
 t_token	*line_lexer(const char *line)
@@ -64,6 +65,10 @@ t_cmd	*parsing(const char *line, t_env *env)
 	t_cmd	*cmds;
 
 	tokens = line_lexer(line);
+	if (DEBUG_MODE)
+	{
+		print_tokens(tokens);
+	}
 	if (!tokens)
 		return (NULL);
 	token_start = tokens;

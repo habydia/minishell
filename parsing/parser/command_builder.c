@@ -6,10 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:20 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/04 22:24:29 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/09 03:35:54 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_free.h"
 #include "parsing.h"
 
 static int	process_redirection_token(t_token **current,

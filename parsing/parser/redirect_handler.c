@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:21:36 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/09 03:24:14 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,6 @@ void	add_redir_back(t_redir **redirs, t_redir *new_redir)
 	while (current->next)
 		current = current->next;
 	current->next = new_redir;
-}
-
-void	free_args_on_error(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
 }
 
 char	*remove_quotes(const char *value, char quote_type)

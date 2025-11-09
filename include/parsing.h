@@ -2,6 +2,7 @@
 # define PARSING_H
 
 # include "../libft/libft/libft.h"
+# include "env.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -14,7 +15,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include "env.h"
 
 /* ========== ENUMS ========== */
 
@@ -82,18 +82,25 @@ typedef struct s_expand_data
 	size_t			*result_size;
 	size_t			*j;
 	t_env			*env;
+	int in_quote;        /* Si on est dans une chaîne citée */
+	char quote_type;     /* Type de quote actuel (' ou ") */
+	int escaped;         /* Si le caractère suivant est échappé */
+	int preserve_spaces; /* Si on doit préserver les espaces */
 }					t_expand_data;
 
 // Variable globale pour l'exit status
 extern int			g_exit_status;
 
 /* ========== FONCTIONS PRINCIPALES ========== */
-
+char				*ft_getenv(char *name, t_env *envp);
 // parsing.c - Fonction principale
 t_cmd				*parsing(const char *line, t_env *env);
 
 /* ========== LEXER ========== */
 
+int					is_quote_balanced(const char *line, int start, int end);
+int					find_closing_quote(const char *line, int *i,
+						char quote_type);
 // lexer/lexer.c - Fonction principale du lexer
 t_token				*line_lexer(const char *line);
 
@@ -163,12 +170,11 @@ char				**init_args_array(const char *cmd_name, int *capacity);
 
 // Libération mémoire
 void				free_tokens(t_token *head);
-void				free_cmds(t_cmd *cmds);
 void				free_redirs(t_redir *redirs);
 void				free_args(char **args);
 void				free_args_on_error(char **args);
 // Debug (optionnel)
 void				print_tokens(t_token *tokens);
 void				print_cmds(t_cmd *cmds);
-
+int					ft_count_quotes(const char *str);
 #endif

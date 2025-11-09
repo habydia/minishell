@@ -10,13 +10,15 @@ endif
 
 SRC = parsing/lexer/operator_handler.c \
       parsing/lexer/tokenizer.c \
+	  parsing/lexer/tokenizer_handler.c \
+	  parsing/lexer/quotes_utils.c\
+	  parsing/lexer/ft_free.c \
       parsing/parser/command_builder.c \
 	  parsing/parser/expander.c \
 	  parsing/parser/expander_utils.c \
       parsing/parser/pipeline_handler.c \
       parsing/parser/redirect_handler.c \
 	  parsing/parser/heredoc_handler.c \
-	  parsing/lexer/tokenizer_utils.c \
 	  parsing/parser/command_builder_utils.c \
 	  signal/* \
 	  exec/* \
@@ -54,6 +56,18 @@ force:
 $(OBJ_DIR)/%.o: %.c $(HEADER) Makefile | $(OBJ_DIR)
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -O3 -c $< -o $@
+
+
+# Compile for valgrind
+debug: CFLAGS += -g3
+debug: fclean all
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp --trace-children=yes ./minishell
+
+# Compile for debug mode + valgrind
+fdebug: CFLAGS += -g3 -DDEBUG_MODE=1
+fdebug: fclean all
+	DEBUG_MODE=1 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp --trace-children=yes ./minishell
+
 
 clean:
 	rm -rf $(OBJ_DIR)

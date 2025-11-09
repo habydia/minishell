@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 05:28:49 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 03:24:18 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,21 +98,4 @@ char	**init_args_array(const char *cmd_name, int *capacity)
 	else
 		args[0] = NULL;
 	return (args);
-}
-
-void	free_cmds(t_cmd *cmds)
-{
-	t_cmd	*temp;
-	t_cmd	*current;
-
-	current = cmds;
-	while (current)
-	{
-		temp = current->next;
-		free(current->name);
-		free_args_on_error(current->args);
-		free_redirs(current->redirs);
-		free(current);
-		current = temp;
-	}
 }

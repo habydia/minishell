@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*   tokenizer_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:07 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/01 05:26:36 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/09 03:13:00 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,25 @@ int	tokenize_operator(const char *line, int *i, int *start, t_token **tokens)
 int	tokenize_quote(const char *line, int *start, int *i, t_token **tokens)
 {
 	char	*quoted_value;
-	int		j;
+	char	quote_type;
+	int		original_i;
 
+	original_i = *i;
+	quote_type = line[*i];
+	if (!is_quote_balanced(line, *start, *i))
+	{
+		*i = original_i;
+		return (0);
+	}
 	quoted_value = malloc(*i - *start + 1);
 	if (!quoted_value)
 	{
 		free_tokens(*tokens);
 		return (0);
 	}
-	if (quoted_value)
-	{
-		j = 0;
-		while (j < *i - *start)
-		{
-			quoted_value[j] = line[*start + j];
-			j++;
-		}
-		quoted_value[j] = '\0';
-		add_token_back(tokens, create_token(T_WORD, quoted_value));
-		free(quoted_value);
-	}
+	ft_strlcpy(quoted_value, line + *start, *i - *start + 1);
+	add_token_back(tokens, create_token(T_WORD, quoted_value));
+	free(quoted_value);
 	return (1);
 }
 
@@ -89,14 +88,17 @@ int	tokenize_word(int *start, int *i, t_token **tokens, const char *line)
 int	handle_quote(const char *line, int *i, int *start, t_token **tokens)
 {
 	char	quote_type;
+	int		original_i;
 
 	quote_type = line[*i];
-	(*i)++;
-	*start = *i - 1;
-	while (line[*i] && line[*i] != quote_type)
-		(*i)++;
-	if (line[*i] == quote_type)
-		(*i)++;
+	original_i = *i;
+	*start = *i;
+	if (!find_closing_quote(line, i, quote_type))
+	{
+		*i = original_i;
+		while (line[*i] && !ft_isspace(line[*i]) && !is_operator_char(line[*i]))
+			(*i)++;
+	}
 	if (!tokenize_quote(line, start, i, tokens))
 		return (0);
 	return (1);

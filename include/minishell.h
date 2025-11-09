@@ -18,6 +18,10 @@
 # include <sys/wait.h>
 # include <unistd.h> // c
 
+# ifndef DEBUG_MODE
+#  define DEBUG_MODE 0
+# endif
+
 ////////////ENV.C && LST_UTILS_ENV.C///////////
 
 // int		add_back_env(t_env **envd);

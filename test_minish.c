@@ -5,8 +5,8 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	t_env	*envd;
 	t_data	data;
-	// int		running;
 
+	// int		running;
 	(void)ac;
 	(void)av;
 	envd = NULL;
@@ -27,7 +27,11 @@ int	main(int ac, char **av, char **env)
 		// if(data.envp) // libere lancien envp //
 		// a verfier
 		data.cmds = parsing(line, envd);
-		// print_cmds(data.cmds);
+		if (DEBUG_MODE)
+		{
+			print_cmds(data.cmds);
+			// print_lst_env(envd);
+		}
 		init_envp(&data);
 		// print_lst_env(envd);
 		g_exit_status = exec_cmd(&data, line);
@@ -98,12 +102,22 @@ void	print_cmds(t_cmd *cmds)
 
 void	print_lst_env(t_env *envd)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = envd;
 	while (current)
 	{
 		printf("%s=%s\n", current->key, current->value);
+		current = current->next;
+	}
+}
+
+void	print_tokens(t_token *tokens)
+{
+	t_token *current = tokens;
+	while (current)
+	{
+		printf("Token Type: %d, Value: %s\n", current->type, current->value);
 		current = current->next;
 	}
 }

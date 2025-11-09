@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 21:52:57 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 02:08:39 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 03:36:26 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "exec.h"
 #include "ft_free.h"
 #include "parsing.h"
-#include "exec.h"
 
 void	free_tab(char **dst)
 {
@@ -30,7 +30,7 @@ void	free_tab(char **dst)
 
 int	free_all(t_data *data, int errcode, char *str)
 {
-	if(data->saved_stdin || data->saved_stdout)
+	if (data->saved_stdin || data->saved_stdout)
 		reset_std_in_out(data);
 	if (data->env)
 		free_lst_env(&data->env, false, 0);
