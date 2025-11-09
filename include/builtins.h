@@ -72,7 +72,21 @@ int			ft_echo(char **str);
 ////////////// CD ///////////////
 /////////////////////////////////
 
-int			ft_cd(char **str);
+int			ft_cd(char **args);
+
+char	*cd_get_path(char **args);
+
+/*FT_CD_UTILS*/
+
+bool	check_to_many_arguments(char **args);
+
+bool	check_path_limit(char *path, size_t limit);
+
+bool	check_chdir(int ret);
+
+bool	check_path_validity(char *path, size_t limit);
+
+
 
 /////////////////////////////////
 ///////////// UNSET /////////////
@@ -85,12 +99,30 @@ int			ft_unset(char **args, char **env, t_data *data);
 /////////////////////////////////
 
 int			ft_export(char **args, char **env, t_data *data);
+void error_message(char *arg);
+
+
+/*EXPORT_UTILS*/
+
+void	add_or_update_env(t_env **env, char *str);
+
+
+/*EXPORT_UTILS_KEY*/
+
+void	handle_key_value(const char *str, char *eq_pos, char **key_out, char **value_out);
+
+void	handle_key_only(const char *str, char **key_out, char **value_out);
+
+void	split_key_value(const char *str, char **key_out, char **value_out);
 
 ///////////////////////////////////////////////////////
 ////////////////////// EXEC BUILTINS //////////////////
 ///////////////////////////////////////////////////////
 
 int			exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
+
+
+
 
 /////////////////////////// FREE ///////////////////////////
 

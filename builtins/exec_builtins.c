@@ -6,24 +6,11 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 19:14:43 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 16:02:02 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_free_tab(char **dst)
-{
-	int	i;
-
-	i = 0;
-	while (dst && dst[i])
-	{
-		free(dst[i]);
-		i++;
-	}
-	free(dst);
-}
 
 int	ft_exit_handle(t_cmd *cmd, t_data *data, int status, char *input)
 {

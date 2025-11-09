@@ -6,28 +6,11 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 23:31:47 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 16:37:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	split_key_value(const char *str, char **key_out, char **value_out)
-{
-	char	*eq_pos;
-
-	eq_pos = ft_strchr(str, '=');
-	if (eq_pos)
-	{
-		*key_out = ft_strndup(str, eq_pos - str);
-		*value_out = ft_strdup(eq_pos + 1);
-	}
-	else
-	{
-		*key_out = ft_strdup(str);
-		*value_out = NULL;
-	}
-}
 
 static bool	try_update_existing_env(t_env *env, const char *key, char *value)
 {

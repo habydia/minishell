@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 18:55:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 15:58:21 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,27 @@
 #include <string.h>
 #include <unistd.h>
 
-bool	check_to_many_arguments(char **args)
+char	*cd_get_path(char **args)
 {
-	if (args[1])
+	char	*path;
+	char	*home;
+
+	if (!args[1] || (args[1][0] == '~' && (args[1][1] == '\0'
+		|| args[1][1] == '/')))
 	{
-		if (args[2])
+		home = getenv("HOME");
+		if (!home)
 		{
-			write(2, "cd: too many arguments\n", 24);
-			return (true);
+			printf("cd: HOME not set\n");
+			return (NULL);
 		}
+		path = ft_strdup(home);
 	}
-	return (false);
-}
-
-bool	path_checker_limit(char *path, size_t limit)
-{
-	if (ft_strlen(path) > limit)
-	{
-		write(2, "cd: File name too long\n", 24);
-		return (true);
-	}
-	return (false);
-}
-
-bool	check_chdir(int ret)
-{
-	if (ret == -1)
-	{
-		perror("cd");
-		return (true);
-	}
-	return (false);
+	else
+		path = ft_strdup(args[1]);
+	if (!path)
+		perror("cd: malloc");
+	return (path);
 }
 
 int	ft_cd(char **args)
@@ -59,20 +49,10 @@ int	ft_cd(char **args)
 	limit = 255;
 	if (check_to_many_arguments(args) == true)
 		return (1);
-	if (!args[1] || (args[1][0] == '~' && (args[1][1] == '\0'
-				|| args[1][1] == '/')))
-	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			printf("cd: HOME not set\n");
-			return (1);
-		}
-		path = ft_strdup(path);
-	}
-	else
-		path = ft_strdup(args[1]);
-	if (path_checker_limit(path, limit) == true)
+	path = cd_get_path(args);
+	if (!path)
+		return (1);
+	if (!check_path_validity(path, limit))
 		return (1);
 	ret = chdir(path);
 	free(path);

@@ -61,6 +61,8 @@
         "minishell.h": "c",
         "limits.h": "c",
         "env.h": "c",
-        "minishell_signals.h": "c"
+        "minishell_signals.h": "c",
+        "builtins.h": "c",
+        "exec.h": "c"
     }
 }

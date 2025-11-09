@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 04:37:54 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/09 16:46:50 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,14 @@ static int	handle_no_args(char **env)
 	return (0);
 }
 
-static int	process_single_arg(char *arg, t_data *data)
+void	error_message(char *arg)
+{
+	write(2, "export: `", 9);
+	write(2, arg, ft_strlen(arg));
+	write(2, "': not a valid identifier\n", 27);
+}
+
+int	process_single_arg(char *arg, t_data *data)
 {
 	char	*eq_pos;
 	char	*key_only;
@@ -58,21 +65,22 @@ static int	process_single_arg(char *arg, t_data *data)
 
 	eq_pos = ft_strchr(arg, '=');
 	exit_flag = 0;
-	if (eq_pos != NULL)
+	if (eq_pos)
 		key_only = ft_strndup(arg, eq_pos - arg);
 	else
 		key_only = ft_strdup(arg);
+	if (!key_only)
+	{
+		perror("malloc");
+		return (1);
+	}
 	if (!identifier_correct(key_only))
 	{
-		write(2, "export: `", 9);
-		write(2, arg, ft_strlen(arg));
-		write(2, "': not a valid identifier\n", 28);
+		error_message(arg);
 		exit_flag = 1;
 	}
 	else
-	{
 		add_or_update_env(&data->env, arg);
-	}
 	free(key_only);
 	return (exit_flag);
 }
