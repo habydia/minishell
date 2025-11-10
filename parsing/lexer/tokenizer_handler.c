@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:07 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:13:00 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/10 14:47:36 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	tokenize_operator(const char *line, int *i, int *start, t_token **tokens)
 int	tokenize_quote(const char *line, int *start, int *i, t_token **tokens)
 {
 	char	*quoted_value;
-	char	quote_type;
+	// char	quote_type;
 	int		original_i;
 
 	original_i = *i;
-	quote_type = line[*i];
+	// quote_type = line[*i];
 	if (!is_quote_balanced(line, *start, *i))
 	{
 		*i = original_i;

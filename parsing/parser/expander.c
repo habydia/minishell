@@ -3,77 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 01:48:46 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/10 15:48:25 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	process_expansion(const char *str, size_t *i, size_t *j,
+static void	handle_quote_context(const char *str, size_t *i,
 		t_expand_data *data)
 {
-	if (str[*i] == '\\' && str[*i + 1] == '$')
+	char	current_quote;
+
+	current_quote = str[*i];
+	if (current_quote == '\'' || current_quote == '"')
 	{
-		(*data->result)[(*j)++] = '$';
-		(*i) += 2;
-	}
-	else if (str[*i] == '$')
-	{
-		if (!handle_dollar_sign(str, i, data))
+		if (!data->in_quote)
 		{
-			free(*data->result);
-			*data->result = NULL;
-			return (0);
+			data->in_quote = 1;
+			data->quote_type = current_quote;
+			(*i)++;
+			return ;
+		}
+		if (data->quote_type == current_quote)
+		{
+			data->in_quote = 0;
+			data->quote_type = 0;
+			(*i)++;
+			return ;
 		}
 	}
-	return (1);
 }
 
-static void	handle_mixed_quotes(const char *str, size_t *i)
+static int	handle_realloc(char **result, size_t *j, size_t *result_size)
 {
-	if ((str[*i] == '"' && str[*i + 1] == '"') || (str[*i] == '\'' && str[*i
-			+ 1] == '\''))
+	char	*new_result;
+
+	if (*j >= *result_size - 1)
 	{
-		(*i) += 2;
-		return ;
+		*result_size *= 2;
+		new_result = ft_realloc(*result, *j, *result_size);
+		if (!new_result)
+		{
+			free(*result);
+			return (0);
+		}
+		*result = new_result;
 	}
-	if (str[*i] == '"' || str[*i] == '\'')
-	{
-		(*i)++;
-		return ;
-	}
+	return (1);
 }
 
 static void	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
-	char	*new_result;
+	size_t	old_i;
 
-	handle_mixed_quotes(str, i);
-	if (!process_expansion(str, i, j, data))
+	old_i = *i;
+	handle_quote_context(str, i, data);
+	if (str[*i] == '\0')
 		return ;
-	if (str[*i])
+	if (*i != old_i)
+		return ;
+	if (str[*i] == '$' && (!data->in_quote || data->quote_type == '"'))
 	{
-		if (*j >= *(data->result_size) - 1)
+		if (!handle_dollar_sign(str, i, data))
 		{
-			*(data->result_size) *= 2;
-			new_result = ft_realloc(*data->result, *j, *(data->result_size));
-			if (!new_result)
-			{
-				free(*data->result);
-				*data->result = NULL;
-				return ;
-			}
-			*data->result = new_result;
+			free(*data->result);
+			*data->result = NULL;
+			return ;
+		}
+	}
+	else
+	{
+		if (!handle_realloc(data->result, data->j, data->result_size))
+		{
+			*data->result = NULL;
+			return ;
 		}
 		(*data->result)[(*j)++] = str[(*i)++];
 	}
 }
 
-static char	*expand_simple_string(const char *str, t_env *env)
+static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes)
 {
 	char			*result;
 	size_t			result_size;
@@ -82,6 +95,11 @@ static char	*expand_simple_string(const char *str, t_env *env)
 	t_expand_data	data;
 
 	data.env = env;
+	data.in_quote = in_dquotes;
+	if (in_dquotes)
+		data.quote_type = '"';
+	else
+		data.quote_type = 0;
 	if (!str)
 		return (NULL);
 	result_size = ft_strlen(str) * 2 + 1;
@@ -104,23 +122,21 @@ char	*process_token_expansion(const char *value, t_env *env)
 	int		len;
 	char	*temp;
 	char	*expanded;
-	int		i;
 
-	i = 0;
 	if (!value)
 		return (NULL);
 	len = ft_strlen(value);
 	if (len < 2)
-		return (expand_simple_string(value, env));
+		return (expand_simple_string(value, env, 0));
 	if (value[0] == '\'' && value[len - 1] == '\'')
 		return (remove_quotes(value, '\''));
 	else if (value[0] == '"' && value[len - 1] == '"')
 	{
 		temp = remove_quotes(value, '"');
-		expanded = expand_simple_string(temp, env);
+		expanded = expand_simple_string(temp, env, 1);
 		free(temp);
 		return (expanded);
 	}
 	else
-		return (expand_simple_string(value, env));
+		return (expand_simple_string(value, env, 0));
 }

@@ -17,27 +17,30 @@ $ < inexisting_file (redir qui echoue)
 expand :
 Minishell> echo '$USER'"$USER"
 result:
-lebroue'lebroue"
+$USERlebroue
 expected:
 $USERlebroue
+OK DONE
 
 Minishell> echo "'$USER'"
 result :
-lebroue'
+'lebroue'
 expected :
 'lebroue'
+OK DONE
 
 Minishell> echo $""
 result:
-$"
+$
 expected :
 $
+OK DONE
 Minishell> echo $''
 result :
-$'
+$
 expected :
 $
-
+OK DONE
 
 unset premiere variable d'env ==> invalid read etc,...
 patch en gerant la suppression du premier node

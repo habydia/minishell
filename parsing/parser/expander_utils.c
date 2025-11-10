@@ -124,6 +124,9 @@ int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data)
 			return (0);
 	}
 	else
-		(*(data->result))[(*(data->j))] = '$';
+	{
+		(*(data->result))[(*(data->j))++] = '$';
+		(*i)++;
+	}
 	return (1);
 }
