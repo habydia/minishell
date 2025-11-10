@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 17:35:01 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/10 02:41:45 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,54 @@
 #include "exec.h"
 #include "parsing.h"
 
-char	*envp_search(char **envp)
+int	check_if_is_a_directory(const char *path)
 {
-	if (!envp || !*envp)
-		return (NULL);
-	while (*envp)
-	{
-		if (ft_strncmp("PATH=", *envp, 5) == 0)
-			return (*envp + 5);
-		envp++;
-	}
-	return (NULL);
-}
+	struct stat	st;
 
-int	path_check(char *path, int *ret)
-{
-	if (path == NULL)
-	{
-		*ret = 127;
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_strjoin_checker(char *buffer, char *to_free, char **paths, int *ret)
-{
-	if (!buffer)
-	{
-		if (to_free)
-			free(to_free);
-		ft_free_tab_str(paths);
-		*ret = 1;
+	if (stat(path, &st) != 0)
 		return (0);
+	return (S_ISDIR(st.st_mode));
+}
+
+char	*check_is_access_and_is_directory(char *new_path, int *ret)
+{
+	if (access(new_path, F_OK) != 0)
+		return (NULL);
+	if (check_if_is_a_directory(new_path))
+	{
+		write(2, new_path, ft_strlen(new_path));
+		write(2, ": is a directory\n", 17);
+		*ret = 126;
+		return (NULL);
 	}
-	return (1);
+	if (access(new_path, X_OK) != 0)
+	{
+		write(2, new_path, ft_strlen(new_path));
+		write(2, ": Permission denied\n", 20);
+		*ret = 126;
+		return (NULL);
+	}
+	*ret = 0;
+	return (new_path);
+}
+
+char	*free_paths_and_return(char *result, char **paths)
+{
+	ft_free_tab_str(paths);
+	return (result);
 }
 
 char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 		char *argv_cmd)
 {
 	char	*new_path;
+	char	*result;
 	int		i;
 
-	i = 0;
-	if (paths == NULL)
+	if (!paths)
 		return (NULL);
-	while (paths[i++])
+	i = -1;
+	while (paths[++i])
 	{
 		buffer = ft_strjoin(paths[i], "/");
 		if (!ft_strjoin_checker(buffer, NULL, paths, ret))
@@ -68,11 +70,9 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 		if (!ft_strjoin_checker(new_path, buffer, paths, ret))
 			return (NULL);
 		free(buffer);
-		if (access(new_path, F_OK | X_OK) == 0)
-		{
-			ft_free_tab_str(paths);
-			return (new_path);
-		}
+		result = check_is_access_and_is_directory(new_path, ret);
+		if (result)
+			return (free_paths_and_return(result, paths));
 		free(new_path);
 	}
 	ft_free_tab_str(paths);
@@ -92,8 +92,11 @@ char	*get_path(char **envp, char *argv_cmd, int *ret)
 		*ret = 1;
 		return (NULL);
 	}
-	if (access(argv_cmd, F_OK | X_OK) == 0)
-		return (ft_strdup(argv_cmd));
+	buffer = handle_access_cmd(argv_cmd, ret);
+	if (buffer)
+		return (buffer);
+	if (*ret != 0)
+		return (NULL);
 	path = envp_search(envp);
 	if (path_check(path, ret) == 1)
 		return (NULL);

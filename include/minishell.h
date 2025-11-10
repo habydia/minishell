@@ -17,6 +17,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h> // c
+#include <sys/stat.h>
+
+
 
 # ifndef DEBUG_MODE
 #  define DEBUG_MODE 0

@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/09 16:49:35 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/10 03:50:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	delete_envp_entry(char **envp, const char *key_to_del)
 	{
 		if (ft_strncmp(envp[j], key_to_del, ft_strlen(key_to_del)) == 0
 			&& (envp[j][ft_strlen(key_to_del)] == '='
-			|| envp[j][ft_strlen(key_to_del)] == '\0'))
+				|| envp[j][ft_strlen(key_to_del)] == '\0'))
 		{
 			free(envp[j]);
 			while (envp[j])

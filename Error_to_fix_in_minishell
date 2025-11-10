@@ -1,0 +1,50 @@
+// $ .
+// $ ..
+// ==> leak
+ OK DONE
+check si c'est un dossier avant d'exec
+OK DONE
+
+$ > (ou toute autre redir sans "objet", "cible")
+==> segfault
+
+$ < inexisting_file (redir qui echoue)
+==> segfault
+
+
+
+
+expand :
+Minishell> echo '$USER'"$USER"
+result:
+lebroue'lebroue"
+expected:
+$USERlebroue
+
+Minishell> echo "'$USER'"
+result :
+lebroue'
+expected :
+'lebroue'
+
+Minishell> echo $""
+result:
+$"
+expected :
+$
+Minishell> echo $''
+result :
+$'
+expected :
+$
+
+
+unset premiere variable d'env ==> invalid read etc,...
+patch en gerant la suppression du premier node
+
+operateur sans commande ==> probleme
+
+ctrl c dans heredoc
+
+env -i minishell
+export fonctionne pas

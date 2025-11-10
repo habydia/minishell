@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 16:05:51 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/10 02:14:34 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
 	return (1);
 }
 
-int	redir_out_open_and_close_secure(t_redir *redir, t_redir_type type)
+int	redir_out_open_and_dup_close_secure(t_redir *redir, t_redir_type type)
 {
 	int	fd;
 
@@ -59,7 +59,7 @@ int	redir_out_open_and_close_secure(t_redir *redir, t_redir_type type)
 	return (1);
 }
 
-int	apply_redirections(t_cmd *cmd)
+int	apply_redirections_input_output(t_cmd *cmd)
 {
 	t_redir	*redir;
 	char	*file;
@@ -75,10 +75,10 @@ int	apply_redirections(t_cmd *cmd)
 			if (redir_in_open_and_dup_close_secure(redir, true) == -1)
 				return (-1);
 		if (redir->type == R_OUT_TRUNC)
-			if (redir_out_open_and_close_secure(redir, R_OUT_TRUNC) == -1)
+			if (redir_out_open_and_dup_close_secure(redir, R_OUT_TRUNC) == -1)
 				return (-1);
 		if (redir->type == R_OUT_APPEND)
-			if (redir_out_open_and_close_secure(redir, R_OUT_APPEND) == -1)
+			if (redir_out_open_and_dup_close_secure(redir, R_OUT_APPEND) == -1)
 				return (-1);
 		redir = redir->next;
 	}

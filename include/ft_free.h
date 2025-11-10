@@ -5,7 +5,7 @@
 # include <parsing.h>
 
 // EXEC/ENV
-void	free_argv(char **argv);
+
 void	free_envp(char **envp);
 void	ft_free_tab_str(char **str);
 void	free_lst_env(t_env **envd, bool ext, int errcode);

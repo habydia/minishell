@@ -4,6 +4,7 @@
 # include "minishell.h"
 # include "parsing.h"
 # include <limits.h>
+#include <sys/stat.h>
 
 typedef struct s_pipe
 {
@@ -33,9 +34,9 @@ void	process_env_node(t_env *curr, char **envp, int i);
 
 ////////APPLY_REDICRECTIONS/////////////////
 
-int		apply_redirections(t_cmd *cmd);
+int	apply_redirections_input_output(t_cmd *cmd);
 
-int		redir_out_open_and_close_secure(t_redir *redir, t_redir_type type);
+int	redir_out_open_and_dup_close_secure(t_redir *redir, t_redir_type type);
 
 int		redir_in_open_and_dup_close_secure(t_redir *redir, bool flag);
 
@@ -63,6 +64,51 @@ char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,
 			char *argv_cmd);
 
 char	*get_path(char **envp, char *argv_cmd, int *ret);
+
+int	check_if_is_a_directory(const char *path);
+
+
+/////////HANDLE_PARENT_BUILTINS//////////////////////
+
+int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input);
+
+/////////////HANDLE_CHILD_PROCESS/////////////////////////////////
+
+void handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input);
+
+void check_command_path(t_cmd *curr, t_data *data, int *ret);
+
+int child_pipe_redirection_dup2_close_secure(t_cmd *curr, t_pipe *p);
+
+////////HANDLE_PARENT_PROCESS////////////////////////////////////////
+
+void handle_parent_process(t_cmd **curr, t_pipe *p);
+
+
+/////////////////////////////GET-PATH////////////////////////////////
+
+char	*get_path_in_paths_list(char **paths, int *ret, char *buffer,char *argv_cmd);
+
+
+char	*get_path(char **envp, char *argv_cmd, int *ret);
+
+char *check_is_access_and_is_directory(char *new_path, int *ret);
+
+char *handle_access_cmd(char *argv_cmd, int *ret);
+
+
+
+
+//////////////////////GET_PATH_UTILS///////////////////////////////////
+
+int	ft_strjoin_checker(char *buffer, char *to_free, char **paths, int *ret);
+
+int	path_check(char *path, int *ret);
+
+char	*envp_search(char **envp);
+
+
+void	ft_free_tab_str(char **str);
 
 // #include "env.h"
 ////PATH UTILS///

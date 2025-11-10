@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/06 22:58:52 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/10 03:27:40 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	fill_envp_array(t_data *data)
 
 void	init_envp(t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = count_env(data);
 	if (data->envp)
