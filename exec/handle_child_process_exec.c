@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_child_process_exec.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:41:30 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 03:00:10 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/11 07:45:21 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	check_file_points(t_data *data, t_cmd *curr, int *ret)
 
 void	check_command_path(t_cmd *curr, t_data *data, int *ret)
 {
-	if (!curr->args[0])
+	if (!curr->args[0] || curr->args[0][0] == '\0')
 	{
-		*ret = 1;
-		return ;
+		*ret = 0;
+		free_all(data, *ret, NULL);
 	}
 	check_file_points(data, curr, ret);
 	curr->path = handle_access_cmd(curr->args[0], ret);
