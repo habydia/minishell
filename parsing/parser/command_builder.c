@@ -117,6 +117,11 @@ t_cmd	*build_command(t_token **tokens)
 		free_cmds(cmd);
 		return (NULL);
 	}
+	if (!cmd->name && !cmd->redirs)
+	{
+		free_cmds(cmd);
+		return (NULL);
+	}
 	*tokens = current;
 	return (cmd);
 }

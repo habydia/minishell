@@ -19,6 +19,8 @@ int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
 	int	ret;
 
 	ret = 0;
+	if (!curr->name)
+		return (-1);
 	if (!ft_strcmp(curr->name, "exit"))
 	{
 		if (apply_redirections_input_output(curr) == -1)

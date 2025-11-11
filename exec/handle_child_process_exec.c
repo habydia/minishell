@@ -92,6 +92,8 @@ void	handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
 	}
 	if (apply_redirections_input_output(curr) == -1)
 		free_all(data, 1, NULL);
+	if (!curr->name)
+		free_all(data, 0, NULL);
 	if (is_builtins(curr->name))
 	{
 		ret = exec_builtins(curr, data, data->envp, input);
