@@ -48,6 +48,7 @@ patch en gerant la suppression du premier node
 operateur sans commande ==> probleme
 
 ctrl c dans heredoc
+OK DONE
 
 env -i minishell
 export fonctionne pas
