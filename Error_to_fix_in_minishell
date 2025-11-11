@@ -46,6 +46,7 @@ unset premiere variable d'env ==> invalid read etc,...
 patch en gerant la suppression du premier node
 
 operateur sans commande ==> probleme
+en cours
 
 ctrl c dans heredoc
 OK DONE
