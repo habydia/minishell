@@ -14,12 +14,10 @@
 # include <stdio.h>
 # include <stdlib.h> // malloc, free
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h> // c
-#include <sys/stat.h>
-
-
 
 # ifndef DEBUG_MODE
 #  define DEBUG_MODE 0

@@ -27,6 +27,12 @@ int	main(int ac, char **av, char **env)
 		// if(data.envp) // libere lancien envp //
 		// a verfier
 		data.cmds = parsing(line, envd);
+		if (!data.cmds)
+		{
+			printf("syntax error\n");
+			free(line);
+			continue ;
+		}
 		if (DEBUG_MODE)
 		{
 			print_cmds(data.cmds);
