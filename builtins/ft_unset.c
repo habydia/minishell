@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 03:50:06 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/13 18:21:20 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 static void	delete_envp_entry(char **envp, const char *key_to_del)
 {
 	int	j;
+	int	k;
 
 	j = 0;
 	while (envp[j])
@@ -75,11 +76,13 @@ static void	delete_envp_entry(char **envp, const char *key_to_del)
 				|| envp[j][ft_strlen(key_to_del)] == '\0'))
 		{
 			free(envp[j]);
-			while (envp[j])
+			k = j;
+			while (envp[k + 1])
 			{
-				envp[j] = envp[j + 1];
-				j++;
+				envp[k] = envp[k + 1];
+				k++;
 			}
+			envp[k] = NULL;
 			return ;
 		}
 		j++;

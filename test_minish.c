@@ -36,11 +36,12 @@ int	main(int ac, char **av, char **env)
 		if (DEBUG_MODE)
 		{
 			print_cmds(data.cmds);
-			// print_lst_env(envd);
+			print_lst_env(envd);
 		}
 		init_envp(&data);
 		// print_lst_env(envd);
 		g_exit_status = exec_cmd(&data, line);
+		envd = data.env;
 		if (g_exit_status == -1)
 		{
 			// printf("feuuuuuuuuuuuuuuuur\n");
