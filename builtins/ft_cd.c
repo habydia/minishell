@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/09 15:58:21 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 14:49:52 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	ft_cd(char **args)
 	size_t	limit;
 
 	limit = 255;
-	if (check_to_many_arguments(args) == true)
+	if (check_if_to_many_arguments(args) == true)
 		return (1);
 	path = cd_get_path(args);
 	if (!path)
 		return (1);
-	if (!check_path_validity(path, limit))
+	if (!check_path_is_valid(path, limit))
 		return (1);
 	ret = chdir(path);
 	free(path);

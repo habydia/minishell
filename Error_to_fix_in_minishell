@@ -46,13 +46,13 @@ unset premiere variable d'env ==> invalid read etc,...
 patch en gerant la suppression du premier node
 
 operateur sans commande ==> probleme
-en cours
+OK DONE
 
 ctrl c dans heredoc
 OK DONE
 
 env -i minishell
-export fonctionne pas
+OK DONE
 
 
 

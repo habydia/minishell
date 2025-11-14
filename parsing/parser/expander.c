@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/10 15:48:25 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 10:47:05 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 
 	old_i = *i;
 	handle_quote_context(str, i, data);
-	if (str[*i] == '\0')
-		return ;
-	if (*i != old_i)
+	if (str[*i] == '\0' || *i != old_i)
 		return ;
 	if (str[*i] == '$' && (!data->in_quote || data->quote_type == '"'))
 	{
@@ -96,10 +94,7 @@ static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes)
 
 	data.env = env;
 	data.in_quote = in_dquotes;
-	if (in_dquotes)
-		data.quote_type = '"';
-	else
-		data.quote_type = 0;
+	data.quote_type = (in_dquotes * '"');
 	if (!str)
 		return (NULL);
 	result_size = ft_strlen(str) * 2 + 1;

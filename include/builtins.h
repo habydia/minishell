@@ -10,9 +10,42 @@
 # define INT64_MAX_STR "9223372036854775807"
 # define INT64_MIN_STR "9223372036854775808"
 
+
+///////////////////////////////////////////////////////
+////////////////////// EXEC BUILTINS //////////////////
+///////////////////////////////////////////////////////
+
+int			exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
+
 ///////////////////////////////////////////////////////
 ////////////////////// BUILTINS ///////////////////////
 ///////////////////////////////////////////////////////
+
+/////////////////////////////////
+////////////// CD ///////////////
+/////////////////////////////////
+
+/*FT_CD*/
+int			ft_cd(char **args);
+
+/*CD_GET_PATH*/
+char	*cd_get_path(char **args);
+
+/////////////////////////////////
+/////////// CD_UTILS ////////////
+/////////////////////////////////
+
+/*CHECK_IF_TO_MANY_ARGS*/
+bool	check_if_to_many_arguments(char **args);
+
+/*CHECK_PATH_LIMIT*/
+bool	check_directory_path_size_limit(char *path, size_t limit);
+
+/*CHECK_CHDIR_SECURE*/
+bool	check_chdir(int ret);
+
+/*CHECK_IF_PATH_IS_CORRECT*/
+bool	check_path_is_valid(char *path, size_t limit);
 
 /////////////////////////////////
 ///////////// PWD ///////////////
@@ -68,23 +101,6 @@ bool		check_len_and_limits(const char *nb, int sign);
 
 int			ft_echo(char **str);
 
-/////////////////////////////////
-////////////// CD ///////////////
-/////////////////////////////////
-
-int			ft_cd(char **args);
-
-char	*cd_get_path(char **args);
-
-/*FT_CD_UTILS*/
-
-bool	check_to_many_arguments(char **args);
-
-bool	check_path_limit(char *path, size_t limit);
-
-bool	check_chdir(int ret);
-
-bool	check_path_validity(char *path, size_t limit);
 
 
 
@@ -115,11 +131,6 @@ void	handle_key_only(const char *str, char **key_out, char **value_out);
 
 void	split_key_value(const char *str, char **key_out, char **value_out);
 
-///////////////////////////////////////////////////////
-////////////////////// EXEC BUILTINS //////////////////
-///////////////////////////////////////////////////////
-
-int			exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input);
 
 
 

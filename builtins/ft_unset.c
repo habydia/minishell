@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/13 17:24:55 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 14:37:00 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 				prev->next = curr->next;
 			else
 				*env_list = curr->next;
-				// printf("%s\n", curr->key);
 			free(curr->key);
 			if (curr->value)
 				free(curr->value);
@@ -71,24 +70,27 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 
 static void	delete_envp_entry(char **envp, const char *key_to_del)
 {
+	int	i;
 	int	j;
 
-	j = 0;
-	while (envp[j])
+	i = 0;
+	while (envp[i])
 	{
-		if (ft_strncmp(envp[j], key_to_del, ft_strlen(key_to_del)) == 0
-			&& (envp[j][ft_strlen(key_to_del)] == '='
-				|| envp[j][ft_strlen(key_to_del)] == '\0'))
+		if (ft_strncmp(envp[i], key_to_del, ft_strlen(key_to_del)) == 0
+			&& (envp[i][ft_strlen(key_to_del)] == '='
+				|| envp[i][ft_strlen(key_to_del)] == '\0'))
 		{
-			free(envp[j]);
-			while (envp[j])
+			free(envp[i]);
+			j = i;
+			while (envp[j + 1])
 			{
 				envp[j] = envp[j + 1];
 				j++;
 			}
+			envp[j] = NULL;
 			return ;
 		}
-		j++;
+		i++;
 	}
 }
 
