@@ -13,6 +13,23 @@
 #include "../include/env.h"
 #include "../include/minishell.h"
 #include "../include/parsing.h"
+#include <unistd.h>
+
+static void	init_minimal_env(t_env **envd)
+{
+	char	cwd[4096];
+	char	*pwd_var;
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return ;
+	pwd_var = ft_strjoin("PWD=", cwd);
+	if (!pwd_var)
+		return ;
+	add_or_update_env(envd, pwd_var);
+	free(pwd_var);
+	add_or_update_env(envd, "SHLVL=1");
+	add_or_update_env(envd, "_=/usr/bin/env");
+}
 
 void	init_lst_env(t_env **envd, char **env)
 {
@@ -20,6 +37,11 @@ void	init_lst_env(t_env **envd, char **env)
 	int		i;
 
 	i = 0;
+	if (!env || !env[0])
+	{
+		init_minimal_env(envd);
+		return ;
+	}
 	while (env && env[i])
 	{
 		if (add_back_env(envd) == 1)
