@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/14 20:19:41 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -26,22 +38,22 @@ typedef struct s_redir		t_redir;
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {
-	T_WORD,         // word/arguments/command
-	T_PIPE,         // |
-	T_REDIR_IN,     // <
-	T_REDIR_OUT,    // >
-	T_REDIR_APPEND, // >>
-	T_HEREDOC,      // <<
-	T_EOF           // end of line
+	T_WORD,
+	T_PIPE,
+	T_REDIR_IN,
+	T_REDIR_OUT,
+	T_REDIR_APPEND,
+	T_HEREDOC,
+	T_EOF
 }							t_token_type;
 
 // Types de redirections
 typedef enum e_redir_type
 {
-	R_IN,         // < file
-	R_OUT_TRUNC,  // > file
-	R_OUT_APPEND, // >> file
-	R_HEREDOC     // << delimiter
+	R_IN,
+	R_OUT_TRUNC,
+	R_OUT_APPEND,
+	R_HEREDOC
 }							t_redir_type;
 
 /* ========== STRUCTURES ========== */
@@ -61,6 +73,7 @@ typedef struct s_redir
 	char					*file;
 	struct s_redir			*next;
 }							t_redir;
+
 // Struct for commands
 typedef struct s_cmd
 {
@@ -92,7 +105,7 @@ typedef struct s_expand_data
 	int						preserve_spaces;
 }							t_expand_data;
 
-/* ========== RINCIPALES ========== */
+/* ========== PRINCIPALES ========== */
 char						*ft_getenv(char *name, t_env *envp);
 // parsing.c
 t_cmd						*parsing(const char *line, t_env *env);
@@ -105,7 +118,9 @@ int							find_closing_quote(const char *line, int *i,
 								char quote_type);
 // lexer/lexer.c
 t_token						*line_lexer(const char *line);
+
 t_token						*create_token(t_token_type type, const char *value);
+
 // lexer/tokenizer.c
 void						add_token_back(t_token **tokens,
 								t_token *new_token);
@@ -141,8 +156,6 @@ int							handle_dollar_sign(const char *line, size_t *i,
 								t_expand_data *data);
 char						*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - utils for expansion
-int							handle_dollar_sign(const char *line, size_t *i,
-								t_expand_data *data);
 char						*process_token_expansion(const char *value,
 								t_env *env);
 
