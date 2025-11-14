@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operator_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:03 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/07 00:18:50 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 19:24:56 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 static t_token_type	handle_redirection_in(const char *str, int *i)
 {

@@ -16,165 +16,171 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+typedef enum e_token_type	t_token_type;
+typedef enum e_redir_type	t_redir_type;
+typedef struct s_token		t_token;
+typedef struct s_cmd		t_cmd;
+typedef struct s_redir		t_redir;
 /* ========== ENUMS ========== */
 
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {
-	T_WORD,         // mot/commande/argument
+	T_WORD,         // word/arguments/command
 	T_PIPE,         // |
 	T_REDIR_IN,     // <
 	T_REDIR_OUT,    // >
 	T_REDIR_APPEND, // >>
 	T_HEREDOC,      // <<
-	T_EOF           // fin de ligne
-}					t_token_type;
+	T_EOF           // end of line
+}							t_token_type;
 
 // Types de redirections
 typedef enum e_redir_type
 {
-	R_IN,         // < fichier
-	R_OUT_TRUNC,  // > fichier
-	R_OUT_APPEND, // >> fichier
-	R_HEREDOC     // << delimiteur
-}					t_redir_type;
+	R_IN,         // < file
+	R_OUT_TRUNC,  // > file
+	R_OUT_APPEND, // >> file
+	R_HEREDOC     // << delimiter
+}							t_redir_type;
 
 /* ========== STRUCTURES ========== */
 
-// Structure pour un token
+// Struct for tokens
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}					t_token;
+	t_token_type			type;
+	char					*value;
+	struct s_token			*next;
+}							t_token;
 
-// Structure pour les redirections
+// Struct for redirections
 typedef struct s_redir
 {
-	t_redir_type	type;
-	char *file; // nom du fichier ou délimiteur heredoc
-	struct s_redir	*next;
-}					t_redir;
-
-// Structure pour une commande
+	t_redir_type			type;
+	char					*file;
+	struct s_redir			*next;
+}							t_redir;
+// Struct for commands
 typedef struct s_cmd
 {
-	char *name;         // nom de la commande
-	char *path;         // chemin de la commandes
-	char **args;        // tableau d'arguments
-	t_redir *redirs;    // liste des redirections
-	struct s_cmd *next; // commande suivante (pour pipes)
-}					t_cmd;
+	char					*name;
+	char					*path;
+	char					**args;
+	t_redir					*redirs;
+	struct s_cmd			*next;
+}							t_cmd;
 
-// Structure pour la construction des arguments
+// Struct for building arguments
 typedef struct s_args_builder
 {
-	char			**args;
-	int				count;
-	int				capacity;
-}					t_args_builder;
+	char					**args;
+	int						count;
+	int						capacity;
+}							t_args_builder;
 
-// Structure pour l'expansion des variables
+// Struct for variable expansion
 typedef struct s_expand_data
 {
-	char			**result;
-	size_t			*result_size;
-	size_t			*j;
-	t_env			*env;
-	int in_quote;        /* Si on est dans une chaîne citée */
-	char quote_type;     /* Type de quote actuel (' ou ") */
-	int escaped;         /* Si le caractère suivant est échappé */
-	int preserve_spaces; /* Si on doit préserver les espaces */
-}					t_expand_data;
+	char					**result;
+	size_t					*result_size;
+	size_t					*j;
+	t_env					*env;
+	int						in_quote;
+	char					quote_type;
+	int						escaped;
+	int						preserve_spaces;
+}							t_expand_data;
 
-// Variable globale pour l'exit status
-extern int			g_exit_status;
-
-/* ========== FONCTIONS PRINCIPALES ========== */
-char				*ft_getenv(char *name, t_env *envp);
-// parsing.c - Fonction principale
-t_cmd				*parsing(const char *line, t_env *env);
+/* ========== RINCIPALES ========== */
+char						*ft_getenv(char *name, t_env *envp);
+// parsing.c
+t_cmd						*parsing(const char *line, t_env *env);
 
 /* ========== LEXER ========== */
 
-int					is_quote_balanced(const char *line, int start, int end);
-int					find_closing_quote(const char *line, int *i,
-						char quote_type);
-// lexer/lexer.c - Fonction principale du lexer
-t_token				*line_lexer(const char *line);
+int							is_quote_balanced(const char *line, int start,
+								int end);
+int							find_closing_quote(const char *line, int *i,
+								char quote_type);
+// lexer/lexer.c
+t_token						*line_lexer(const char *line);
+t_token						*create_token(t_token_type type, const char *value);
+// lexer/tokenizer.c
+void						add_token_back(t_token **tokens,
+								t_token *new_token);
+t_token						*tokenize_line(const char *line);
+// utils_tokenizer.c - utils
 
-// lexer/tokenizer.c - Découpage en tokens
-t_token				*tokenize_line(const char *line);
-t_token				*create_token(t_token_type type, const char *value);
-void				add_token_back(t_token **tokens, t_token *new_token);
+int							tokenize_operator(const char *line, int *i,
+								int *start, t_token **tokens);
 
-// utils_tokenizer.c - Fonctions utilitaires pour le tokenizer
+int							tokenize_quote(const char *line, int *start, int *i,
+								t_token **tokens);
 
-int					tokenize_operator(const char *line, int *i, int *start,
-						t_token **tokens);
+int							tokenize_word(int *start, int *i, t_token **tokens,
+								const char *line);
+int							handle_quote(const char *line, int *i, int *start,
+								t_token **tokens);
 
-int					tokenize_quote(const char *line, int *start, int *i,
-						t_token **tokens);
+int							handle_operator_and_quote(int *i, int *start,
+								const char *line, t_token **tokens);
+// lexer/quote_handler.c - Quotes Gestion
+int							is_quoted_section(const char *str, int start);
 
-int					tokenize_word(int *start, int *i, t_token **tokens,
-						const char *line);
-int					handle_quote(const char *line, int *i, int *start,
-						t_token **tokens);
-
-int					handle_operator_and_quote(int *i, int *start,
-						const char *line, t_token **tokens);
-// lexer/quote_handler.c - Gestion des guillemets
-int					is_quoted_section(const char *str, int start);
-
-// lexer/operator_handler.c - Gestion des opérateurs
-t_token_type		get_operator_type(const char *str, int *i);
-int					is_operator_char(char c);
+// lexer/operator_handler.c - operators Gestion
+t_token_type				get_operator_type(const char *str, int *i);
+int							is_operator_char(char c);
 
 /* ========== PARSER ========== */
 
-t_cmd				*parse_tokens(t_token *tokens);
-// parser/expander.c - Expansion des variables
-t_token				*expand_tokens(t_token *tokens, t_env *env);
-int					handle_dollar_sign(const char *line, size_t *i,
-						t_expand_data *data);
-char				*remove_quotes(const char *value, char quote_type);
-// parser/expander_utils.c - Fonctions utilitaires pour l'expansion
-int					handle_dollar_sign(const char *line, size_t *i,
-						t_expand_data *data);
-char				*process_token_expansion(const char *value, t_env *env);
+t_cmd						*parse_tokens(t_token *tokens);
+// parser/expander.c - variables Expansion
+t_token						*expand_tokens(t_token *tokens, t_env *env);
+int							handle_dollar_sign(const char *line, size_t *i,
+								t_expand_data *data);
+char						*remove_quotes(const char *value, char quote_type);
+// parser/expander_utils.c - utils for expansion
+int							handle_dollar_sign(const char *line, size_t *i,
+								t_expand_data *data);
+char						*process_token_expansion(const char *value,
+								t_env *env);
 
-// parser/command_builder.c - Construction des commandes
-int					build_redirection_token(t_token **current, t_cmd *cmd);
-t_cmd				*build_command(t_token **tokens);
-t_cmd				*create_cmd(void);
+// parser/command_builder.c - building Commands
+int							build_redirection_token(t_token **current,
+								t_cmd *cmd);
+t_cmd						*build_command(t_token **tokens);
+t_cmd						*create_cmd(void);
+t_redir						*create_redir(t_redir_type type, const char *file);
 
-// parser/pipeline_handler.c - Gestion des pipes
-t_cmd				*handle_pipeline(t_token *tokens);
-void				handle_heredoc(t_redir *redir);
+// parser/pipeline_handler.c - pipes Gestion
+t_cmd						*handle_pipeline(t_token *tokens);
+void						handle_heredoc(t_redir *redir);
 
-// parser/redirect_handler.c - Gestion des redirections
-t_redir				*create_redir(t_redir_type type, const char *file);
-void				add_redir_back(t_redir **redirs, t_redir *new_redir);
+// parser/redirect_handler.c - redirections Gestion
+void						add_redir_back(t_redir **redirs,
+								t_redir *new_redir);
 
-// utils_command_builder.c Fonctions utilitaires pour la construction des commandes
-int					handle_word_token(t_args_builder *builder,
-						const char *value);
-int					handle_token(t_token **current, t_cmd *cmd,
-						t_args_builder *builder);
-int					process_tokens(t_token **tokens, t_cmd *cmd, char **args,
-						int *arg_count);
-char				**init_args_array(const char *cmd_name, int *capacity);
+// utils_command_builder.c - utils for command building
+int							handle_word_token(t_args_builder *builder,
+								const char *value);
+int							handle_token(t_token **current, t_cmd *cmd,
+								t_args_builder *builder);
+int							process_tokens(t_token **tokens, t_cmd *cmd,
+								char **args, int *arg_count);
+char						**init_args_array(const char *cmd_name,
+								int *capacity);
 
 /* ========== UTILITAIRES ========== */
 
-// Libération mémoire
-void				free_tokens(t_token *head);
-void				free_redirs(t_redir *redirs);
-void				free_args(char **args);
-void				free_args_on_error(char **args);
+// Memory Management
+void						free_tokens(t_token *head);
+void						free_redirs(t_redir *redirs);
+void						free_args(char **args);
+void						free_args_on_error(char **args);
 // Debug (optionnel)
-void				print_tokens(t_token *tokens);
-void				print_cmds(t_cmd *cmds);
-int					ft_count_quotes(const char *str);
+void						print_tokens(t_token *tokens);
+void						print_cmds(t_cmd *cmds);
+int							ft_count_quotes(const char *str);
+
 #endif
