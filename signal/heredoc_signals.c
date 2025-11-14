@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 18:28:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:30:05 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 21:19:15 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	handle_heredoc_error(t_redir *redir, char *temp_filename,
 	unlink(temp_filename);
 	free(temp_filename);
 	free(delimiter);
+	if (redir->file)
+		free(redir->file);
 	redir->file = NULL;
 	g_exit_status = 130;
 }

@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:18:38 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 21:43:11 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,21 @@ t_cmd	*parsing(const char *line, t_env *env)
 	if (!tokens)
 		return (NULL);
 	token_start = tokens;
+	if (syntax_errors(tokens))
+	{
+		free_tokens(token_start);
+		return (NULL);
+	}
 	tokens = expand_tokens(tokens, env);
 	if (!tokens)
 		return (NULL);
 	cmds = parse_tokens(tokens);
 	free_tokens(token_start);
+	if (g_heredoc_interrupted)
+	{
+		free_cmds(cmds);
+		g_heredoc_interrupted = 0;
+		return (NULL);
+	}
 	return (cmds);
 }

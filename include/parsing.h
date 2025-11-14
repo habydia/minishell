@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 20:19:41 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 21:42:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char						*ft_getenv(char *name, t_env *envp);
 // parsing.c
 t_cmd						*parsing(const char *line, t_env *env);
 
+// syntax_checker.c - Syntax validation
+int							syntax_errors(t_token *tokens);
 /* ========== LEXER ========== */
 
 int							is_quote_balanced(const char *line, int start,
