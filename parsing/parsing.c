@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 21:43:11 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:35:29 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ t_cmd	*parsing(const char *line, t_env *env)
 	t_cmd	*cmds;
 
 	tokens = line_lexer(line);
-	if (DEBUG_MODE)
-	{
-		print_tokens(tokens);
-	}
 	if (!tokens)
 		return (NULL);
 	token_start = tokens;

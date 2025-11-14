@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:22:25 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:25:43 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ char	*remove_quotes(const char *value, char quote_type)
 		return (NULL);
 	len = ft_strlen(value);
 	if (len < 2 || value[0] != quote_type || value[len - 1] != quote_type)
-		return (ft_strdup(value));
+	{
+		result = ft_strdup(value);
+		return (result);
+	}
 	result = malloc(len - 1);
 	if (!result)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 21:42:21 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:36:58 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_token		t_token;
 typedef struct s_cmd		t_cmd;
 typedef struct s_redir		t_redir;
 /* ========== ENUMS ========== */
-typedef struct s_env t_env;
+typedef struct s_env		t_env;
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {

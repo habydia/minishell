@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:41:40 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 21:43:50 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:27:33 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static int	pipe_error(t_token *current, t_token *prev)
 	if (current->type == T_PIPE)
 	{
 		if (!prev || prev->type == T_PIPE)
-			return (ft_putstr_fd("syntax error near unexpected token `|'\n", 2),
-				1);
+		{
+			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -43,8 +45,10 @@ int	syntax_errors(t_token *tokens)
 			return (1);
 		if (is_syntax_token(current->type) && current->next
 			&& current->next->type == T_EOF)
-			return (ft_putstr_fd("syntax error near unexpected token `newline'\n",
-					2), 1);
+		{
+			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+			return (1);
+		}
 		prev = current;
 		current = current->next;
 	}

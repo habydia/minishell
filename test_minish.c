@@ -1,4 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_minish.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/14 23:42:49 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/14 23:45:22 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+static void	cleanup_and_exit(t_data *data, char *line, int status)
+{
+	free(line);
+	rl_clear_history();
+	free_envp(data->envp);
+	free_cmds(data->cmds);
+	free_lst_env(&data->env, true, 0);
+	exit(status);
+}
+
+static int	process_line(t_data *data, char *line)
+{
+	if (!line || line[0] == '\0')
+		return (0);
+	add_history(line);
+	data->cmds = parsing(line, data->env);
+	if (!data->cmds)
+		return (0);
+	init_envp_array(data);
+	g_exit_status = exec_cmd(data, line);
+	if (g_exit_status == -1)
+		cleanup_and_exit(data, line, 1);
+	free_cmds(data->cmds);
+	free_envp(data->envp);
+	return (1);
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -6,65 +45,20 @@ int	main(int ac, char **av, char **env)
 	t_env	*envd;
 	t_data	data;
 
-	// int		running;
 	(void)ac;
 	(void)av;
 	envd = NULL;
-	// running = 1;
-	// if(!env)
-	/*{
-		create_minimum_env(data);
-	}*/
-	init_lst_env(&envd, env); // segfault
+	init_lst_env(&envd, env);
 	save_std_in_out(&data);
 	handle_signals();
-	while (1) //(running) // flag de running pour continuer la boubcle, si
+	while (1)
 	{
 		init_data(&data, &envd, NULL);
 		line = reader(&data);
-		if (!line)
-		{
-			continue ;
-		}
-		if (line[0] != '\0')
-			add_history(line);
-		// if(data.envp) // libere lancien envp //
-		// a verfier
-		data.cmds = parsing(line, envd);
-		if (!data.cmds)
-		{
-			free(line);
-			continue ;
-		}
-		if (DEBUG_MODE)
-		{
-			print_cmds(data.cmds);
-			print_lst_env(envd);
-		}
-		init_envp_array(&data);
-		// print_lst_env(envd);
-		g_exit_status = exec_cmd(&data, line);
-		envd = data.env;
-		if (g_exit_status == -1)
-		{
-			// printf("feuuuuuuuuuuuuuuuur\n");
-			// free_all(&data, 0, "");
-			free(line);
-			rl_clear_history();
-			free_envp(data.envp); // free **envp si exec cmd echoue
-			free_cmds(data.cmds); // free
-			free_lst_env(&data.env, true, 0);
-			// free la liste chaine de l'environement
-			return (1);
-		}
-		free_cmds(data.cmds);
-		free_envp(data.envp);
+		if (process_line(&data, line))
+			envd = data.env;
 		free(line);
 	}
-	// on arrive jamais ici
-	rl_clear_history();
-	free_envp(data.envp); // si exec cmd c'est bien passer, free **envp,
-	free_lst_env(&data.env, true, 0);
 	return (0);
 }
 
