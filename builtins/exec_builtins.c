@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 15:12:59 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 16:04:26 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_builtins(t_cmd *cmd, t_data *data, char **env, char *input)
 		ret = ft_unset(cmd->args, env, data);
 	else
 	{
-		printf("minishell: %s: command not found\n", input);
+		printf("Minishell: %s: command not found\n", input);
 		ret = 127;
 	}
 	return (ret);

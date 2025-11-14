@@ -6,13 +6,14 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 04:06:08 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 18:07:23 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static bool	try_update_existing_env(t_env *env, const char *key, char *value)
+bool	try_update_value_in_existing_variable(t_env *env, const char *key,
+		char *value)
 {
 	t_env	*tmp;
 
@@ -34,7 +35,7 @@ static bool	try_update_existing_env(t_env *env, const char *key, char *value)
 	return (false);
 }
 
-static void	add_new_env_node(t_env **env, char *key, char *value)
+void	add_new_variable_env_node(t_env **env, char *key, char *value)
 {
 	t_env	*new_node;
 	t_env	*tmp;
@@ -67,9 +68,9 @@ void	add_or_update_env(t_env **env, char *str)
 	char	*value;
 	bool	updated;
 
-	split_key_value(str, &key, &value);
-	updated = try_update_existing_env(*env, key, value);
+	split_variable_key_and_value(str, &key, &value);
+	updated = try_update_value_in_existing_variable(*env, key, value);
 	if (updated == true)
 		return ;
-	add_new_env_node(env, key, value);
+	add_new_variable_env_node(env, key, value);
 }

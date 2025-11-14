@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   init_envp_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 14:12:56 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 21:37:32 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,7 @@
 #include "../include/parsing.h"
 #include <unistd.h>
 
-static void	init_minimal_env(t_env **envd)
-{
-	char	cwd[4096];
-	char	*pwd_var;
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return ;
-	pwd_var = ft_strjoin("PWD=", cwd);
-	if (!pwd_var)
-		return ;
-	add_or_update_env(envd, pwd_var);
-	free(pwd_var);
-	add_or_update_env(envd, "SHLVL=1");
-	add_or_update_env(envd, "_=/usr/bin/env");
-}
-
-void	init_lst_env(t_env **envd, char **env)
-{
-	t_env	*node;
-	int		i;
-
-	i = 0;
-	if (!env || !env[0])
-	{
-		init_minimal_env(envd);
-		return ;
-	}
-	while (env && env[i])
-	{
-		if (add_back_env(envd) == 1)
-			exit(EXIT_FAILURE);
-		node = ft_lstlast_env(*envd);
-		if (!node)
-			free_lst_env(envd, true, 0);
-		node->key = ft_strndup(env[i], ft_strchr(env[i], '=') - env[i]);
-		if (!node->key)
-			free_lst_env(envd, true, 0);
-		node->value = ft_strdup(ft_strchr(env[i], '=') + 1);
-		if (!node->value)
-			free_lst_env(envd, true, 0);
-		i++;
-	}
-}
-
-static int	count_env(t_data *data)
+int	count_lst_env_node(t_data *data)
 {
 	int		i;
 	t_env	*tmp;
@@ -74,7 +30,7 @@ static int	count_env(t_data *data)
 	return (i);
 }
 
-void	free_envp_at_init(char **envp)
+void	free_envp_array_at_init(char **envp)
 {
 	int	i;
 
@@ -105,27 +61,27 @@ void	fill_envp_array(t_data *data)
 		{
 			str = ft_strjoin(tmp->key, "=");
 			if (!str)
-				free_all(data, 0, "Error\nMalloc fail in fill_envp_array 1\n");
+				free_all(data, 0, "Error\nMalloc fail in fill_envp_tab \n");
 			data->envp[i] = ft_strjoin(str, tmp->value);
 			free(str);
 		}
 		if (!data->envp[i])
-			free_all(data, 0, "Error\nMalloc fail in fill_envp_array 2\n");
+			free_all(data, 0, "Error\nMalloc fail in fill_envp_tab \n");
 		i++;
 		tmp = tmp->next;
 	}
 	data->envp[i] = NULL;
 }
 
-void	init_envp(t_data *data)
+void	init_envp_array(t_data *data)
 {
 	int	i;
 
-	i = count_env(data);
+	i = count_lst_env_node(data);
 	if (data->envp)
-		free_envp_at_init(data->envp);
+		free_envp_array_at_init(data->envp);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
-		free_all(data, 0, "Error\nMalloc fail in init_envp 1\n");
+		free_all(data, 0, "Error\nMalloc fail in init_envp \n");
 	fill_envp_array(data);
 }

@@ -63,6 +63,7 @@
         "env.h": "c",
         "minishell_signals.h": "c",
         "builtins.h": "c",
-        "exec.h": "c"
+        "exec.h": "c",
+        "parsing.h": "c"
     }
 }

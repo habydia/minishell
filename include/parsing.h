@@ -34,7 +34,7 @@ typedef struct s_token		t_token;
 typedef struct s_cmd		t_cmd;
 typedef struct s_redir		t_redir;
 /* ========== ENUMS ========== */
-
+typedef struct s_env t_env;
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {

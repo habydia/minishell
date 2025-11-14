@@ -6,13 +6,13 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/12 16:53:39 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 18:07:03 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static bool	identifier_correct(char *str)
+bool	check_if_arg_is_correct(char *str)
 {
 	int		i;
 	char	*eq_pos;
@@ -37,7 +37,7 @@ static bool	identifier_correct(char *str)
 	return (true);
 }
 
-static int	handle_no_args(char **env)
+int	handle_no_args(char **env)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ int	process_single_arg(char *arg, t_data *data)
 		perror("malloc");
 		return (1);
 	}
-	if (!identifier_correct(key_only))
+	if (!check_if_arg_is_correct(key_only))
 	{
 		error_message(arg);
 		exit_flag = 1;
