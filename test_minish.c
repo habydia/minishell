@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **env)
 			print_cmds(data.cmds);
 			print_lst_env(envd);
 		}
-		init_envp(&data);
+		init_envp_array(&data);
 		// print_lst_env(envd);
 		g_exit_status = exec_cmd(&data, line);
 		envd = data.env;

@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 /* ========== ENUMS ========== */
-
+typedef struct s_env t_env;
 // Types de tokens pour le lexer
 typedef enum e_token_type
 {

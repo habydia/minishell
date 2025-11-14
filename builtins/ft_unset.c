@@ -6,23 +6,23 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 14:37:00 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 18:07:58 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "env.h"
 
-static bool	identifier_correct(char *str)
+bool	check_if_variable_key_is_correct(char *str)
 {
 	int		i;
-	char	*eq_pos;
 	int		len;
+	char	*equal_position;
 
-	eq_pos = ft_strchr(str, '=');
 	i = 1;
-	if (eq_pos)
-		len = eq_pos - str;
+	equal_position = ft_strchr(str, '=');
+	if (equal_position)
+		len = equal_position - str;
 	else
 		len = ft_strlen(str);
 	if (len == 0)
@@ -38,16 +38,13 @@ static bool	identifier_correct(char *str)
 	return (true);
 }
 
-static void	delete_env_node(t_env **env_list, const char *key_to_del)
+void	delete_env_node_variable(t_env **env_list, const char *key_to_del)
 {
 	t_env	*prev;
 	t_env	*curr;
-	t_env	*head;
 
-	head = *env_list;
-	curr = *env_list;
 	prev = NULL;
-
+	curr = *env_list;
 	while (curr)
 	{
 		if (ft_strcmp(curr->key, key_to_del) == 0)
@@ -68,7 +65,7 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 	}
 }
 
-static void	delete_envp_entry(char **envp, const char *key_to_del)
+void	delete_envp_tab_variable(char **envp, const char *key_to_del)
 {
 	int	i;
 	int	j;
@@ -78,7 +75,7 @@ static void	delete_envp_entry(char **envp, const char *key_to_del)
 	{
 		if (ft_strncmp(envp[i], key_to_del, ft_strlen(key_to_del)) == 0
 			&& (envp[i][ft_strlen(key_to_del)] == '='
-				|| envp[i][ft_strlen(key_to_del)] == '\0'))
+			|| envp[i][ft_strlen(key_to_del)] == '\0'))
 		{
 			free(envp[i]);
 			j = i;
@@ -97,27 +94,27 @@ static void	delete_envp_entry(char **envp, const char *key_to_del)
 int	ft_unset(char **args, char **envp, t_data *data)
 {
 	int	i;
-	int	exit_code;
+	int	ret;
 
-	exit_code = 0;
 	i = 1;
+	ret = 0;
 	if (!args[1])
-		return (exit_code);
+		return (ret);
 	while (args[i])
 	{
-		if (!identifier_correct(args[i]))
+		if (!check_if_variable_key_is_correct(args[i]))
 		{
 			write(2, "unset: `", 8);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 27);
-			exit_code = 1;
+			ret = 1;
 		}
 		else
 		{
-			delete_env_node(&data->env, args[i]);
-			delete_envp_entry(envp, args[i]);
+			delete_env_node_variable(&data->env, args[i]);
+			delete_envp_tab_variable(envp, args[i]);
 		}
 		i++;
 	}
-	return (exit_code);
+	return (ret);
 }

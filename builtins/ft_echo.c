@@ -6,14 +6,14 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:35:05 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 15:04:39 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 18:53:21 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <unistd.h>
 
-static size_t	count_tab(char **str)
+size_t	count_array_lines(char **str)
 {
 	size_t	i;
 
@@ -31,7 +31,7 @@ int	ft_echo(char **str)
 
 	i = 1;
 	detect_n_flag = 0;
-	count = count_tab(str);
+	count = count_array_lines(str);
 	if (count > 1 && str[1][0] == '-' && str[1][1] == 'n' && str[1][2] == '\0')
 	{
 		detect_n_flag = 1;

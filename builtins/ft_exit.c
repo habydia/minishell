@@ -6,14 +6,14 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 20:28:32 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 16:09:53 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "exec.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi_secure(const char *str)
 {
 	int		i;
 	int		sign;
@@ -40,7 +40,7 @@ int	ft_atoi(const char *str)
 	return (sign * result);
 }
 
-bool	isnumber(const char *str)
+bool	is_valid_number(const char *str)
 {
 	int			i;
 	int			nb_start;
@@ -69,7 +69,7 @@ int	ft_exit(char **args, t_data *data)
 	write(1, "exit\n", 5);
 	if (args[1])
 	{
-		if (!isnumber(args[1]))
+		if (!is_valid_number(args[1]))
 		{
 			write(2, "minishell: exit: ", 17);
 			write(2, args[1], ft_strlen(args[1]));
@@ -82,7 +82,7 @@ int	ft_exit(char **args, t_data *data)
 			nb = 1;
 		}
 		else
-			nb = ft_atoi(args[1]);
+			nb = ft_atoi_secure(args[1]);
 	}
 	free_all(data, nb % 256, NULL);
 	return (0);
