@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 23:44:54 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/08 19:16:47 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/15 00:09:07 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strjoin_checker_envp(char *buffer, char **envp, int i)
 	return (1);
 }
 
-void	process_env_node(t_env *curr, char **envp, int i)
+void	udpate_envp_from_lst_env_node(t_env *curr, char **envp, int i)
 {
 	char	*key_equal;
 

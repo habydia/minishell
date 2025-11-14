@@ -6,19 +6,13 @@ int	main(int ac, char **av, char **env)
 	t_env	*envd;
 	t_data	data;
 
-	// int		running;
 	(void)ac;
 	(void)av;
 	envd = NULL;
-	// running = 1;
-	// if(!env)
-	/*{
-		create_minimum_env(data);
-	}*/
-	init_lst_env(&envd, env); // segfault
+	init_lst_env(&envd, env);
 	save_std_in_out(&data);
 	handle_signals();
-	while (1) //(running) // flag de running pour continuer la boubcle, si
+	while (1)
 	{
 		init_data(&data, &envd, NULL);
 		line = reader(&data);
@@ -28,40 +22,28 @@ int	main(int ac, char **av, char **env)
 		}
 		if (line[0] != '\0')
 			add_history(line);
-		// if(data.envp) // libere lancien envp //
-		// a verfier
 		data.cmds = parsing(line, envd);
 		if (!data.cmds)
 		{
 			free(line);
 			continue ;
 		}
-		if (DEBUG_MODE)
-		{
-			print_cmds(data.cmds);
-			print_lst_env(envd);
-		}
 		init_envp_array(&data);
-		// print_lst_env(envd);
 		g_exit_status = exec_cmd(&data, line);
 		envd = data.env;
 		if (g_exit_status == -1)
 		{
-			// printf("feuuuuuuuuuuuuuuuur\n");
-			// free_all(&data, 0, "");
 			free(line);
 			rl_clear_history();
-			free_envp(data.envp); // free **envp si exec cmd echoue
-			free_cmds(data.cmds); // free
+			free_envp(data.envp);
+			free_cmds(data.cmds); 
 			free_lst_env(&data.env, true, 0);
-			// free la liste chaine de l'environement
 			return (1);
 		}
 		free_cmds(data.cmds);
 		free_envp(data.envp);
 		free(line);
 	}
-	// on arrive jamais ici
 	rl_clear_history();
 	free_envp(data.envp); // si exec cmd c'est bien passer, free **envp,
 	free_lst_env(&data.env, true, 0);
