@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:38:29 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 14:49:52 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 15:19:44 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ char	*cd_get_path(char **args)
 	else
 		path = ft_strdup(args[1]);
 	if (!path)
+	{
 		perror("cd: malloc");
+		return (NULL);
+	}
 	return (path);
 }
 

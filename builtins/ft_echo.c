@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:35:05 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 02:45:59 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 15:04:39 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static size_t	count_tab(char **str)
 int	ft_echo(char **str)
 {
 	int		i;
-	int		n_flag;
+	int		detect_n_flag;
 	size_t	count;
 
 	i = 1;
-	n_flag = 0;
+	detect_n_flag = 0;
 	count = count_tab(str);
 	if (count > 1 && str[1][0] == '-' && str[1][1] == 'n' && str[1][2] == '\0')
 	{
-		n_flag = 1;
+		detect_n_flag = 1;
 		i++;
 	}
 	while (str[i])
@@ -44,7 +44,7 @@ int	ft_echo(char **str)
 			printf(" ");
 		i++;
 	}
-	if (!n_flag)
+	if (!detect_n_flag)
 		printf("\n");
 	return (0);
 }
