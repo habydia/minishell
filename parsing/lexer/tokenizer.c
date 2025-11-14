@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:24:32 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:37:34 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static int	process_token(const char *line, int *i, t_token **tokens)
 	if (is_operator_char(line[*i]))
 		return (process_operator(line, i, tokens));
 	else
-		return (process_word(line, i, tokens));
+	{
+	}
+	return (process_word(line, i, tokens));
 }
 
 t_token	*tokenize_line(const char *line)

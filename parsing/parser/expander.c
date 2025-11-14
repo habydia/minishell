@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:24:11 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 23:37:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,23 @@ char	*process_token_expansion(const char *value, t_env *env)
 	int		len;
 	char	*temp;
 	char	*expanded;
+	char	*result;
 
 	if (!value)
 		return (NULL);
 	len = ft_strlen(value);
-	if (len < 2)
-		return (expand_simple_string(value, env, 0));
-	if (value[0] == '\'' && value[len - 1] == '\'')
-		return (remove_quotes(value, '\''));
-	else if (value[0] == '"' && value[len - 1] == '"')
+	if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'')
+	{
+		result = remove_quotes(value, '\'');
+		return (result);
+	}
+	if (len >= 2 && value[0] == '"' && value[len - 1] == '"')
 	{
 		temp = remove_quotes(value, '"');
 		expanded = expand_simple_string(temp, env, 1);
 		free(temp);
 		return (expanded);
 	}
-	else
-		return (expand_simple_string(value, env, 0));
+	result = expand_simple_string(value, env, 0);
+	return (result);
 }
