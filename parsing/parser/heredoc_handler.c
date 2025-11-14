@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:34 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 20:38:38 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 22:59:22 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ static int	write_in_heredoc_file(int fd, const char *delimiter)
 {
 	char	*line;
 	int		stdin_backup;
+	int		status;
 
 	stdin_backup = dup(STDIN_FILENO);
 	setup_sigint_heredoc();
 	while (1)
 	{
 		line = readline("> ");
-		if (handle_interruptions(line, (char *)delimiter, stdin_backup) == -1)
+		status = handle_interruptions(line, (char *)delimiter, stdin_backup);
+		if (status == -1)
 			return (-1);
-		else if (handle_interruptions(line, (char *)delimiter,
-				stdin_backup) == 1)
+		if (status == 1)
 			break ;
 		write(fd, line, strlen(line));
 		write(fd, "\n", 1);
