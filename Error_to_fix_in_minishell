@@ -53,3 +53,27 @@ OK DONE
 
 env -i minishell
 export fonctionne pas
+
+
+
+au debut dans le main:
+
+detecter la creation de l'env:
+si pas d'env: 
+creation de deux nodes:
+-SHLVL=1;(optionnel)
+autrement :PWD avec la fonction getcwd();
+
+Faire en sorte de sauvegarder la position de la HEAD 
+    et comparer celle ci avec le node a supprimer  <-- UNSET
+
+Export si l environnement est vide rajouter un node suplementaire 
+
+
+
+
+la fonction problematique est : dans ft_unset : 
+
+static void	delete_env_node(t_env **env_list, const char *key_to_del)
+
+regler le cas si on veut supprimer la tete de la liste.

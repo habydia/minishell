@@ -11,6 +11,11 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envd = NULL;
 	// running = 1;
+	//if(!env)
+	/*{
+		create_minimum_env(data);
+
+	}*/
 	init_lst_env(&envd, env); // segfault
 	save_std_in_out(&data);
 	handle_signals();

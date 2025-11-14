@@ -6,7 +6,7 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 03:27:40 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/12 18:30:17 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_lst_env(t_env **envd, char **env)
 	int		i;
 
 	i = 0;
+	
 	while (env && env[i])
 	{
 		if (add_back_env(envd) == 1)

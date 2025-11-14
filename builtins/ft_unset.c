@@ -6,11 +6,12 @@
 /*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 03:50:06 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/13 17:24:55 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "env.h"
 
 static bool	identifier_correct(char *str)
 {
@@ -41,9 +42,12 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 {
 	t_env	*prev;
 	t_env	*curr;
+	t_env	*head;
 
+	head = *env_list;
 	curr = *env_list;
 	prev = NULL;
+
 	while (curr)
 	{
 		if (ft_strcmp(curr->key, key_to_del) == 0)
@@ -52,10 +56,12 @@ static void	delete_env_node(t_env **env_list, const char *key_to_del)
 				prev->next = curr->next;
 			else
 				*env_list = curr->next;
+				// printf("%s\n", curr->key);
 			free(curr->key);
 			if (curr->value)
 				free(curr->value);
 			free(curr);
+			curr = NULL;
 			return ;
 		}
 		prev = curr;
@@ -86,7 +92,7 @@ static void	delete_envp_entry(char **envp, const char *key_to_del)
 	}
 }
 
-int	ft_unset(char **args, char **env, t_data *data)
+int	ft_unset(char **args, char **envp, t_data *data)
 {
 	int	i;
 	int	exit_code;
@@ -107,7 +113,7 @@ int	ft_unset(char **args, char **env, t_data *data)
 		else
 		{
 			delete_env_node(&data->env, args[i]);
-			delete_envp_entry(env, args[i]);
+			delete_envp_entry(envp, args[i]);
 		}
 		i++;
 	}
