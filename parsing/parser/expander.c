@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 10:47:05 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:24:11 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 static void	handle_quote_context(const char *str, size_t *i,
 		t_expand_data *data)

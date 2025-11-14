@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:39 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:22:49 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:23:57 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 char	*ft_getenv(char *name, t_env *envp)
 {

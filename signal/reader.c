@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 21:42:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/07 02:55:23 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/14 19:23:37 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signals.h"
-#include "env.h"
+#include "minishell.h"
 
 char	*reader(t_data *data)
 {

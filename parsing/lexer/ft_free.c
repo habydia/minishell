@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 03:22:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:43:04 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:19:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 void	free_tokens(t_token *tokens)
 {

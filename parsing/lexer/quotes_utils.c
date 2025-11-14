@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 01:42:33 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:18:01 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:20:48 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 static void	handle_single_quote(bool *in_single, bool in_double, int *count)
 {

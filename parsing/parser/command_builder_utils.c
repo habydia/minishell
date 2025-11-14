@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:24:18 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:24:28 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 int	handle_word_token(t_args_builder *builder, const char *value)
 {

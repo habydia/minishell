@@ -6,11 +6,13 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:24:14 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:22:25 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
+
+// #include "parsing.h"
 
 t_cmd	*create_cmd(void)
 {

@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 01:28:46 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:24:17 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
 {

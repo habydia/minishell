@@ -6,11 +6,11 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/09 03:29:10 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/14 19:24:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 static int	process_operator(const char *line, int *i, t_token **tokens)
 {

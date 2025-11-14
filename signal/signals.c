@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 21:49:53 by Hadia             #+#    #+#             */
-/*   Updated: 2025/10/12 01:00:06 by Hadia            ###   ########.fr       */
+/*   Created: 2025/07/31 21:49:53 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/14 19:31:29 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signals.h"
+#include "minishell.h"
 
 int						g_exit_status = 0;
 volatile sig_atomic_t	g_interrupted = 0;
