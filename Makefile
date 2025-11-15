@@ -21,12 +21,39 @@ SRC = parsing/lexer/operator_handler.c \
 	  parsing/parser/heredoc_handler.c \
 	  parsing/parser/command_builder_utils.c \
 	  parsing/syntax_checker.c \
-	  signal/* \
-	  exec/* \
-	  env/* \
-	  builtins/* \
+	  parsing/parsing.c \
+	  signal/heredoc_signals.c \
+	  signal/reader.c \
+	  signal/signals.c \
+	  exec/apply_redirections_exec.c \
+	  exec/exec_utils.c \
+	  exec/exec.c \
+	  exec/get_path_exec.c \
+	  exec/get_path_handle_access_cmd_exec.c \
+	  exec/get_path_utils_exec.c \
+	  exec/handle_child_process_exec.c \
+	  exec/handle_parent_builtins_exec.c \
+	  exec/handle_parent_process.c \
+	  exec/update_envp_exec_utils.c \
+	  exec/update_envp_exec.c \
+	  env/free_all.c \
+	  env/init_data_structure.c \
+	  env/init_envp_array.c \
+	  env/init_lst_env_utils.c \
+	  env/init_lst_env.c \
+	  builtins/exec_builtins.c \
+	  builtins/ft_cd_utils.c \
+	  builtins/ft_cd.c \
+	  builtins/ft_echo.c \
+	  builtins/ft_env.c \
+	  builtins/ft_exit_is_number_utils.c \
+	  builtins/ft_exit.c \
+	  builtins/ft_export_utils_key.c \
+	  builtins/ft_export_utils.c \
+	  builtins/ft_export.c \
+	  builtins/ft_pwd.c \
+	  builtins/ft_unset.c \
 	  test_minish.c \
-      parsing/parsing.c \
 
 HEADER = include/parsing.h
 
