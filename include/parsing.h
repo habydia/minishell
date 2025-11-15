@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:36:58 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:31 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ typedef struct s_expand_data
 	size_t					*result_size;
 	size_t					*j;
 	t_env					*env;
+	int						*exit_status;
 	int						in_quote;
 	char					quote_type;
-	int						escaped;
-	int						preserve_spaces;
 }							t_expand_data;
 
 /* ========== PRINCIPALES ========== */
 char						*ft_getenv(char *name, t_env *envp);
 // parsing.c
-t_cmd						*parsing(const char *line, t_env *env);
+t_cmd						*parsing(const char *line, t_env *env,
+								int *exit_status);
 
 // syntax_checker.c - Syntax validation
 int							syntax_errors(t_token *tokens);
@@ -142,8 +142,6 @@ int							handle_quote(const char *line, int *i, int *start,
 
 int							handle_operator_and_quote(int *i, int *start,
 								const char *line, t_token **tokens);
-// lexer/quote_handler.c - Quotes Gestion
-int							is_quoted_section(const char *str, int start);
 
 // lexer/operator_handler.c - operators Gestion
 t_token_type				get_operator_type(const char *str, int *i);
@@ -153,13 +151,14 @@ int							is_operator_char(char c);
 
 t_cmd						*parse_tokens(t_token *tokens);
 // parser/expander.c - variables Expansion
-t_token						*expand_tokens(t_token *tokens, t_env *env);
+t_token						*expand_tokens(t_token *tokens, t_env *env,
+								int *exit_status);
 int							handle_dollar_sign(const char *line, size_t *i,
 								t_expand_data *data);
 char						*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - utils for expansion
 char						*process_token_expansion(const char *value,
-								t_env *env);
+								t_env *env, int *exit_status);
 
 // parser/command_builder.c - building Commands
 int							build_redirection_token(t_token **current,
@@ -191,7 +190,6 @@ char						**init_args_array(const char *cmd_name,
 // Memory Management
 void						free_tokens(t_token *head);
 void						free_redirs(t_redir *redirs);
-void						free_args(char **args);
 void						free_args_on_error(char **args);
 // Debug (optionnel)
 void						print_tokens(t_token *tokens);

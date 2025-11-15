@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:35:29 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:31 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*line_lexer(const char *line)
 	return (tokens);
 }
 
-t_token	*expand_tokens(t_token *tokens, t_env *env)
+t_token	*expand_tokens(t_token *tokens, t_env *env, int *exit_status)
 {
 	t_token	*current;
 	char	*expanded;
@@ -35,7 +35,8 @@ t_token	*expand_tokens(t_token *tokens, t_env *env)
 	{
 		if (current->type == T_WORD && current->value)
 		{
-			expanded = process_token_expansion(current->value, env);
+			expanded = process_token_expansion(current->value, env,
+					exit_status);
 			if (expanded && expanded != current->value)
 			{
 				free(current->value);
@@ -57,7 +58,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 	return (cmds);
 }
 
-t_cmd	*parsing(const char *line, t_env *env)
+t_cmd	*parsing(const char *line, t_env *env, int *exit_status)
 {
 	t_token	*tokens;
 	t_token	*token_start;
@@ -72,15 +73,16 @@ t_cmd	*parsing(const char *line, t_env *env)
 		free_tokens(token_start);
 		return (NULL);
 	}
-	tokens = expand_tokens(tokens, env);
+	tokens = expand_tokens(tokens, env, exit_status);
 	if (!tokens)
 		return (NULL);
 	cmds = parse_tokens(tokens);
 	free_tokens(token_start);
-	if (g_heredoc_interrupted)
+	if (g_signal_status == SIG_HEREDOC_INTERRUPTED)
 	{
 		free_cmds(cmds);
-		g_heredoc_interrupted = 0;
+		g_signal_status = SIG_NONE;
+		*exit_status = 130;
 		return (NULL);
 	}
 	return (cmds);

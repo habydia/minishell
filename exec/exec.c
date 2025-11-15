@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/11 08:02:30 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	exec_cmd(t_data *data, char *input)
 	ret = 0;
 	curr = data->cmds;
 	if (!curr)
-		return (g_exit_status);
+		return (data->exit_status);
 	update_envp(data);
 	if (is_single_cmd(data))
 	{

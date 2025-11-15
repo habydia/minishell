@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:37:32 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 	}
 }
 
-static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes)
+static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes,
+		int *exit_status)
 {
 	char			*result;
 	size_t			result_size;
@@ -93,6 +94,7 @@ static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes)
 	t_expand_data	data;
 
 	data.env = env;
+	data.exit_status = exit_status;
 	data.in_quote = in_dquotes;
 	data.quote_type = (in_dquotes * '"');
 	if (!str)
@@ -112,7 +114,8 @@ static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes)
 	return (result);
 }
 
-char	*process_token_expansion(const char *value, t_env *env)
+char	*process_token_expansion(const char *value, t_env *env,
+		int *exit_status)
 {
 	int		len;
 	char	*temp;
@@ -130,10 +133,10 @@ char	*process_token_expansion(const char *value, t_env *env)
 	if (len >= 2 && value[0] == '"' && value[len - 1] == '"')
 	{
 		temp = remove_quotes(value, '"');
-		expanded = expand_simple_string(temp, env, 1);
+		expanded = expand_simple_string(temp, env, 1, exit_status);
 		free(temp);
 		return (expanded);
 	}
-	result = expand_simple_string(value, env, 0);
+	result = expand_simple_string(value, env, 0, exit_status);
 	return (result);
 }

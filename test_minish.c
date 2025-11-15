@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:42:49 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:45:22 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	process_line(t_data *data, char *line)
 	if (!line || line[0] == '\0')
 		return (0);
 	add_history(line);
-	data->cmds = parsing(line, data->env);
+	data->cmds = parsing(line, data->env, &data->exit_status);
 	if (!data->cmds)
 		return (0);
 	init_envp_array(data);
-	g_exit_status = exec_cmd(data, line);
-	if (g_exit_status == -1)
+	data->exit_status = exec_cmd(data, line);
+	if (data->exit_status == -1)
 		cleanup_and_exit(data, line, 1);
 	free_cmds(data->cmds);
 	free_envp(data->envp);
@@ -49,6 +49,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envd = NULL;
 	init_lst_env(&envd, env);
+	data.exit_status = 0;
 	save_std_in_out(&data);
 	handle_signals();
 	while (1)

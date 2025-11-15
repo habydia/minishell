@@ -6,19 +6,20 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:24:17 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_exit_status(char **result, size_t *j, size_t *result_size)
+static char	*expand_exit_status(char **result, size_t *j, size_t *result_size,
+		int *exit_status)
 {
 	char	*exit_status_str;
 	char	*new_result;
 	size_t	val_len;
 
-	exit_status_str = ft_itoa(g_exit_status);
+	exit_status_str = ft_itoa(*exit_status);
 	if (!exit_status_str)
 		return (NULL);
 	val_len = ft_strlen(exit_status_str);
@@ -95,7 +96,8 @@ static int	handle_variable_expansion(const char *line, size_t *i,
 	if (line[*i] == '?')
 	{
 		(*i)++;
-		if (!expand_exit_status(data->result, data->j, data->result_size))
+		if (!expand_exit_status(data->result, data->j, data->result_size,
+				data->exit_status))
 			return (0);
 	}
 	else if (ft_isalpha(line[*i]) || line[*i] == '_')
