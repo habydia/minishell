@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:34 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 22:59:22 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:31 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*generate_temp_filename(void)
 
 static int	handle_interruptions(char *line, char *delimiter, int stdin_backup)
 {
-	if (g_heredoc_interrupted)
+	if (g_signal_status == SIG_HEREDOC_INTERRUPTED)
 	{
 		apply_handle_signals(line, stdin_backup);
 		return (-1);

@@ -6,18 +6,16 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 18:28:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 21:19:15 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:31 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_heredoc_interrupted = 0;
-
 void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
-	g_heredoc_interrupted = 1;
+	g_signal_status = SIG_HEREDOC_INTERRUPTED;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
 }
@@ -26,7 +24,7 @@ void	setup_sigint_heredoc(void)
 {
 	struct sigaction	sa_int;
 
-	g_heredoc_interrupted = 0;
+	g_signal_status = SIG_NONE;
 	sa_int.sa_handler = handle_sigint_heredoc;
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;
@@ -59,5 +57,4 @@ void	handle_heredoc_error(t_redir *redir, char *temp_filename,
 	if (redir->file)
 		free(redir->file);
 	redir->file = NULL;
-	g_exit_status = 130;
 }
