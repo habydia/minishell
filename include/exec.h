@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:28:54 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 03:28:55 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 04:30:20 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,6 @@ int		is_single_cmd(t_data *data);
 /*IS_BUILTINS*/
 
 int		is_builtins(char *cmd);
-
-// /*SAVE_STD_IN_OUT*/
-// void	save_std_in_out(t_data *data);
-
-// /*RESET_STD_IN_OUT*/
-// void	reset_std_in_out(t_data *data);
 
 /*WAITING*/
 int		waiting(pid_t pid, int status);
@@ -157,6 +151,15 @@ void	check_command_path(t_cmd *curr, t_data *data, int *ret);
 
 /*HANDLE_PARENT_BUILTINS*/
 int		handle_parent_builtins(t_data *data, t_cmd *curr, char *input);
+
+/*HANDLE_PARENT_BUILTINS UTILS : HANDLE_EXIT_BUILTIN*/
+int		handle_exit_builtin(t_data *data, t_cmd *curr, char *input);
+
+/*HANDLE_PARENT_BUILTINS UTILS : SAVE_STD_IN_OUT*/
+int		save_std_in_out(int *saved_stdin, int *saved_stdout);
+
+/*HANDLE_PARENT_BUILTINS UTILS : RESET_STD_IN_OUT*/
+void	reset_std_in_out(int saved_stdin, int saved_stdout);
 
 ///////////////////////////////////////////////////////
 ///////////// HANDLE PARENT PROCESS EXEC //////////////

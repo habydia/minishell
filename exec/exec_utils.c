@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 02:24:11 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 04:29:34 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,6 @@ int	is_builtins(char *cmd)
 		return (1);
 	return (0);
 }
-
-// void	save_std_in_out(t_data *data)
-// {
-// 	data->saved_stdin = dup(STDIN_FILENO);
-// 	data->saved_stdout = dup(STDOUT_FILENO);
-// 	if (data->saved_stdin == -1 || data->saved_stdout == -1)
-// 	{
-// 		perror("dup");
-// 		exit(1);
-// 	}
-// }
-
-// void	reset_std_in_out(t_data *data)
-// {
-// 	if (dup2(data->saved_stdin, STDIN_FILENO) == -1)
-// 	{
-// 		perror("dup2 stdin");
-// 		exit(1);
-// 	}
-// 	if (dup2(data->saved_stdout, STDOUT_FILENO) == -1)
-// 	{
-// 		perror("dup2 stdout");
-// 		exit(1);
-// 	}
-// 	close(data->saved_stdin);
-// 	close(data->saved_stdout);
-// }
 
 int	waiting(pid_t pid, int status)
 {

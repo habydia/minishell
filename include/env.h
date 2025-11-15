@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:43:01 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 01:04:30 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 04:30:06 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ typedef struct s_env
 typedef struct s_cmd	t_cmd;
 typedef struct s_data
 {
-	char				**dst;
+	// char				**dst;
 	t_env				*env;
 	char				**envp;
-	int					errcode;
+	// int					errcode;
 	int					exit_status;
-	int					i;
-	int					saved_stdin;
-	int					saved_stdout;
+	// int					i;
 	t_cmd				*cmds;
 }						t_data;
 
@@ -92,21 +90,8 @@ void					fill_envp_array(t_data *data);
 /////////////////////////////////
 
 /*INIT_DATA*/
-void					init_data(t_data *data, t_env **envd, char **dst);
-
-////////////ENV.C && LST_UTILS_ENV.C///////////
-void					init_data(t_data *data, t_env **envd, char **dst);
-// void					init_envp_array(t_data *data);
-int						add_back_env(t_env **envd);
-t_env					*ft_lstlast_env(t_env *envd);
-void					free_lst_env(t_env **envd, bool ext, int errcode);
-void					init_lst_env(t_env **envd, char **env);
-
-void					print_lst_env(t_env *envd);
-void					print_envp(char **envp);
+void					init_data(t_data *data, t_env **envd);
 
 int						free_all(t_data *data, int errcode, char *str);
-
-void					add_or_update_env(t_env **env, char *str);
 
 #endif

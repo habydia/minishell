@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_minish.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:42:49 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 03:32:22 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 04:28:45 by lebroue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int ac, char **av, char **env)
 	handle_signals();
 	while (1)
 	{
-		init_data(&data, &envd, NULL);
+		init_data(&data, &envd);
 		line = reader(&data);
 		if (process_line(&data, line))
 			envd = data.env;
