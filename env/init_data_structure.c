@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:54:46 by willda-s          #+#    #+#             */
-/*   Updated: 2025/11/15 01:04:33 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 02:31:15 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,6 @@ void	init_data(t_data *data, t_env **envd, char **dst)
 	data->exit_status = saved_exit_status;
 	data->i = 0;
 	data->cmds = cmds;
+	data->saved_stdin = -1;
+	data->saved_stdout = -1;
 }

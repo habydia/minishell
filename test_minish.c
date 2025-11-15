@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:42:49 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 01:43:58 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 02:23:51 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 	envd = NULL;
 	init_lst_env(&envd, env);
 	data.exit_status = 0;
-	save_std_in_out(&data);
+	// save_std_in_out(&data);
 	handle_signals();
 	while (1)
 	{

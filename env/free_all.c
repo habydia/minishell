@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 21:52:57 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 19:02:02 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/15 02:24:25 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	free_array(char **dst)
 
 int	free_all(t_data *data, int errcode, char *str)
 {
-	if (data->saved_stdin || data->saved_stdout)
-		reset_std_in_out(data);
+	// if (data->saved_stdin || data->saved_stdout)
+	// 	reset_std_in_out(data);
 	if (data->env)
 		free_lst_env(&data->env, false, 0);
 	if (data->cmds)

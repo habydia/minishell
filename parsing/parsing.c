@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 01:04:31 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:46:16 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,21 @@ t_cmd	*parse_tokens(t_token *tokens)
 t_cmd	*parsing(const char *line, t_env *env, int *exit_status)
 {
 	t_token	*tokens;
-	t_token	*token_start;
 	t_cmd	*cmds;
 
 	tokens = line_lexer(line);
 	if (!tokens)
 		return (NULL);
-	token_start = tokens;
 	if (syntax_errors(tokens))
 	{
-		free_tokens(token_start);
+		free_tokens(tokens);
 		return (NULL);
 	}
 	tokens = expand_tokens(tokens, env, exit_status);
 	if (!tokens)
 		return (NULL);
 	cmds = parse_tokens(tokens);
-	free_tokens(token_start);
+	free_tokens(tokens);
 	if (g_signal_status == SIG_HEREDOC_INTERRUPTED)
 	{
 		free_cmds(cmds);
