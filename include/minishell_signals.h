@@ -10,9 +10,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-extern int						g_exit_status;
-extern volatile sig_atomic_t	g_interrupted;
-extern volatile sig_atomic_t	g_heredoc_interrupted;
+/* Une seule variable globale pour les signaux */
+extern volatile sig_atomic_t	g_signal_status;
+
+/* États possibles pour g_signal_status */
+# define SIG_NONE 0
+# define SIG_INTERRUPTED 1
+# define SIG_HEREDOC_INTERRUPTED 2
 
 typedef struct s_redir			t_redir;
 //

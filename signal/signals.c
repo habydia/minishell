@@ -6,14 +6,13 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:49:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:37:03 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 01:04:30 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int						g_exit_status = 0;
-volatile sig_atomic_t	g_interrupted = 0;
+volatile sig_atomic_t	g_signal_status = SIG_NONE;
 
 void	handle_sigint(int sig)
 {
@@ -22,7 +21,7 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_interrupted = 1;
+	g_signal_status = SIG_INTERRUPTED;
 }
 
 void	setup_sigint(void)
