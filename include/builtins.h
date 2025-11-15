@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:42:34 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 21:46:22 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/15 03:28:40 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "parsing.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-#include <stdbool.h>
+# include <stdbool.h>
 
 # define INT64_MAX_STR "9223372036854775807"
 # define INT64_MIN_STR "9223372036854775808"

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_signals.h                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/15 03:16:53 by hadia             #+#    #+#             */
+/*   Updated: 2025/11/15 03:17:36 by hadia            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_SIGNALS_H
 # define MINISHELL_SIGNALS_H
 
@@ -10,17 +22,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-/* Une seule variable globale pour les signaux */
 extern volatile sig_atomic_t	g_signal_status;
 
-/* États possibles pour g_signal_status */
 # define SIG_NONE 0
 # define SIG_INTERRUPTED 1
 # define SIG_HEREDOC_INTERRUPTED 2
 
 typedef struct s_redir			t_redir;
 //
-/* **********************************SIGNALS**************************************** */
+/* **********************************SIGNALS***************************** */
 void							setup_sigint(void);
 void							setup_sigquit(void);
 void							handle_sigint(int sig);
@@ -29,7 +39,7 @@ void							handle_signals(void);
 char							*reader(t_data *data);
 
 //
-/* **************************HEREDOC SIGNALS*************************************** */
+/* **************************HEREDOC SIGNALS****************************** */
 void							handle_sigint_heredoc(int sig);
 void							setup_sigint_heredoc(void);
 void							apply_ctrld(char const *delimiter);
