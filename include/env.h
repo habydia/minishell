@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:43:01 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 04:30:06 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/15 04:38:30 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ typedef struct s_env
 typedef struct s_cmd	t_cmd;
 typedef struct s_data
 {
-	// char				**dst;
 	t_env				*env;
 	char				**envp;
-	// int					errcode;
 	int					exit_status;
-	// int					i;
 	t_cmd				*cmds;
 }						t_data;
 

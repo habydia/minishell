@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:28:32 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 03:28:32 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/15 04:42:38 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		free_all(t_data *data, int errcode, char *str);
 void	free_tokens(t_token *head);
 void	free_cmds(t_cmd *cmds);
 void	free_redirs(t_redir *redirs);
-void	free_args(char **args);
 void	free_args_on_error(char **args);
 
 #endif

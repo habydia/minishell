@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parent_builtins_exec.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:26:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 04:36:36 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/15 04:41:35 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ int	handle_exit_builtin(t_data *data, t_cmd *curr, char *input)
 	{
 		reset_std_in_out(saved_stdin, saved_stdout);
 		free_all(data, 1, NULL);
+		exit(1);
 	}
 	ret = exec_builtins(curr, data, data->envp, input);
 	reset_std_in_out(saved_stdin, saved_stdout);
 	free_all(data, ret, NULL);
+	exit(ret);
 }
 
 int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
