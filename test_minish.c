@@ -55,6 +55,11 @@ int	main(int ac, char **av, char **env)
 	{
 		init_data(&data, &envd);
 		line = reader(&data);
+		if (g_signal_status == SIG_INTERRUPTED)
+		{
+			data.exit_status = 130;
+			g_signal_status = SIG_NONE;
+		}
 		if (process_line(&data, line))
 			envd = data.env;
 		free(line);

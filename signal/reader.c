@@ -18,7 +18,7 @@ char	*reader(t_data *data)
 
 	line = readline("Minishell> ");
 	if (line == NULL)
-		free_all(data, 1, NULL);
+		free_all(data, data->exit_status, NULL);
 	if (!line)
 	{
 		perror("Error reading line");
