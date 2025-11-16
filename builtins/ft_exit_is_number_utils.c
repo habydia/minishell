@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit_is_number_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:18:02 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/05 01:36:07 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:18 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "builtins.h"
+#include "minishell.h"
 
 int	get_sign(const char *str, int *i)
 {

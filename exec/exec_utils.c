@@ -6,13 +6,11 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 15:26:26 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:17 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	is_single_cmd(t_data *data)
 {

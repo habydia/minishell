@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_signals.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:16:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 03:17:36 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:32:59 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_SIGNALS_H
 # define MINISHELL_SIGNALS_H
 
-# include "../libft/libft/libft.h"
+# include "../libft/libft.h"
 # include "env.h"
 # include <readline/history.h>
 # include <readline/readline.h>

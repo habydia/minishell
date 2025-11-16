@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_child_process_exec.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:41:30 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 03:29:57 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:25 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	child_pipe_redir_dup2_close_secure(t_cmd *curr, t_pipe *p)
 {

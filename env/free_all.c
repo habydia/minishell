@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 21:52:57 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 04:25:29 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:07 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "ft_free.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	free_all(t_data *data, int errcode, char *str)
 {

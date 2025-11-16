@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_handle_access_cmd_exec.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 02:36:41 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 02:42:26 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:40 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 char	*directory_error_messsage(const char *argv_cmd, int *ret)
 {

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parent_process.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:39:40 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 03:00:28 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:22 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 void	handle_parent_process(t_cmd **curr, t_pipe *p)
 {

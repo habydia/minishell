@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:33:52 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 02:41:45 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:30 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	check_if_is_a_directory(const char *path)
 {

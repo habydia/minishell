@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_lst_env_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 16:29:28 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 19:05:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:03 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/env.h"
-#include "../include/parsing.h"
+#include "minishell.h"
 
 void	free_lst_env(t_env **envd, bool ext, int errcode)
 {

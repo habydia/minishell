@@ -6,13 +6,11 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 12:50:06 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:16 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	redir_in_open_and_dup_close_secure(t_redir *redir, bool flag)
 {

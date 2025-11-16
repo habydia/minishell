@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parent_builtins_exec.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:26:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 04:41:35 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:45 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 void	reset_std_in_out(int saved_stdin, int saved_stdout)
 {

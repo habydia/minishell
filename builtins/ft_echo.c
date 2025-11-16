@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:35:05 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 18:53:21 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:36 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include <unistd.h>
+#include "minishell.h"
 
 size_t	count_array_lines(char **str)
 {

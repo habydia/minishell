@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:09:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 18:07:23 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:06 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 bool	try_update_value_in_existing_variable(t_env *env, const char *key,
 		char *value)

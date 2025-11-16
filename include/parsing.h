@@ -6,14 +6,14 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/16 13:08:05 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:32:47 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "../libft/libft/libft.h"
+# include "../libft/libft.h"
 # include "env.h"
 # include <dirent.h>
 # include <errno.h>

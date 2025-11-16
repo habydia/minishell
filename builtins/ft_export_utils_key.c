@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils_key.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:30:25 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 18:07:40 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:13 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
 #include "minishell.h"
 
 void	handle_key_and_value(const char *str, char *equal_position,

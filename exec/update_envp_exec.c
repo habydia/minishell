@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   update_envp_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:41:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 00:17:40 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:12 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int	count_node(t_env *tmp)
 {

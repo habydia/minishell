@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:49 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 18:07:58 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:03 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "env.h"
+#include "minishell.h"
 
 bool	check_if_variable_key_is_correct(char *str)
 {

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:42:34 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 03:28:40 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:32:34 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
-# include "../libft/libft/libft.h"
+# include "../libft/libft.h"
 # include "env.h"
 # include "minishell.h"
 # include "parsing.h"

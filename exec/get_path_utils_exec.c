@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_path_utils_exec.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:25:41 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/10 02:42:57 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:27 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "exec.h"
-#include "parsing.h"
+#include "minishell.h"
 
 void	ft_free_tab_str(char **str)
 {

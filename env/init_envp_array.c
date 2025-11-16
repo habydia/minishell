@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_envp_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 21:37:32 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:04 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/env.h"
-#include "../include/minishell.h"
-#include "../include/parsing.h"
-#include <unistd.h>
+#include "minishell.h"
 
 int	count_lst_env_node(t_data *data)
 {

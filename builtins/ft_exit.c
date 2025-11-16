@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 16:09:53 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:16 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include "exec.h"
+#include "minishell.h"
 
 int	ft_atoi_secure(const char *str)
 {

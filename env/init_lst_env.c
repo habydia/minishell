@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_lst_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:00:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 21:37:09 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:01 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/env.h"
-#include "../include/minishell.h"
-#include "../include/parsing.h"
-#include <unistd.h>
+#include "minishell.h"
 
 void	process_minimum_variables(t_env **envd, char *pwd_variable)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 16:04:26 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:26:48 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	ft_exit_handle(t_cmd *cmd, t_data *data, int ret, char *input)
 {

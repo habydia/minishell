@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:28:54 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 04:30:20 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 15:39:16 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <sys/stat.h>
+#include <signal.h>
+#include <sys/wait.h>
 
 typedef struct s_pipe
 {

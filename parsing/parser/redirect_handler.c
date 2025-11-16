@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:25:43 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 16:28:40 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// #include "parsing.h"
 
 t_cmd	*create_cmd(void)
 {

@@ -1,20 +1,48 @@
-Makefile qui ne relink pas comme il faut si on touche aux autres headers
+- Makefile qui ne relink pas comme il faut si on touche aux autres headers
 (solution simple avec -MMD - MP dans les flags et -include $(OBJ:.o=.d) dans le corps du Makefile)
+OK DONE
 
-echo echo ne repond pas echo.... 
+- echo echo ne repond pas echo.... 
 pareil pour toutes les commandes ou le parametres est == a la commande : le parametre est skip ... 
+Diagnostique du probleme : Le code skippait tout token WORD dont la valeur était égale au nom de la commande
+ET quand builder->count == 1, ce qui causait le skip de tous les arguments identiques au nom de la commande.
+OK DONE
 
+- valeur de retour doit etre 2 si syntax error
+OK DONE (voir parsing.c)
 
-exit 'alpha' -> code de sortie incorrecte & message d'erreur manquant
-exit 242 => code de sortie incorrecte 
-Attention a quand vous allez corrigier a bien mettre la valeur en unsigned (entre 0 et 255)
-
-Pensez a remettre a zero la valeur de retour du processe meme lors d'un 'entrer'
-valeur de retour doit etre 2 si syntax error
-faire les modif pour avoir le bon retour de process enfant dans la fonction wait (test avec sigfault = 139).
-Trouver comment afficher le message d'erreur du segflaut dans process enfant
+- Pensez a remettre a zero la valeur de retour du processe meme lors d'un 'entrer'
+solution : reader return NULL, process_line recoit le NULL, return (0)directement.
+OK DONE (voir reader.c/ main.c)
 
 signaux CTRL+D sur empty prompt -> la valeur de retour doit etre 0
+OK DONE
+(voir reader.c)
 ctrl-C in an empty prompt -> valeur de retour doit etre 130
+OK DONE
+(voir main.c)
+
+exit 242 => code de sortie incorrecte 
+Attention a quand vous allez corrigier a bien mettre la valeur en unsigned (entre 0 et 255) et
+faire les modif pour avoir le bon retour de process enfant dans la fonction wait (test avec sigfault = 139).
+OK DONE (voir exec_utils.c)
+
+Trouver comment afficher le message d'erreur du segflaut dans process enfant
+EXEMPLE :
+Minishell> ./test_segfault
+Ce programme va volontairement segfault...
+Minishell> echo $?
+139
+-> bon retour d'erreur mais pas de message
+cause :
+   Absence de messages d'erreur pour SIGSEGV
+
+Solution : Ajout de l'affichage des messages dans waiting() pour SIGSEGV
+-> Affiche maintenant "Segmentation fault" et retourne 139
+Ok DONE
+
+reste à :
 Try ctrl-\ after running a blocking command like cat without arguments -> 
 afficher "Try ctrl-\ after running a blocking command like cat without arguments"
+
+exit 'alpha' -> code de sortie incorrecte & message d'erreur manquant

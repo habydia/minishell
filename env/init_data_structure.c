@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_data_structure.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:54:46 by willda-s          #+#    #+#             */
-/*   Updated: 2025/11/15 04:28:54 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 16:24:06 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/env.h"
-#include "../include/parsing.h"
+#include "minishell.h"
 
 void	init_data(t_data *data, t_env **envd)
 {
