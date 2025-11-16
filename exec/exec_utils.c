@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 13:53:02 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 15:26:26 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	waiting(pid_t pid, int status)
 {
 	int		ret;
 	pid_t	pid_at_exit;
+	int		signal_num;
 
 	ret = 0;
 	while (1)
@@ -56,7 +57,12 @@ int	waiting(pid_t pid, int status)
 			if(WIFEXITED(status))
 				ret = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				ret = 128 + WTERMSIG(status);
+			{
+				signal_num = WTERMSIG(status);
+				ret = 128 + signal_num;
+				if (signal_num == SIGSEGV)
+					write(2, "Segmentation fault\n", 19);
+			}
 		}
 		if (pid_at_exit < 0)
 			break ;
