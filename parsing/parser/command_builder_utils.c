@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:24:28 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 13:08:31 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	handle_token(t_token **current, t_cmd *cmd, t_args_builder *builder)
 {
 	if ((*current)->type == T_WORD)
 	{
-		if (cmd->name && builder->count == 1 && strcmp((*current)->value,
-				cmd->name) == 0)
+		if (builder->skip_first_word)
+		{
+			builder->skip_first_word = 0;
 			*current = (*current)->next;
+		}
 		else
 		{
 			if (!handle_word_token(builder, (*current)->value))
@@ -65,6 +67,7 @@ int	process_tokens(t_token **tokens, t_cmd *cmd, char **args, int *arg_count)
 	builder.args = args;
 	builder.count = *arg_count;
 	builder.capacity = 10;
+	builder.skip_first_word = (cmd->name != NULL);
 	while (current && current->type != T_PIPE && current->type != T_EOF)
 	{
 		if (!handle_token(&current, cmd, &builder))
