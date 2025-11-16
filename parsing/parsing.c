@@ -68,6 +68,7 @@ t_cmd	*parsing(const char *line, t_env *env, int *exit_status)
 		return (NULL);
 	if (syntax_errors(tokens))
 	{
+		*exit_status = 2;
 		free_tokens(tokens);
 		return (NULL);
 	}
