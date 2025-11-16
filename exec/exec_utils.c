@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lebroue <leobroue@student.42lyon.fr>       +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/15 04:29:34 by lebroue          ###   ########.fr       */
+/*   Updated: 2025/11/16 13:53:02 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,12 @@ int	waiting(pid_t pid, int status)
 	{
 		pid_at_exit = wait(&status);
 		if (pid_at_exit == pid)
-			ret = WEXITSTATUS(status);
+		{
+			if(WIFEXITED(status))
+				ret = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				ret = 128 + WTERMSIG(status);
+		}
 		if (pid_at_exit < 0)
 			break ;
 	}
