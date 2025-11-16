@@ -1,12 +1,12 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -g3
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g3 -MMD -MP
 
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin) #macOS
-	CFLAGS += -I/opt/homebrew/opt/readline/include
-	LDFLAGS = -L/opt/homebrew/opt/readline/lib
-endif
+# ifeq ($(UNAME_S),Darwin) #macOS
+# 	CFLAGS += -I/opt/homebrew/opt/readline/include
+# 	LDFLAGS = -L/opt/homebrew/opt/readline/lib
+# endif
 
 SRC = parsing/lexer/operator_handler.c \
       parsing/lexer/tokenizer.c \
@@ -55,8 +55,6 @@ SRC = parsing/lexer/operator_handler.c \
 	  builtins/ft_unset.c \
 	  test_minish.c \
 
-HEADER = include/parsing.h
-
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 NAME = minishell
@@ -65,6 +63,8 @@ all: $(NAME)
 
 LIB_DIR = libft/libft
 LIBFT = $(LIB_DIR)/libft.a
+
+-include $(OBJ:.o=.d)
 
 $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIB_DIR) -lft $(LDFLAGS) -lreadline -o $(NAME)

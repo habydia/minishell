@@ -1,79 +1,20 @@
-// $ .
-// $ ..
-// ==> leak
- OK DONE
-check si c'est un dossier avant d'exec
-OK DONE
+Makefile qui ne relink pas comme il faut si on touche aux autres headers
+(solution simple avec -MMD - MP dans les flags et -include $(OBJ:.o=.d) dans le corps du Makefile)
 
-$ > (ou toute autre redir sans "objet", "cible")
-==> segfault
-
-$ < inexisting_file (redir qui echoue)
-==> segfault
+echo echo ne repond pas echo.... 
+pareil pour toutes les commandes ou le parametres est == a la commande : le parametre est skip ... 
 
 
+exit 'alpha' -> code de sortie incorrecte & message d'erreur manquant
+exit 242 => code de sortie incorrecte 
+Attention a quand vous allez corrigier a bien mettre la valeur en unsigned (entre 0 et 255)
 
+Pensez a remettre a zero la valeur de retour du processe meme lors d'un 'entrer'
+valeur de retour doit etre 2 si syntax error
+faire les modif pour avoir le bon retour de process enfant dans la fonction wait (test avec sigfault = 139).
+Trouver comment afficher le message d'erreur du segflaut dans process enfant
 
-expand :
-Minishell> echo '$USER'"$USER"
-result:
-$USERlebroue
-expected:
-$USERlebroue
-OK DONE
-
-Minishell> echo "'$USER'"
-result :
-'lebroue'
-expected :
-'lebroue'
-OK DONE
-
-Minishell> echo $""
-result:
-$
-expected :
-$
-OK DONE
-Minishell> echo $''
-result :
-$
-expected :
-$
-OK DONE
-
-unset premiere variable d'env ==> invalid read etc,...
-patch en gerant la suppression du premier node
-
-operateur sans commande ==> probleme
-OK DONE
-
-ctrl c dans heredoc
-OK DONE
-
-env -i minishell
-OK DONE
-
-
-
-au debut dans le main:
-
-detecter la creation de l'env:
-si pas d'env: 
-creation de deux nodes:
--SHLVL=1;(optionnel)
-autrement :PWD avec la fonction getcwd();
-
-Faire en sorte de sauvegarder la position de la HEAD 
-    et comparer celle ci avec le node a supprimer  <-- UNSET
-
-Export si l environnement est vide rajouter un node suplementaire 
-
-
-
-
-la fonction problematique est : dans ft_unset : 
-
-static void	delete_env_node(t_env **env_list, const char *key_to_del)
-
-regler le cas si on veut supprimer la tete de la liste.
+signaux CTRL+D sur empty prompt -> la valeur de retour doit etre 0
+ctrl-C in an empty prompt -> valeur de retour doit etre 130
+Try ctrl-\ after running a blocking command like cat without arguments -> 
+afficher "Try ctrl-\ after running a blocking command like cat without arguments"

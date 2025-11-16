@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/14 10:52:45 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/16 12:50:06 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ int	redir_out_open_and_dup_close_secure(t_redir *redir, t_redir_type type)
 {
 	int	fd;
 
+	fd = -1;
 	if (type == R_OUT_TRUNC)
 		fd = open(redir->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (type == R_OUT_APPEND)
+	else if (type == R_OUT_APPEND)
 		fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
@@ -62,9 +63,9 @@ int	redir_out_open_and_dup_close_secure(t_redir *redir, t_redir_type type)
 int	apply_redirections_input_output(t_cmd *cmd)
 {
 	t_redir	*redir;
-	char	*file;
+	// char	*file;
 
-	file = NULL;
+	// file = NULL;
 	redir = cmd->redirs;
 	while (redir)
 	{

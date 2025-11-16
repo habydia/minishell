@@ -36,6 +36,7 @@ int	execute_pipeline(t_data *data, t_cmd *curr, char *input, int ret)
 	t_pipe	p;
 
 	status = 0;
+	pid = -1;
 	p.prev_fd = -1;
 	while (curr)
 	{
