@@ -58,3 +58,9 @@ solution :
 quitter minishell avec le code de sortie 2 (free_all(data, 2, NULL)) quand l’argument n’est pas numérique,
 Libère la mémoire
 Termine le programme avec le code de sortie donné ( 2)
+
+
+
+echo -nnnnnnnnnnn 
+cause : manquait parsing de -nnnnn
+OK DONE
