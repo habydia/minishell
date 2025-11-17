@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:41:30 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:25 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 16:18:06 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	handle_child_process(t_data *data, t_cmd *curr, t_pipe *p, char *input)
 	check_command_path(curr, data, &ret);
 	if (!curr->path)
 		free_all(data, ret, NULL);
+    signal(SIGQUIT, SIG_DFL);
 	execve(curr->path, curr->args, data->envp);
 	perror("execve");
 	free_all(data, 1, NULL);

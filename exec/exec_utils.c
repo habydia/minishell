@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:17 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 16:04:56 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	waiting(pid_t pid, int status)
 				ret = 128 + signal_num;
 				if (signal_num == SIGSEGV)
 					write(2, "Segmentation fault\n", 19);
+				else if (signal_num == SIGQUIT)
+					write(2, "Quit (core dumped)\n", 19);
 			}
 		}
 		if (pid_at_exit < 0)
