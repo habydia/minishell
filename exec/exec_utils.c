@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/17 16:04:56 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:34:13 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ int	is_builtins(char *cmd)
 	return (0);
 }
 
+static void	handle_signal(int signal_num)
+{
+	if (signal_num == SIGSEGV)
+		write(2, "Segmentation fault\n", 19);
+	else if (signal_num == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
+}
+
 int	waiting(pid_t pid, int status)
 {
 	int		ret;
@@ -52,16 +60,13 @@ int	waiting(pid_t pid, int status)
 		pid_at_exit = wait(&status);
 		if (pid_at_exit == pid)
 		{
-			if(WIFEXITED(status))
+			if (WIFEXITED(status))
 				ret = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 			{
 				signal_num = WTERMSIG(status);
 				ret = 128 + signal_num;
-				if (signal_num == SIGSEGV)
-					write(2, "Segmentation fault\n", 19);
-				else if (signal_num == SIGQUIT)
-					write(2, "Quit (core dumped)\n", 19);
+				handle_signal(signal_num);
 			}
 		}
 		if (pid_at_exit < 0)

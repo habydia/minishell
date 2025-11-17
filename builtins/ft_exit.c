@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/17 16:56:33 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:20:34 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	is_valid_number(const char *str)
 
 int	ft_exit(char **args, t_data *data)
 {
-	long long	nb;
+	unsigned long	nb;
 
 	nb = 0;
 	write(1, "exit\n", 5);
@@ -73,7 +73,7 @@ int	ft_exit(char **args, t_data *data)
 			write(2, "minishell: exit: ", 17);
 			write(2, args[1], ft_strlen(args[1]));
 			write(2, ": numeric argument required\n", 29);
-            free_all(data, 2, NULL);
+			free_all(data, 2, NULL);
 		}
 		if (args[2])
 		{

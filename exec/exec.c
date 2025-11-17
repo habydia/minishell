@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:13:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:36 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:31:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	execute_pipeline(t_data *data, t_cmd *curr, char *input, int ret)
 	t_pipe	p;
 
 	status = 0;
-	pid = -1;
 	p.prev_fd = -1;
 	while (curr)
 	{

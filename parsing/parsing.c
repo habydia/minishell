@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/17 17:51:16 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:33:53 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *remove_empty_tokens(t_token *tokens)
+t_token	*remove_empty_tokens(t_token *tokens)
 {
-	t_token *current = tokens;
-	t_token *prev = NULL;
+	t_token	*current;
+	t_token	*prev;
+	t_token	*to_delete;
+
+	current = tokens;
+	prev = NULL;
 	while (current)
 	{
 		if (current->type == T_WORD && current->value
 			&& current->value[0] == '\0')
 		{
-			t_token *to_delete = current;
+			to_delete = current;
 			if (prev)
 				prev->next = current->next;
 			else
@@ -29,14 +33,13 @@ t_token *remove_empty_tokens(t_token *tokens)
 			current = current->next;
 			free(to_delete->value);
 			free(to_delete);
-			continue;
+			continue ;
 		}
 		prev = current;
 		current = current->next;
 	}
-	return tokens;
+	return (tokens);
 }
-
 
 t_token	*line_lexer(const char *line)
 {
@@ -61,7 +64,8 @@ t_token	*expand_tokens(t_token *tokens, t_env *env, int *exit_status)
 	{
 		if (current->type == T_WORD && current->value)
 		{
-			expanded = process_token_expansion(current->value, env, exit_status);
+			expanded = process_token_expansion(current->value, env,
+					exit_status);
 			if (expanded && expanded != current->value)
 			{
 				free(current->value);
@@ -71,7 +75,7 @@ t_token	*expand_tokens(t_token *tokens, t_env *env, int *exit_status)
 		current = current->next;
 	}
 	tokens = remove_empty_tokens(tokens);
-	if( !tokens )
+	if (!tokens)
 		return (NULL);
 	return (tokens);
 }

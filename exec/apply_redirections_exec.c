@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections_exec.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 21:00:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:16 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:01:53 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ int	redir_out_open_and_dup_close_secure(t_redir *redir, t_redir_type type)
 int	apply_redirections_input_output(t_cmd *cmd)
 {
 	t_redir	*redir;
-	// char	*file;
 
-	// file = NULL;
 	redir = cmd->redirs;
 	while (redir)
 	{

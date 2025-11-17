@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:28:54 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/16 15:39:16 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 21:34:02 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include "minishell.h"
 # include "parsing.h"
 # include <limits.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <sys/stat.h>
-#include <signal.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 
 typedef struct s_pipe
 {
