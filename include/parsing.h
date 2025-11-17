@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/16 16:32:47 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/17 18:12:51 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,12 @@ t_token						*expand_tokens(t_token *tokens, t_env *env,
 								int *exit_status);
 int							handle_dollar_sign(const char *line, size_t *i,
 								t_expand_data *data);
+int							ft_count_quotes(const char *str);
 char						*remove_quotes(const char *value, char quote_type);
 // parser/expander_utils.c - utils for expansion
 char						*process_token_expansion(const char *value,
 								t_env *env, int *exit_status);
-
+t_token						*remove_empty_tokens(t_token *tokens);
 // parser/command_builder.c - building Commands
 int							build_redirection_token(t_token **current,
 								t_cmd *cmd);
@@ -192,9 +193,4 @@ char						**init_args_array(const char *cmd_name,
 void						free_tokens(t_token *head);
 void						free_redirs(t_redir *redirs);
 void						free_args_on_error(char **args);
-// Debug (optionnel)
-void						print_tokens(t_token *tokens);
-void						print_cmds(t_cmd *cmds);
-int							ft_count_quotes(const char *str);
-
 #endif

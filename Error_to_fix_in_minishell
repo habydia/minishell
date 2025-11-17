@@ -41,8 +41,20 @@ Solution : Ajout de l'affichage des messages dans waiting() pour SIGSEGV
 -> Affiche maintenant "Segmentation fault" et retourne 139
 Ok DONE
 
-reste à :
 Try ctrl-\ after running a blocking command like cat without arguments -> 
-afficher "Try ctrl-\ after running a blocking command like cat without arguments"
+afficher "^\Quit (core dumped)"
+$ echo $?
+131"
+cause :
+le signal SIGQUIT (envoyé par ctrl-) était ignoré partout, y compris dans le processus enfant (ex : cat). 
+solution : 
+Il faut rétablir le comportement par défaut de SIGQUIT dans le processus enfant juste avant d’exécuter la commande.
+OK DONE
 
 exit 'alpha' -> code de sortie incorrecte & message d'erreur manquant
+cause : 
+la fonction ne quittait pas correctement avec le bon code après une erreur d’argument non numérique (voir ft_exit.c) 
+solution : 
+quitter minishell avec le code de sortie 2 (free_all(data, 2, NULL)) quand l’argument n’est pas numérique,
+Libère la mémoire
+Termine le programme avec le code de sortie donné ( 2)
