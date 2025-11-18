@@ -5,6 +5,7 @@ UNAME_S := $(shell uname -s)
 
 SRC = parsing/lexer/operator_handler.c \
       parsing/lexer/tokenizer.c \
+	  parsing/lexer/tokenizer_utils.c \
 	  parsing/lexer/tokenizer_handler.c \
 	  parsing/lexer/quotes_utils.c\
 	  parsing/lexer/ft_free.c \

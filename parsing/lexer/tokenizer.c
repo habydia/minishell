@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 04:47:06 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 06:30:53 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,4 @@ t_token	*tokenize_line(const char *line)
 		in_token = 0;
 	}
 	return (tokens);
-}
-
-t_token	*create_token(t_token_type type, const char *value)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->next = NULL;
-	if (!value)
-	{
-		token->value = NULL;
-		return (token);
-	}
-	token->value = ft_strdup(value);
-	if (!token->value)
-	{
-		free(token);
-		return (NULL);
-	}
-	return (token);
 }
