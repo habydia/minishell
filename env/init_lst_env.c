@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 19:00:00 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:01 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 18:14:50 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_minimal_lst_env(t_env **envd)
 	total_path_size = 4096;
 	cwd = ft_calloc(total_path_size, sizeof(char));
 	if (!cwd)
-		return ;
+		exit(EXIT_FAILURE);
 	if (getcwd(cwd, total_path_size) == NULL)
 	{
 		free(cwd);
@@ -39,9 +39,9 @@ void	init_minimal_lst_env(t_env **envd)
 	pwd_variable = ft_strjoin("PWD=", cwd);
 	if (!pwd_variable)
 	{
-		perror("Malloc faild");
+		perror("Malloc failed");
 		free(cwd);
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	free(cwd);
 	process_minimum_variables(envd, pwd_variable);
@@ -64,13 +64,13 @@ void	init_lst_env(t_env **envd, char **env)
 			exit(EXIT_FAILURE);
 		node = ft_lstlast_env(*envd);
 		if (!node)
-			free_lst_env(envd, true, 0);
+			free_lst_env(envd, true, EXIT_FAILURE);
 		node->key = ft_strndup(env[i], ft_strchr(env[i], '=') - env[i]);
 		if (!node->key)
-			free_lst_env(envd, true, 0);
+			free_lst_env(envd, true, EXIT_FAILURE);
 		node->value = ft_strdup(ft_strchr(env[i], '=') + 1);
 		if (!node->value)
-			free_lst_env(envd, true, 0);
+			free_lst_env(envd, true, EXIT_FAILURE);
 		i++;
 	}
 }

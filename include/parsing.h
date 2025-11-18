@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 05:33:50 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 16:17:09 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int							handle_word_token(t_args_builder *builder,
 int							handle_token(t_token **current, t_cmd *cmd,
 								t_args_builder *builder);
 int							process_tokens(t_token **tokens, t_cmd *cmd,
-								char **args, int *arg_count);
+								char ***args, int *arg_count);
 char						**init_args_array(const char *cmd_name,
 								int *capacity);
 
