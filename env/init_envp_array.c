@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_envp_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/18 18:03:10 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 21:23:42 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,13 @@ void	fill_envp_array(t_data *data)
 		{
 			str = ft_strjoin(tmp->key, "=");
 			if (!str)
-				free_all(data, EXIT_FAILURE, "Error\nMalloc fail in fill_envp_tab \n");
+				free_all(data, EXIT_FAILURE, "Error\nMalloc fail\n");
 			data->envp[i] = ft_strjoin(str, tmp->value);
 			free(str);
 		}
 		if (!data->envp[i])
-			free_all(data, EXIT_FAILURE, "Error\nMalloc fail in fill_envp_tab \n");
+			free_all(data, EXIT_FAILURE,
+				"Error\nMalloc fail in fill_envp_tab \n");
 		i++;
 		tmp = tmp->next;
 	}
