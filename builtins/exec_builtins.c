@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:32:47 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:26:48 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 23:15:09 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 int	ft_exit_handle(t_cmd *cmd, t_data *data, int ret, char *input)
 {
-	ret = ft_exit(cmd->args, data);
-	if (ret != 2)
-	{
-		free(input);
-		free_all(data, ret, NULL);
-		exit(ret);
-	}
+	(void)data;
+	(void)input;
+	ret = ft_exit(cmd->args);
 	return (ret);
 }
 

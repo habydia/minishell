@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:16:36 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/17 21:20:34 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 23:01:32 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	is_valid_number(const char *str)
 	return (true);
 }
 
-int	ft_exit(char **args, t_data *data)
+int	ft_exit(char **args)
 {
 	unsigned long	nb;
 
@@ -73,16 +73,15 @@ int	ft_exit(char **args, t_data *data)
 			write(2, "minishell: exit: ", 17);
 			write(2, args[1], ft_strlen(args[1]));
 			write(2, ": numeric argument required\n", 29);
-			free_all(data, 2, NULL);
+			return (2);
 		}
 		if (args[2])
 		{
 			write(2, "minishell: exit: too many arguments\n", 37);
-			nb = 1;
+			return (1);
 		}
 		else
 			nb = ft_atoi_secure(args[1]);
 	}
-	free_all(data, nb % 256, NULL);
-	return (0);
+	return (nb % 256);
 }

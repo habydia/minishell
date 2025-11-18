@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:57:14 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:26:09 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 22:46:02 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	check_if_arg_is_correct(char *str)
 	return (true);
 }
 
-int	handle_no_args(char **env)
+int	print_export_array(char **env)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ void	error_message(char *arg)
 	write(2, "': not a valid identifier\n", 27);
 }
 
-int	process_single_arg(char *arg, t_data *data)
+int	add_variable_whit_or_whitout_values(char *arg, t_data *data)
 {
 	char	*eq_pos;
 	char	*key_only;
@@ -93,11 +93,11 @@ int	ft_export(char **args, char **env, t_data *data)
 	i = 0;
 	exit_code = 0;
 	if (!args[1])
-		return (handle_no_args(env));
+		return (print_export_array(env));
 	i = 1;
 	while (args[i] != NULL)
 	{
-		if (process_single_arg(args[i], data))
+		if (add_variable_whit_or_whitout_values(args[i], data))
 			exit_code = 1;
 		i++;
 	}

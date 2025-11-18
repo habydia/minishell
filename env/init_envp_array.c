@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:25:08 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/18 21:23:42 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 22:33:44 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	fill_envp_array(t_data *data)
 		{
 			str = ft_strjoin(tmp->key, "=");
 			if (!str)
-				free_all(data, EXIT_FAILURE, "Error\nMalloc fail\n");
+				free_all(data, 1, "Error\nMalloc fail\n");
 			data->envp[i] = ft_strjoin(str, tmp->value);
 			free(str);
 		}
 		if (!data->envp[i])
-			free_all(data, EXIT_FAILURE,
+			free_all(data, 1,
 				"Error\nMalloc fail in fill_envp_tab \n");
 		i++;
 		tmp = tmp->next;
@@ -80,6 +80,6 @@ void	init_envp_array(t_data *data)
 		free_envp_array_at_init(data->envp);
 	data->envp = ft_calloc((i + 1), sizeof(char *));
 	if (!data->envp)
-		free_all(data, EXIT_FAILURE, "Error\nMalloc fail in init_envp \n");
+		free_all(data, 1, "Error\nMalloc fail in init_envp \n");
 	fill_envp_array(data);
 }

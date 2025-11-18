@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:42:34 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:32:34 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 23:01:54 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int							ft_env(char **env);
 /////////////////////////////////
 
 /*EXIT*/
-int							ft_exit(char **args, t_data *data);
+int							ft_exit(char **args);
 
 /*EXIT : ATOI_SECURE*/
 int							ft_atoi_secure(const char *str);
@@ -129,16 +129,18 @@ bool						check_len_and_limits(const char *nb, int sign);
 /*FT_EXPORT*/
 int							ft_export(char **args, char **env, t_data *data);
 
-/*HANDLE_NO_ARG*/
-int							handle_no_args(char **env);
+/*PRINT_EXPORT_ARRAY*/
 
-/*PROCESS_SINGLE_ARG*/
-int							process_single_arg(char *arg, t_data *data);
+int							print_export_array(char **env);
 
-/*PROCESS_SINGLE_ARG UTILS :CHECK IF ARG IS CORRECT*/
+/*ADD_VARIABLE_WHIT_OR_WITHOUT_VALUES*/
+int							add_variable_whit_or_whitout_values(char *arg,
+								t_data *data);
+
+/*ADD_VARIABLE_WHIT_OR_WITHOUT_VALUES :CHECK IF ARG IS CORRECT*/
 bool						check_if_arg_is_correct(char *str);
 
-/*PROCESS_SINGLE_ARG UTILS : ERROR MESSAGE*/
+/*ADD_VARIABLE_WHIT_OR_WITHOUT_VALUES : ERROR MESSAGE*/
 void						error_message(char *arg);
 
 /////////////////////////////////
