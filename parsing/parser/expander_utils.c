@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 06:00:21 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 18:39:07 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_exit_status(char **result, size_t *j, size_t *result_size,
-		int *exit_status)
+static int	expand_exit_status(t_expand_data *data)
 {
 	char	*exit_status_str;
 	char	*new_result;
 	size_t	val_len;
 
-	exit_status_str = ft_itoa(*exit_status);
+	exit_status_str = ft_itoa(*data->exit_status);
 	if (!exit_status_str)
 		return (0);
 	val_len = ft_strlen(exit_status_str);
-	while (*j + val_len >= *result_size)
+	while (data->j + val_len >= data->result_size)
 	{
-		*result_size *= 2;
-		new_result = ft_realloc(*result, *j, *result_size);
+		data->result_size *= 2;
+		new_result = ft_realloc(data->result, data->j, data->result_size);
 		if (!new_result)
 		{
 			free(exit_status_str);
 			return (0);
 		}
-		*result = new_result;
+		data->result = new_result;
 	}
-	ft_strlcpy(&(*result)[*j], exit_status_str, val_len + 1);
-	*j += val_len;
+	ft_strlcpy(&data->result[data->j], exit_status_str, val_len + 1);
+	data->j += val_len;
 	free(exit_status_str);
 	return (1);
 }
@@ -70,19 +69,18 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 	if (!env_value)
 		env_value = "";
 	val_len = ft_strlen(env_value);
-	while (*(data->j) + val_len >= *(data->result_size))
+	while (data->j + val_len >= data->result_size)
 	{
-		*(data->result_size) *= 2;
-		new_result = ft_realloc(*(data->result), *data->j,
-				*(data->result_size));
+		data->result_size *= 2;
+		new_result = ft_realloc(data->result, data->j, data->result_size);
 		if (!new_result)
 		{
 			return (0);
 		}
-		*(data->result) = new_result;
+		data->result = new_result;
 	}
-	ft_strlcpy(&(*(data->result))[*(data->j)], env_value, val_len + 1);
-	*(data->j) += val_len;
+	ft_strlcpy(&data->result[data->j], env_value, val_len + 1);
+	data->j += val_len;
 	return (1);
 }
 
@@ -94,8 +92,7 @@ static int	handle_variable_expansion(const char *line, size_t *i,
 	if (line[*i] == '?')
 	{
 		(*i)++;
-		if (!expand_exit_status(data->result, data->j, data->result_size,
-				data->exit_status))
+		if (!expand_exit_status(data))
 			return (0);
 	}
 	else if (ft_isalpha(line[*i]) || line[*i] == '_')
@@ -111,7 +108,7 @@ static int	handle_variable_expansion(const char *line, size_t *i,
 		free(var_name);
 	}
 	else
-		(*(data->result))[(*(data->j))++] = '$';
+		data->result[data->j++] = '$';
 	return (1);
 }
 
@@ -125,7 +122,7 @@ int	handle_dollar_sign(const char *line, size_t *i, t_expand_data *data)
 	}
 	else
 	{
-		(*(data->result))[(*(data->j))++] = '$';
+		data->result[data->j++] = '$';
 		(*i)++;
 	}
 	return (1);

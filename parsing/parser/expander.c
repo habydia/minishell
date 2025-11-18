@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 06:38:06 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 18:39:06 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,22 @@ static void	handle_quote_context(const char *str, size_t *i,
 	}
 }
 
-static int	handle_realloc(char **result, size_t *j, size_t *result_size)
+static int	handle_realloc(t_expand_data *data)
 {
 	char	*new_result;
 
-	if (*j >= *result_size - 1)
+	if (data->j >= data->result_size - 1)
 	{
-		*result_size *= 2;
-		new_result = ft_realloc(*result, *j, *result_size);
+		data->result_size *= 2;
+		new_result = ft_realloc(data->result, data->j, data->result_size);
 		if (!new_result)
 			return (0);
-		*result = new_result;
+		data->result = new_result;
 	}
 	return (1);
 }
 
-static int	handle_expansion(const char *str, size_t *i, size_t *j,
-		t_expand_data *data)
+static int	handle_expansion(const char *str, size_t *i, t_expand_data *data)
 {
 	size_t	old_i;
 
@@ -68,9 +67,22 @@ static int	handle_expansion(const char *str, size_t *i, size_t *j,
 	}
 	else
 	{
-		if (!handle_realloc(data->result, data->j, data->result_size))
+		if (!handle_realloc(data))
 			return (0);
-		(*data->result)[(*j)++] = str[(*i)++];
+		data->result[data->j++] = str[(*i)++];
+	}
+	return (1);
+}
+
+static int	perform_expansion(const char *str, t_expand_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!handle_expansion(str, &i, data))
+			return (0);
 	}
 	return (1);
 }
@@ -78,37 +90,26 @@ static int	handle_expansion(const char *str, size_t *i, size_t *j,
 static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes,
 		int *exit_status)
 {
-	char			*result;
-	size_t			result_size;
-	size_t			i;
-	size_t			j;
 	t_expand_data	data;
 
+	if (!str)
+		return (NULL);
 	data.env = env;
 	data.exit_status = exit_status;
 	data.in_quote = in_dquotes;
 	data.quote_type = (in_dquotes * '"');
-	if (!str)
+	data.result_size = ft_strlen(str) * 2 + 1;
+	data.result = malloc(data.result_size);
+	if (!data.result)
 		return (NULL);
-	result_size = ft_strlen(str) * 2 + 1;
-	result = malloc(result_size);
-	if (!result)
-		return (NULL);
-	data.result = &result;
-	data.result_size = &result_size;
-	data.j = &j;
-	i = 0;
-	j = 0;
-	while (str[i])
+	data.j = 0;
+	if (!perform_expansion(str, &data))
 	{
-		if (!handle_expansion(str, &i, &j, &data))
-		{
-			free(result);
-			return (NULL);
-		}
+		free(data.result);
+		return (NULL);
 	}
-	result[j] = '\0';
-	return (result);
+	data.result[data.j] = '\0';
+	return (data.result);
 }
 
 char	*process_token_expansion(const char *value, t_env *env,

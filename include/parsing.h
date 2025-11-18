@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 16:17:09 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 18:39:08 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ typedef struct s_args_builder
 // Struct for variable expansion
 typedef struct s_expand_data
 {
-	char					**result;
-	size_t					*result_size;
-	size_t					*j;
+	char					*result;
+	size_t					result_size;
+	size_t					j;
 	t_env					*env;
 	int						*exit_status;
 	int						in_quote;
