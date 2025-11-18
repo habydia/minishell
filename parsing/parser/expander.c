@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 05:56:06 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,13 @@ static int	handle_realloc(char **result, size_t *j, size_t *result_size)
 		*result_size *= 2;
 		new_result = ft_realloc(*result, *j, *result_size);
 		if (!new_result)
-		{
-			free(*result);
 			return (0);
-		}
 		*result = new_result;
 	}
 	return (1);
 }
 
-static void	handle_expansion(const char *str, size_t *i, size_t *j,
+static int	handle_expansion(const char *str, size_t *i, size_t *j,
 		t_expand_data *data)
 {
 	size_t	old_i;
@@ -63,25 +60,19 @@ static void	handle_expansion(const char *str, size_t *i, size_t *j,
 	old_i = *i;
 	handle_quote_context(str, i, data);
 	if (str[*i] == '\0' || *i != old_i)
-		return ;
+		return (1);
 	if (str[*i] == '$' && (!data->in_quote || data->quote_type == '"'))
 	{
 		if (!handle_dollar_sign(str, i, data))
-		{
-			free(*data->result);
-			*data->result = NULL;
-			return ;
-		}
+			return (0);
 	}
 	else
 	{
 		if (!handle_realloc(data->result, data->j, data->result_size))
-		{
-			*data->result = NULL;
-			return ;
-		}
+			return (0);
 		(*data->result)[(*j)++] = str[(*i)++];
 	}
+	return (1);
 }
 
 static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes,
@@ -109,7 +100,13 @@ static char	*expand_simple_string(const char *str, t_env *env, int in_dquotes,
 	i = 0;
 	j = 0;
 	while (str[i])
-		handle_expansion(str, &i, &j, &data);
+	{
+		if (!handle_expansion(str, &i, &j, &data))
+		{
+			free(result);
+			return (NULL);
+		}
+	}
 	result[j] = '\0';
 	return (result);
 }

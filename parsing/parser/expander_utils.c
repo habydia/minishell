@@ -6,13 +6,13 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:25 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/15 01:04:32 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 06:00:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_exit_status(char **result, size_t *j, size_t *result_size,
+static int	expand_exit_status(char **result, size_t *j, size_t *result_size,
 		int *exit_status)
 {
 	char	*exit_status_str;
@@ -21,7 +21,7 @@ static char	*expand_exit_status(char **result, size_t *j, size_t *result_size,
 
 	exit_status_str = ft_itoa(*exit_status);
 	if (!exit_status_str)
-		return (NULL);
+		return (0);
 	val_len = ft_strlen(exit_status_str);
 	while (*j + val_len >= *result_size)
 	{
@@ -29,16 +29,15 @@ static char	*expand_exit_status(char **result, size_t *j, size_t *result_size,
 		new_result = ft_realloc(*result, *j, *result_size);
 		if (!new_result)
 		{
-			free(*result);
 			free(exit_status_str);
-			return (NULL);
+			return (0);
 		}
 		*result = new_result;
 	}
 	ft_strlcpy(&(*result)[*j], exit_status_str, val_len + 1);
 	*j += val_len;
 	free(exit_status_str);
-	return (*result);
+	return (1);
 }
 
 static char	*extract_var_name(const char *line, size_t *i)
@@ -78,7 +77,6 @@ static int	expand_env_var(char *var_name, t_expand_data *data)
 				*(data->result_size));
 		if (!new_result)
 		{
-			free(*(data->result));
 			return (0);
 		}
 		*(data->result) = new_result;
