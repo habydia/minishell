@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 03:22:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 19:19:21 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 05:19:16 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,20 @@ void	free_args_on_error(char **args)
 	free(args);
 }
 
-void	add_token_back(t_token **tokens, t_token *new_token)
+int	add_token_back(t_token **tokens, t_token *new_token)
 {
 	t_token	*current;
 
 	if (!tokens || !new_token)
-		return ;
+		return (0);
 	if (!*tokens)
 	{
 		*tokens = new_token;
-		return ;
+		return (1);
 	}
 	current = *tokens;
 	while (current->next)
 		current = current->next;
 	current->next = new_token;
+	return (1);
 }

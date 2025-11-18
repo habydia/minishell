@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/17 21:33:53 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 05:36:07 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ t_token	*line_lexer(const char *line)
 	tokens = tokenize_line(line);
 	if (!tokens)
 		return (NULL);
-	add_token_back(&tokens, create_token(T_EOF, NULL));
+	if (!push_new_token(&tokens, T_EOF, NULL))
+	{
+		free_tokens(tokens);
+		return (NULL);
+	}
 	return (tokens);
 }
 

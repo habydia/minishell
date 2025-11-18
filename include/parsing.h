@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/17 18:12:51 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 05:33:50 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,10 @@ t_token						*line_lexer(const char *line);
 t_token						*create_token(t_token_type type, const char *value);
 
 // lexer/tokenizer.c
-void						add_token_back(t_token **tokens,
+int							add_token_back(t_token **tokens,
 								t_token *new_token);
+int							push_new_token(t_token **tokens, t_token_type type,
+								char *value);
 t_token						*tokenize_line(const char *line);
 // utils_tokenizer.c - utils
 

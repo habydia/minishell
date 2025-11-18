@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:13 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/16 16:18:25 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 04:47:06 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,17 @@ t_token	*create_token(t_token_type type, const char *value)
 	if (!token)
 		return (NULL);
 	token->type = type;
-	if (value)
-		token->value = ft_strdup(value);
-	else
-		token->value = NULL;
 	token->next = NULL;
+	if (!value)
+	{
+		token->value = NULL;
+		return (token);
+	}
+	token->value = ft_strdup(value);
+	if (!token->value)
+	{
+		free(token);
+		return (NULL);
+	}
 	return (token);
 }
