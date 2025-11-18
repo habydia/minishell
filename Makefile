@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude -g3 -MMD -MP -Wno-unused-result
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g3 -MMD -MP 
 
 UNAME_S := $(shell uname -s)
 
@@ -11,7 +11,7 @@ SRC = parsing/lexer/operator_handler.c \
       parsing/parser/command_builder.c \
 	  parsing/parser/expander.c \
 	  parsing/parser/expander_utils.c \
-      parsing/parser/pipeline_handler.c \
+      parsing/parser/build_pipeline.c \
       parsing/parser/redirect_handler.c \
 	  parsing/parser/heredoc_handler.c \
 	  parsing/parser/command_builder_utils.c \
