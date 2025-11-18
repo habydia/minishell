@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:20 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/14 23:30:13 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 16:17:09 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	build_args_and_redirections(t_token **tokens, t_cmd *cmd)
 	if (!args)
 		return (0);
 	arg_count = 1;
-	if (!process_tokens(tokens, cmd, args, &arg_count))
+	if (!process_tokens(tokens, cmd, &args, &arg_count))
 		return (0);
 	args[arg_count] = NULL;
 	cmd->args = args;

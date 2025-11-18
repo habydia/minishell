@@ -6,7 +6,7 @@
 /*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:59:52 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/16 13:08:31 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/18 16:17:09 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	handle_word_token(t_args_builder *builder, const char *value)
 	if (builder->count >= builder->capacity - 1)
 	{
 		builder->capacity *= 2;
-		new_args = ft_realloc(builder->args, builder->count, sizeof(char *)
-				* (builder->capacity));
+		new_args = ft_realloc(builder->args, builder->count * sizeof(char *),
+				sizeof(char *) * (builder->capacity));
 		if (!new_args)
 			return (0);
 		builder->args = new_args;
@@ -58,13 +58,13 @@ int	handle_token(t_token **current, t_cmd *cmd, t_args_builder *builder)
 	return (1);
 }
 
-int	process_tokens(t_token **tokens, t_cmd *cmd, char **args, int *arg_count)
+int	process_tokens(t_token **tokens, t_cmd *cmd, char ***args, int *arg_count)
 {
 	t_token			*current;
 	t_args_builder	builder;
 
 	current = *tokens;
-	builder.args = args;
+	builder.args = *args;
 	builder.count = *arg_count;
 	builder.capacity = 10;
 	builder.skip_first_word = (cmd->name != NULL);
@@ -72,11 +72,12 @@ int	process_tokens(t_token **tokens, t_cmd *cmd, char **args, int *arg_count)
 	{
 		if (!handle_token(&current, cmd, &builder))
 		{
-			free_args_on_error(args);
+			free_args_on_error(*args);
 			return (0);
 		}
 	}
 	*arg_count = builder.count;
+	*args = builder.args;
 	*tokens = current;
 	return (1);
 }
