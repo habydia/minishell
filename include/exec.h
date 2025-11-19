@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:28:54 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/17 21:34:02 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/19 01:07:43 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int		handle_exit_builtin(t_data *data, t_cmd *curr, char *input);
 int		save_std_in_out(int *saved_stdin, int *saved_stdout);
 
 /*HANDLE_PARENT_BUILTINS UTILS : RESET_STD_IN_OUT*/
-void	reset_std_in_out(int saved_stdin, int saved_stdout);
+void	reset_std_in_out(int saved_stdin, int saved_stdout, t_data *data);
 
 ///////////////////////////////////////////////////////
 ///////////// HANDLE PARENT PROCESS EXEC //////////////

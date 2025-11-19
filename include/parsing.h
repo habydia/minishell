@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:09:48 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/18 18:39:08 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/19 01:41:29 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ int							handle_dollar_sign(const char *line, size_t *i,
 								t_expand_data *data);
 int							ft_count_quotes(const char *str);
 char						*remove_quotes(const char *value, char quote_type);
+void						handle_quote_context(const char *str, size_t *i,
+								t_expand_data *data);
 // parser/expander_utils.c - utils for expansion
 char						*process_token_expansion(const char *value,
 								t_env *env, int *exit_status);
@@ -174,6 +176,7 @@ t_redir						*create_redir(t_redir_type type, const char *file);
 // parser/pipeline_handler.c - pipes Gestion
 t_cmd						*handle_pipeline(t_token *tokens);
 void						handle_heredoc(t_redir *redir);
+int							handle_realloc(t_expand_data *data);
 
 // parser/redirect_handler.c - redirections Gestion
 void						add_redir_back(t_redir **redirs,

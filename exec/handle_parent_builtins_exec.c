@@ -3,25 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parent_builtins_exec.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:26:37 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/16 16:24:45 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/19 01:27:36 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_std_in_out(int saved_stdin, int saved_stdout)
+void	reset_std_in_out(int saved_stdin, int saved_stdout, t_data *data)
 {
 	if (saved_stdin != -1)
 	{
-		dup2(saved_stdin, STDIN_FILENO);
+		if (dup2(saved_stdin, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			close(saved_stdin);
+			if (saved_stdout != -1)
+				close(saved_stdout);
+			free_all(data, 1, NULL);
+		}
 		close(saved_stdin);
 	}
 	if (saved_stdout != -1)
 	{
-		dup2(saved_stdout, STDOUT_FILENO);
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			close(saved_stdout);
+			free_all(data, 1, NULL);
+		}
 		close(saved_stdout);
 	}
 }
@@ -54,12 +66,12 @@ int	handle_exit_builtin(t_data *data, t_cmd *curr, char *input)
 		return (1);
 	if (apply_redirections_input_output(curr) == -1)
 	{
-		reset_std_in_out(saved_stdin, saved_stdout);
+		reset_std_in_out(saved_stdin, saved_stdout, data);
 		free_all(data, 1, NULL);
 		exit(1);
 	}
 	ret = exec_builtins(curr, data, data->envp, input);
-	reset_std_in_out(saved_stdin, saved_stdout);
+	reset_std_in_out(saved_stdin, saved_stdout, data);
 	free_all(data, ret, NULL);
 	exit(ret);
 }
@@ -82,11 +94,11 @@ int	handle_parent_builtins(t_data *data, t_cmd *curr, char *input)
 			return (1);
 		if (apply_redirections_input_output(curr) == -1)
 		{
-			reset_std_in_out(saved_stdin, saved_stdout);
+			reset_std_in_out(saved_stdin, saved_stdout, data);
 			return (1);
 		}
 		ret = exec_builtins(curr, data, data->envp, input);
-		reset_std_in_out(saved_stdin, saved_stdout);
+		reset_std_in_out(saved_stdin, saved_stdout, data);
 		return (ret);
 	}
 	return (-1);

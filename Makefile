@@ -12,6 +12,7 @@ SRC = parsing/lexer/operator_handler.c \
       parsing/parser/command_builder.c \
 	  parsing/parser/expander.c \
 	  parsing/parser/expander_utils.c \
+	  parsing/parser/expander_utils2.c \
       parsing/parser/build_pipeline.c \
       parsing/parser/redirect_handler.c \
 	  parsing/parser/heredoc_handler.c \
