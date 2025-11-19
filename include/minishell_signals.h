@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 03:16:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/19 00:20:38 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/19 15:47:33 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void							setup_sigint(void);
 void							setup_sigquit(void);
 void							handle_sigint(int sig);
 void							handle_signals(void);
+void							ignore_sigint_in_parent(void);
 
 char							*reader(t_data *data);
 

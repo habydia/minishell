@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:49:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/19 00:20:38 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/19 15:45:01 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,17 @@ void	handle_signals(void)
 	setup_sigint();
 	setup_sigquit();
 }
+
+
+// ignore sigint in process parent tant que enfant pas termine
+
+void	ignore_sigint_in_parent(void)
+{
+	struct sigaction	sa_int;
+
+	sa_int.sa_handler = SIG_IGN;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+}
+
