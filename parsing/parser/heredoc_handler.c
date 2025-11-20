@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 05:00:34 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/19 00:20:38 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/20 17:22:26 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,6 @@ void	handle_heredoc(t_redir *redir)
 		return ;
 	if (init_heredoc(redir, &temp_filename, &delimiter, &fd) < 0)
 		return ;
-	fd = open(temp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd < 0)
-	{
-		free(temp_filename);
-		free(delimiter);
-		return ;
-	}
 	if (write_in_heredoc_file(fd, delimiter) < 0)
 	{
 		handle_heredoc_error(redir, temp_filename, delimiter, fd);
