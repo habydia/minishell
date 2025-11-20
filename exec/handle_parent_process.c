@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parent_process.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 17:39:40 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/19 15:45:31 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/20 11:19:38 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_parent_process(t_cmd **curr, t_pipe *p)
 {
-	ignore_sigint_in_parent();
 	if (p->prev_fd != -1)
 		close(p->prev_fd);
 	if ((*curr)->next)

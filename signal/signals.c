@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:49:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/19 15:45:01 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/20 11:23:28 by Hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ volatile sig_atomic_t	g_signal_status = SIG_NONE;
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	ft_putchar_fd('\n', 1);
+	g_signal_status = SIG_INTERRUPTED;
+	rl_done = 1;
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
-	g_signal_status = SIG_INTERRUPTED;
 }
 
 void	setup_sigint(void)
@@ -50,16 +50,4 @@ void	handle_signals(void)
 	setup_sigquit();
 }
 
-
-// ignore sigint in process parent tant que enfant pas termine
-
-void	ignore_sigint_in_parent(void)
-{
-	struct sigaction	sa_int;
-
-	sa_int.sa_handler = SIG_IGN;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-}
 
