@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Hadia <Hadia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:49:53 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/20 11:23:28 by Hadia            ###   ########.fr       */
+/*   Updated: 2025/11/21 17:34:47 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ volatile sig_atomic_t	g_signal_status = SIG_NONE;
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_signal_status = SIG_INTERRUPTED;
-	rl_done = 1;
-	write(1, "\n", 1);
+	ft_putchar_fd('\n', 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_redisplay();
+	g_signal_status = SIG_INTERRUPTED;
 }
 
 void	setup_sigint(void)
@@ -49,5 +49,3 @@ void	handle_signals(void)
 	setup_sigint();
 	setup_sigquit();
 }
-
-
