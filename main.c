@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:42:49 by hadia             #+#    #+#             */
-/*   Updated: 2025/11/19 00:49:47 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/21 18:02:21 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	main(int ac, char **av, char **env)
 	envd = NULL;
 	init_lst_env(&envd, env);
 	data.exit_status = 0;
-	handle_signals();
 	while (1)
 	{
+		handle_signals();
 		init_data(&data, &envd);
 		line = reader(&data);
 		if (g_signal_status == SIG_INTERRUPTED)

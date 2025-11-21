@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:35:44 by lebroue           #+#    #+#             */
-/*   Updated: 2025/11/19 00:20:14 by hadia            ###   ########.fr       */
+/*   Updated: 2025/11/21 18:16:18 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	handle_signal(int signal_num)
 		write(2, "Segmentation fault\n", 19);
 	else if (signal_num == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 19);
+	else if (signal_num == SIGINT)
+		ft_putchar_fd('\n', 2);
 }
 
 int	waiting(pid_t pid, int status)
